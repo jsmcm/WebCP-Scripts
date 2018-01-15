@@ -1,0 +1,35 @@
+#!/usr/bin/expect -f
+
+set CountryName [lindex $argv 0]
+set Province [lindex $argv 1]
+set Town [lindex $argv 2]
+set Organisation [lindex $argv 3]
+set Division [lindex $argv 4]
+set ServerName [lindex $argv 5]
+set EmailAddress [lindex $argv 6]
+
+if {[llength $argv] < 7} {
+  send_user "Usage: ssl.exp 'country code' 'province' 'town' 'company name' 'division' 'host name' 'email address'\n"
+  exit 1
+}
+
+spawn openssl req -new -newkey rsa:2048 -days 365 -sha256 -nodes -keyout /etc/httpd/conf/ssl/$ServerName.key -out /etc/httpd/conf/ssl/$ServerName.csr
+expect "Country Name"
+send "$CountryName\n"
+expect "State or Province Name"
+send "$Province\n"
+expect "Locality Name"
+send "$Town\n"
+expect "Organization Name"
+send "$Organisation\n"
+expect "Organizational Unit Name"
+send "$Division\n"
+expect "Common Name"
+send "$ServerName\n"
+expect "Email Address"
+send "$EmailAddress\n"
+expect "A challenge password"
+send ".\n"
+expect "An optional company name"
+send "$Organisation\n"
+expect "END CERTIFICATE REQUEST"
