@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 CurrentHour="$(date +"%H")"
 CurrentTime="$(date +"%Y-%m-%d %H:%M:%S")"
 

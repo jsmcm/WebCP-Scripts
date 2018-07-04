@@ -5,8 +5,7 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
-Password=`cat /usr/webcp/password`
-
+Password=`/usr/webcp/get_password.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_domain; 
 do

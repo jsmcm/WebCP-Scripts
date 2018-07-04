@@ -1,5 +1,5 @@
 #!/bin/bash
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 for NextUN in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
 do
@@ -13,7 +13,7 @@ do
 	then
 		echo "chown $NextUN.$NextUN /home/$NextUN -R"
 		chown $NextUN.$NextUN /home/$NextUN -R
-		chgrp apache /home/$NextUN/.passwd
+		chgrp www-data /home/$NextUN/.passwd
 	fi
 	echo ""
 done

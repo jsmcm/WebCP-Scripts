@@ -5,7 +5,7 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
-HostName=`hostname`
+Reload=0
 
 for FullFileName in /var/www/html/webcp/nm/*.suspend; 
 do
@@ -17,18 +17,34 @@ do
                 echo "x: '$x'"
 		y=${x%.suspend}
                 echo "y: '$y'"
-		DomainUserName=${y##*/}
-                echo "DomainUserName: '$DomainUserName'"
+		DomainName=${y##*/}
+                echo "DomainName: '$DomainName'"
 
-		if [ "${#DomainUserName}" -gt "1" ]
+		if [ "${#DomainName}" -gt "3" ]
 		then
-			if [ -f "/home/$DomainUserName/public_html/.htaccess" ]
+			Reload=1
+			if [ -f "/etc/nginx/sites-enabled/$DomainName.conf" ]
 			then
-				mv /home/$DomainUserName/public_html/.htaccess /home/$DomainUserName/public_html/suspended.htaccess
+				mv /etc/nginx/sites-enabled/$DomainName.conf /etc/nginx/sites-suspended/$DomainName.conf
 			fi
-	
-			echo "RedirectMatch .* http://$HostName:10025/suspended" >> /home/$DomainUserName/public_html/.htaccess
-			chown $DomainUserName.$DomainUserName /home/$DomainUserName/public_html/.htaccess
+
+			echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
+			echo "listen 443;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "server_name testone.demoserver.co.za;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "return 301 http://$DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+			echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "server_name testone.demoserver.co.za;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "root /var/www/html/suspended;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "rewrite ^ /index.html break;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 	
 			rm -fr $FullFileName
 		fi
@@ -47,30 +63,27 @@ do
                 echo "x: '$x'"
 		y=${x%.unsuspend}
                 echo "y: '$y'"
-		DomainUserName=${y##*/}
-                echo "DomainUserName: '$DomainUserName'"
+		DomainName=${y##*/}
+                echo "DomainName: '$DomainName'"
 
 		
-		if [ "${#DomainUserName}" -gt "1" ]
-		then
-			if [ "${#DomainUserName}" -gt "4" ]
+	
+			if [ -f "/etc/nginx/sites-suspended/$DomainName.conf" ]
 			then
-				rm -fr /home/$DomainUserName/public_html/.htaccess
+				Reload=1
+				mv /etc/nginx/sites-suspended/$DomainName.conf /etc/nginx/sites-enabled/$DomainName.conf
 			fi
 	
-			if [ -f "/home/$DomainUserName/public_html/suspended.htaccess" ]
-			then
-				mv /home/$DomainUserName/public_html/suspended.htaccess /home/$DomainUserName/public_html/.htaccess
-			fi
-	
-			chown $DomainUserName.$DomainUserName /home/$DomainUserName/public_html/.htaccess
 	
 			rm -fr $FullFileName
-		fi
 	fi
 
 done
 
+if [ $Reload == 1 ] 
+then
+	service nginx reload
+fi
+
 
 echo "Done"
-exit

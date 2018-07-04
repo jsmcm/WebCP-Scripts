@@ -1,7 +1,7 @@
 #!/bin/bash
 exit
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 UserName=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE setting = 'SCPUserName' AND deleted = 0;")
 HostName=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE setting = 'SCPHost' AND deleted = 0;")

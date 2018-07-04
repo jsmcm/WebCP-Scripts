@@ -3,7 +3,7 @@
 DomainUserName=$1
 RandomPath=$2
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 if [ "$DomainUserName" == "" ]
 then

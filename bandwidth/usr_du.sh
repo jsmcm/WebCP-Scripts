@@ -1,6 +1,5 @@
 #!/bin/bash
-Password=`cat /usr/webcp/password`
-
+Password=`/usr/webcp/get_password.sh`
 
 	for DomainUserName in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
 	do

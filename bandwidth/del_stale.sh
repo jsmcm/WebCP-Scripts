@@ -15,7 +15,7 @@ then
 
         touch "/var/www/html/webcp/tmp/$TempFile"
 
-	Password=`cat /usr/webcp/password`
+	Password=`/usr/webcp/get_password.sh`
 
 	SQL="DELETE FROM bandwidth WHERE time < '$(date +"%Y-%m")-01 00:00:00';"
 	RESULT=$(mysql cpadmin -u root -p${Password} -se "$SQL")

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-Password=`cat /usr/webcp/password`
-
+Password=`/usr/webcp/get_password.sh`
 
 
                         echo  "" > /etc/httpd/conf.d/modsec_whitelist.conf

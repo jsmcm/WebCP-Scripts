@@ -7,7 +7,7 @@ fi
 
 RandomString=""
 UserName=""
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.restore; 
 do

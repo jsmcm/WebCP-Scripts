@@ -2,7 +2,7 @@
 
 # Called automatically by update.sh
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 if [ ! -f "/etc/skel/etc_skel_editor.zip" ]
 then

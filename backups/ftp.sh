@@ -52,7 +52,7 @@ done
 if [ $Failed == 1 ]
 then
 
-	Password=`cat /usr/webcp/password`
+	Password=`/usr/webcp/get_password.sh`	
 
 	for EmailAddress in $(mysql cpadmin -u root -p${Password} -se "select email_address from admin where role ='admin';")
 	do

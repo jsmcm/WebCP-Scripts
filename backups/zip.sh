@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 DomainID=$1
 RandomPath=$2

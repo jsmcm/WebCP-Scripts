@@ -1,6 +1,5 @@
 #!/bin/bash
-Password=`cat /usr/webcp/password`
-
+Password=`/usr/webcp/get_password.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_single_forwards;
 do

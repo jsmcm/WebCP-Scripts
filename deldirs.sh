@@ -47,5 +47,5 @@ done
 
 	if [ "$Restart" == "1" ]
 	then
-		/etc/init.d/httpd graceful
+		service nginx reload
 	fi

@@ -12,7 +12,7 @@ else
 	if [ -s /etc/httpd/conf/httpd.conf ]
 	then
 	
-		Password=`cat /usr/webcp/password`
+		Password=`/usr/webcp/get_password.sh`
 		EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND username = 'admin';")
 	
 		echo "killing httpd"

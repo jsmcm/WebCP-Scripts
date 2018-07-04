@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 CurrentTime="$(date +"%Y-%m-%d_%H-%M-%S")"
 IP=`cat /var/www/html/webcp/includes/ip.txt`
 

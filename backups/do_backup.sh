@@ -31,7 +31,7 @@ Adhoc=""
 Web=0
 Mail=0
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 if [ ! -d "/var/www/html/webcp/backups/monthly" ]; then
         mkdir /var/www/html/webcp/backups/monthly

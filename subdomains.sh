@@ -8,7 +8,7 @@ UserName=$3
 PrimaryDomainName=$4
 IP=$5
 
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 
 		echo "In subdomain, SubDomainID = $DomainID"
 
@@ -30,82 +30,43 @@ Password=`cat /usr/webcp/password`
 					
 				fi
 	
-				echo "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-				echo "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "<VirtualHost $IP:80>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	        	        echo "   DocumentRoot \"$Path\"" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		
-	                	echo "   ServerName $NextSubDomainBuffer" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-				ServerAlias="www.$NextSubDomainBuffer mail.$NextSubDomainBuffer ftp.$NextSubDomainBuffer"
-		
-				for NextParkedDomainName in $(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE parent_domain_id = $NextSubDomainID AND deleted = 0 AND domain_type = 'parked';")
-				do
-					ServerAlias="$ServerAlias $NextParkedDomainName www.$NextParkedDomainName mail.$NextParkedDomainName ftp.$NextParkedDomainName"
-				done
-		                
-				echo "   ServerAlias $ServerAlias" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-	
-				
-				echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-				echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-				echo  "	<IfModule mod_security2.c>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	        		
-				for URI in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(extra2) FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextSubDomainBuffer';")
-				do
-					echo "		<LocationMatch \"$URI\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-					
-					for ModsecID in $(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextSubDomainBuffer' AND extra2 = '$URI';")
-					do
-						echo "			SecRuleRemoveById $ModsecID" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					done
-	
-			        	echo "		</LocationMatch>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-				done
-				
-				echo "	</IfModule>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-	
-				echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-				echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	
-		
-		                echo "   suPHP_Engine on" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "   suPHP_UserGroup $UserName $UserName" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "   AddHandler x-httpd-php .php .php3 .php4 .php5" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "   suPHP_AddHandler x-httpd-php"   >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		
-		                echo "   CustomLog \"/home/$UserName/http-access.log\" combined" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		
-		                echo "   <Directory \"$Path\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "      Options All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "      AllowOverride All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "      Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	        	        echo "      Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		                echo "   </Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-		
-		
-	
-	        		echo "	ScriptAlias /cgi-bin/ $Path/cgi-bin/" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	        		echo "	<Directory \"$Path/cgi-bin\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	                	echo "		AllowOverride None" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	                	echo "		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	                	echo " 		Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	                	echo "		Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-	       		 	echo "	</Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf	
 
-		
-		                echo "</VirtualHost>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+			echo "server {" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
 
+			ServerAlias="www.$NextSubDomainBuffer mail.$NextSubDomainBuffer ftp.$NextSubDomainBuffer"
 
+			for NextParkedDomainName in $(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE parent_domain_id = $NextSubDomainID AND deleted = 0 AND domain_type = 'parked';")
+			do
+				ServerAlias="$ServerAlias $NextParkedDomainName www.$NextParkedDomainName mail.$NextParkedDomainName ftp.$NextParkedDomainName"
+			done
 
-
-
-
-
+			
+			echo "        server_name $NextSubDomainBuffer $ServerAlias;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        root $Path;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        location / {" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                try_files $uri $uri/ /index.php?$args;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        }" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        location ~ \.php$ {" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        }" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "                deny all;" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "        }" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "}" >> /etc/nginx/sites-enabled/$DomaName.conf
+			echo "" >> /etc/nginx/sites-enabled/$DomaName.conf
+			
 
 
 
@@ -128,101 +89,12 @@ Password=`cat /usr/webcp/password`
 					rm -fr /var/www/html/webcp/nm/$NextParkedDomainName.crtchain
 
 					echo "They're HERE!"
-					echo "<VirtualHost $IP:443>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  SSLEngine On" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  SSLProtocol -all +SSLv3 +TLSv1" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  SSLHonorCipherOrder On" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM:!SSLv2:!EXPORT" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					if [ $UseSSL == 1 ]
-					then
-						echo "  SSLCertificateFile /etc/httpd/conf/ssl/$NextParkedDomainName.crt" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-						echo "  SSLCertificateKeyFile /etc/httpd/conf/ssl/$NextParkedDomainName.key" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-						echo "  SSLCACertificateFile /etc/httpd/conf/ssl/$CertChain" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					elif [ $UseSSL == 2 ]
-					then
-						echo "  SSLCertificateFile /etc/letsencrypt/live/$NextParkedDomainName/cert.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-						echo "  SSLCertificateKeyFile /etc/letsencrypt/live/$NextParkedDomainName/privkey.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-						echo "  SSLCACertificateFile /etc/letsencrypt/live/$NextParkedDomainName/fullchain.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					fi
-
-					echo "   DocumentRoot \"$Path\"" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "   ServerName $NextParkedDomainName" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					ServerAlias="www.$NextParkedDomainName mail.$NextParkedDomainName ftp.$NextParkedDomainName"
-					echo "   ServerAlias $ServerAlias" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-					echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					echo  " <IfModule mod_security2.c>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					for URI in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(extra2) FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextParkedDomainName';")
-					do
-						echo "          <LocationMatch \"$URI\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-						for ModsecID in $(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextParkedDomainName' AND extra2 = '$URI';")
-						do
-							echo "                  SecRuleRemoveById $ModsecID" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-						done
-						echo "          </LocationMatch>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					done
-					echo "  </IfModule>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-					echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-
-
-
-					echo "   suPHP_Engine on" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "   suPHP_UserGroup $UserName $UserName" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "   AddHandler x-httpd-php .php .php3 .php4 .php5" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "   suPHP_AddHandler x-httpd-php"   >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					echo "   CustomLog \"/home/$UserName/http-access.log\" combined" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-					echo "   <Directory \"$Path\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "      Options All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "      AllowOverride All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "      Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "      Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "   </Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-					echo "  ScriptAlias /cgi-bin/ $Path" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  <Directory \"$Path\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "          AllowOverride None" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "          Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "          Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "          Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo "  </Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-					echo "</VirtualHost>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-					echo ""
 				fi
 				
 			done
 
 
 
-
-
-
-
-
-
-
-
-
-
-			echo "checking for SSL in subdomains:"
 			echo "PrimaryDomainName: $PrimaryDomainName"
 			echo "DomainName: $DomainName"
 			echo "NextSubDomainBuffer: $NextSubDomainBuffer"
@@ -248,107 +120,41 @@ Password=`cat /usr/webcp/password`
                                 rm -fr /var/www/html/webcp/nm/$PrimaryDomainName.crtchain
 
                                 echo "They're HERE IN SUBDOMAINS"
-                                echo "<VirtualHost $IP:443>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  SSLEngine On" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  SSLProtocol -all +SSLv3 +TLSv1" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  SSLHonorCipherOrder On" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM:!SSLv2:!EXPORT" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                echo "<VirtualHost $IP:443>" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "  SSLEngine On" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "  SSLProtocol -all +SSLv3 +TLSv1" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "  SSLHonorCipherOrder On" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "  SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM:!SSLv2:!EXPORT" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
 
                                 if [ $UseSSL == 1 ]
                                 then
-                                        echo "  SSLCertificateFile /etc/httpd/conf/ssl/$NextSubDomainBuffer.crt" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                        echo "  SSLCertificateKeyFile /etc/httpd/conf/ssl/$NextSubDomainBuffer.key" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                        echo "  SSLCACertificateFile /etc/httpd/conf/ssl/$CertChain" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                        echo "  SSLCertificateFile /etc/httpd/conf/ssl/$NextSubDomainBuffer.crt" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  SSLCertificateKeyFile /etc/httpd/conf/ssl/$NextSubDomainBuffer.key" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  SSLCACertificateFile /etc/httpd/conf/ssl/$CertChain" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                 elif [ $UseSSL == 2 ]
                                 then
-                                        echo "  SSLCertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/cert.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                        echo "  SSLCertificateKeyFile /etc/letsencrypt/live/$NextSubDomainBuffer/privkey.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                        echo "  SSLCACertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                        echo "  SSLCertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/cert.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  SSLCertificateKeyFile /etc/letsencrypt/live/$NextSubDomainBuffer/privkey.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  SSLCACertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                 fi
 
-                                echo "   DocumentRoot \"$Path\"" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "   ServerName $NextSubDomainBuffer" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                echo "   DocumentRoot \"$Path\"" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo "   ServerName $NextSubDomainBuffer" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
 
                                 ServerAlias="www.$NextSubDomainBuffer mail.$NextSubDomainBuffer ftp.$NextSubDomainBuffer"
 
-                                echo "   ServerAlias $ServerAlias" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                echo "   ServerAlias $ServerAlias" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
 
+                                echo  "" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                echo  "" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
 
-
-                                echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-                                echo  " <IfModule mod_security2.c>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-                                for URI in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(extra2) FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextSubDomainBuffer';")
-                                do
-                                        echo "          <LocationMatch \"$URI\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-                                        for ModsecID in $(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$NextSubDomainBuffer' AND extra2 = '$URI';")
-                                        do
-                                                echo "                  SecRuleRemoveById $ModsecID" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                        done
-                                        echo "          </LocationMatch>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                done
-
-                                echo "  </IfModule>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-                                echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo  "" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-
-
-
-                                echo "   suPHP_Engine on" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "   suPHP_UserGroup $UserName $UserName" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "   AddHandler x-httpd-php .php .php3 .php4 .php5" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "   suPHP_AddHandler x-httpd-php"   >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-                                echo "   CustomLog \"/home/$UserName/http-access.log\" combined" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-                                echo "   <Directory \"$Path\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "      Options All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "      AllowOverride All" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "      Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "      Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "   </Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-                                echo "  ScriptAlias /cgi-bin/ $Path" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  <Directory \"/$Path\">" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "          AllowOverride None" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "          Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "          Order allow,deny" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "          Allow from all" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-                                echo "  </Directory>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
-
-
-                                echo "</VirtualHost>" >> /etc/httpd/conf/vhosts/$PrimaryDomainName.conf
+                                echo "</VirtualHost>" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                 echo ""
 				echo "Done adding ssl in subdomains"
                         fi
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
-	#########		/usr/webcp/subdomains.sh $NextSubDomainID $NextSubDomainBuffer $UserName $PrimaryDomainName
 			fi
 		done
 	

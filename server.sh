@@ -37,9 +37,7 @@ do
 		
 		if [ ! -d $FullFileName/.editor ]
 		then
-			#echo "Copying .editor to $UserName"
-			cp -fr /etc/skel/.editor $FullFileName
-			chown $UserName.$UserName $FullFileName/.editor -R
+			ln -s /var/www/html/editor $FullFileName/.editor		
 		fi
 
 	fi

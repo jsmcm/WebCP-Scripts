@@ -1,4 +1,5 @@
-HostName=`hostname`
+#!/bin/bash
+
 for FullFileName in /var/www/html/webcp/nm/*.dvh; 
 do
 
@@ -15,8 +16,8 @@ do
 		echo "UserName: $UserName"
 		echo "DomainName: $DomainName"
 
-		rm -fr /etc/httpd/conf/vhosts/$DomainName*.conf
-		rm -fr /etc/awstats/awstats.${DomainName}.conf
+		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
+		rm -fr /etc/php/7.0/fpm/pool.d/$UserName.conf
 		rm -fr $FullFileName
 	fi
 done

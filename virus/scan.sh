@@ -23,7 +23,7 @@ LOG_FILE="/var/log/clamav/clamscan_${CurrentDate}.log"
 SUBJECT="WebCP - Infections detected on `hostname`"
 
 # Email To
-Password=`cat /usr/webcp/password`
+Password=`/usr/webcp/get_password.sh`
 EMAIL=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE role = 'admin' AND deleted = 0 LIMIT 1;")
 EMAIL2=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE setting = 'ForwardSystemEmailsTo' AND deleted = 0;")
 

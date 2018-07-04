@@ -13,7 +13,7 @@ do
 
 		Dir=`cat $FullFileName`
 
-		if [ "${#Dir}" -gt "8" ]
+		if [ "${#Dir}" -gt "5" ]
 		then
 		        rm -fr $Dir		
 		fi

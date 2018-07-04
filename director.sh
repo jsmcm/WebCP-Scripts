@@ -349,7 +349,7 @@ do
 		HOURS=0
 		/usr/webcp/email/dkim.sh &
 		/usr/webcp/utils/update_letsencrypt.sh &
-		/usr/webcp/update_csf_block_lists.sh & 
+		/usr/webcp/f2b_spamhause.sh & 
 		/usr/webcp/dele_tmp.sh &
 		/usr/bin/freshclam --quiet &
 		/usr/webcp/virus/scan.sh /home/*/public_html 0 &

@@ -14,19 +14,9 @@ then
 	mv /var/www/html/webcp/fail2ban/tmp/add.ban /var/www/html/webcp/fail2ban/tmp/add.working
 	while read line
 	do
-		echo "Got $Line"
+		echo "Got $line"
 
-		IN=$line
-
-		arr=(${IN//,/ })
-
-		x=${arr[0]}
-		y=${arr[1]}
-	
-		echo "x = $x"
-		echo "y = $y"
-
-		fail2ban-client set manual banip $x
+		fail2ban-client set webcp-manual banip $line
 
 	done </var/www/html/webcp/fail2ban/tmp/add.working
 

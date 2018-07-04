@@ -6,7 +6,7 @@ if [ $x -gt 2 ]; then
 fi
 
 if [ ! -d "/var/www/html/webcp/quota/quota_files" ]; then
-	mkdir /var/www/html/webcp/quota/quota_files
+	mkdir -p /var/www/html/webcp/quota/quota_files
 fi
 
 for FullFileName in /var/www/html/webcp/quota/quota_files/*.uquota;
