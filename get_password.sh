@@ -9,4 +9,14 @@ do
 	esac
 done < "/var/www/html/config.php"
 
+size=${#PASSWORD}
+firstCharacter=${PASSWORD:0:1}
+lastCharacter=${PASSWORD:$size-1:1}
+
+if [ "$firstCharacter" == "\"" ] && [ "$lastCharacter" == "\"" ]
+then
+	PASSWORD=${PASSWORD:1}
+	PASSWORD=${PASSWORD:0:$size-2}
+fi
+
 echo "$PASSWORD"

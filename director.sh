@@ -1,5 +1,8 @@
 #!/bin/bash
-source /root/.bash_profile
+
+exit
+
+source /root/.bashrc
 
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
@@ -9,10 +12,13 @@ SECONDS=0
 MINUTES=0
 HOURS=0
 
+mkdir -p /tmp/webcp
+
 while : 
 do
 
 	DOMAINS_SH=0
+	COMPOSER_SH=0
 	DELETE_ACCOUNT_SH=0
 	MYSQL_DO_CHANGE_ROOT_SH=0
 	MKEMAIL_SH=0
@@ -118,8 +124,11 @@ do
                                 then
                                         MAIL_FORWARD_SH=1
 
+				elif [ "$filename" == "composer_install" ]
+				then
+					COMPOSER_SH=1
 
-				elif [ "$filename" == "named.conf" ]
+				elif [ "${filename:0:10}" == "named.conf" ]
 				then
 					DNS_SH=1
                                 elif [ "$extension" == "dnsadd" ]
@@ -264,6 +273,12 @@ do
 		/usr/webcp/user_quota.sh &
         fi
 	
+	
+	if [ "$COMPOSER_SH" == 1 ]
+	then
+		/usr/webcp/composer.sh &
+	fi 
+
 	
 	if [ "$DOMAINS_SH" == 1 ]
 	then

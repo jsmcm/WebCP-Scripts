@@ -20,15 +20,15 @@ do
 		file=${y##*/}
                 echo "file: '$file'"
 
-		if [ -f /var/named/slaves/$file ]
+		if [ -f /var/cache/bind/slaves/$file ]
 		then
 			if [ ! -z $file ]
 			then
-				rm -fr /var/named/slaves/$file
+				rm -fr /var/cache/bind/slaves/$file
 			fi
 		fi
 
-		mv $FullFileName /var/named/slaves/$file
+		mv $FullFileName /var/cache/bind/slaves/$file
 		RESTART=1
 	fi
 
@@ -51,11 +51,11 @@ do
                 file=${y##*/}
                 echo "file: '$file'"
 
-                if [ -f /var/named/slaves/$file ]
+                if [ -f /var/cache/bind/slaves/$file ]
                 then
                         if [ ! -z $file ]
                         then
-                                rm -fr /var/named/slaves/$file
+                                rm -fr /var/cache/bind/slaves/$file
                         fi
                 fi
 		
@@ -68,19 +68,34 @@ done
 
 
 
-if [ -f "/var/www/html/webcp/nm/named.conf" ]
+if [ -f "/var/www/html/webcp/nm/named.conf.local" ]
 then
 
-	if [ -f /etc/named.conf ]
+	if [ -f /etc/bind/named.conf.local ]
 	then
-		rm -fr /etc/named.conf
+		rm -fr /etc/bind/named.conf.local
 	fi
 
 	echo "moving conf"
-	mv /var/www/html/webcp/nm/named.conf /etc/named.conf
+	mv /var/www/html/webcp/nm/named.conf.local /etc/bind/named.conf.local
 
 	RESTART=1
 fi
+
+if [ -f "/var/www/html/webcp/nm/named.conf.options" ]
+then
+
+	if [ -f /etc/bind/named.conf.options ]
+	then
+		rm -fr /etc/bind/named.conf.options
+	fi
+
+	echo "moving conf"
+	mv /var/www/html/webcp/nm/named.conf.options /etc/bind/named.conf.options
+
+	RESTART=1
+fi
+
 
 
 if [ $RESTART == 1 ]
