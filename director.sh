@@ -22,6 +22,7 @@ do
 	DELETE_ACCOUNT_SH=0
 	MYSQL_DO_CHANGE_ROOT_SH=0
 	MKEMAIL_SH=0
+	PASSWORDWRAPPER_SH=0
 	MAIL_FORWARD_SH=0
 	MAIL_AUTO_REPLY_SH=0
 	SSL_SH=0
@@ -98,6 +99,9 @@ do
 				elif [ "$extension" == "suspend" ]	
 				then
 					SUSPENSION_SH=1
+				elif [ "$extension" == "unsuspend" ]	
+				then
+					SUSPENSION_SH=1
 				elif [ "$extension" == "dma" ]	
 				then
 					DELEMAIL_SH=1
@@ -110,6 +114,9 @@ do
 				elif [ "$extension" == "nma" ]	
 				then
 					MKEMAIL_SH=1
+				elif [ "$extension" == "mailpassword" ]	
+				then
+					PASSWORDWRAPPER_SH=1
 				elif [ "$filename" == "root.password" ]
 				then
 					MYSQL_DO_CHANGE_ROOT_SH=1
@@ -202,7 +209,7 @@ do
 	echo "DELEMAIL_SH: $DELEMAIL_SH"
 	if [ "$DELEMAIL_SH" == 1 ]
 	then
-		/usr/webcp/delemail.sh &
+		/usr/webcp/email/delemail.sh &
 	fi 
 	
 	echo "DELDIRS_SH: $DELDIRS_SH"
@@ -239,8 +246,15 @@ do
 	echo "MKEMAIL_SH: $MKEMAIL_SH"
 	if [ "$MKEMAIL_SH" == 1 ]
 	then
-	 	/usr/webcp/mkemail.sh &
+	 	/usr/webcp/email/mkemail.sh &
 	fi  
+	
+	echo "PASSWORDWRAPPER_SH: $PASSWORDWRAPPER_SH"
+	if [ "$PASSWORDWRAPPER_SH" == 1 ]
+	then
+	 	/usr/webcp/email/passwordwrapper.sh &
+	fi  
+	
 	
         echo "MAIL_FORWARD_SH: $MAIL_FORWARD_SH"
         if [ "$MAIL_FORWARD_SH" == 1 ]
