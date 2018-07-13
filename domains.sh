@@ -452,6 +452,6 @@ then
 	service php7.0-fpm reload
 fi
 
-/usr/webcp/mkemail.sh
+/usr/webcp/email/mkemail.sh
 
 	
