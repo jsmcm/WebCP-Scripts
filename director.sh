@@ -15,6 +15,7 @@ mkdir -p /tmp/webcp
 while : 
 do
 
+	CATCHALL_SH=0
 	DOMAINS_SH=0
 	COMPOSER_SH=0
 	DELETE_ACCOUNT_SH=0
@@ -128,6 +129,11 @@ do
                                 elif [ "$extension" == "delete_single_forwards" ]
                                 then
                                         MAIL_FORWARD_SH=1
+                                
+				elif [ "$extension" == "catchall" ]
+                                then
+                                        CATCHALL_SH=1
+
 
 				elif [ "$filename" == "composer_install" ]
 				then
@@ -252,6 +258,13 @@ do
 	then
 	 	/usr/webcp/email/passwordwrapper.sh &
 	fi  
+	
+        echo "CATCHALL_SH: $CATCHALL_SH"
+        if [ "$CATCHALL_SH" == 1 ]
+        then
+                /usr/webcp/email/catchall.sh &
+        fi
+	
 	
 	
         echo "MAIL_FORWARD_SH: $MAIL_FORWARD_SH"
