@@ -32,7 +32,7 @@ do
 			#echo "Copying .passwd to $UserName"
 			cp -fr /etc/skel/.passwd $FullFileName
 			chown $UserName.$UserName $FullFileName/.passwd -R
-			chown $UserName.apache $FullFileName/.passwd
+			chown $UserName.www-data $FullFileName/.passwd
 		fi
 		
 		if [ ! -d $FullFileName/.editor ]
