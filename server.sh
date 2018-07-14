@@ -35,13 +35,8 @@ do
 			chown $UserName.www-data $FullFileName/.passwd
 		fi
 		
-		if [ ! -d $FullFileName/.editor ]
-		then
-			ln -s /var/www/html/editor $FullFileName/.editor		
-		fi
 
 	fi
 
-	#echo ""	
 done
 
