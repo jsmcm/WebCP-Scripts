@@ -15,5 +15,5 @@ if [ -s $file.new ]; then
 	cp $file $file~ && mv $file.new $file
 fi
 
-/etc/init.d/pure-ftpd restart
+service pure-ftpd restart
 

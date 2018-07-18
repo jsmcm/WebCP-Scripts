@@ -43,12 +43,16 @@ do
 
 		if [ "${#UserName}" -gt "4" ]
 		then
-		
-		        groupadd $UserName -g $GroupID
+	
+			echo "groupadd $UserName -g $GroupID" > /home/domains.txt	
+		        /usr/sbin/groupadd $UserName -g $GroupID
+	
+			echo "groupadd $UserName -g $GroupID" >> /home/domains.txt	
+		        /usr/sbin/groupadd $UserName -g $GroupID
 	
 			# To add a password please see /usr/webcp/backups/mkdirs.sh
-			echo "useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName"
-			useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName
+			echo "useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName" >> /home/domains.txt
+			/usr/sbin/useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName
 
 	                chmod 755 /home/$UserName
 	                chown $UserName.$UserName /home/$UserName
@@ -446,11 +450,8 @@ done
 
 
 
-if [ "$Restart" == "1" ]
-then
-	service nginx reload
-	service php7.0-fpm reload
-fi
+/usr/sbin/service nginx reload
+/usr/sbin/service php7.0-fpm restart
 
 /usr/webcp/email/mkemail.sh
 

@@ -255,7 +255,7 @@ do
 					/usr/webcp/backups/mailtar.gz.sh $DomainUserName $RandomString			
 				fi
 
-				chown apache.apache /var/www/html/webcp/backups/tmp/$RandomString -R
+				chown www-data.www-data /var/www/html/webcp/backups/tmp/$RandomString -R
 				chmod 755 /var/www/html/webcp/backups/tmp/$RandomString -R
 			
 				cd /var/www/html/webcp/backups/tmp/$RandomString
@@ -426,10 +426,10 @@ do
 				rm -fr /var/www/html/webcp/backups/tmp/$RandomString
 	
 				echo "Chowning"	
-				chown apache.apache /var/www/html/webcp/backups/monthly -R
-				chown apache.apache /var/www/html/webcp/backups/weekly -R
-				chown apache.apache /var/www/html/webcp/backups/daily -R
-				chown apache.apache /var/www/html/webcp/backups/adhoc -R
+				chown www-data.www-data /var/www/html/webcp/backups/monthly -R
+				chown www-data.www-data /var/www/html/webcp/backups/weekly -R
+				chown www-data.www-data /var/www/html/webcp/backups/daily -R
+				chown www-data.www-data /var/www/html/webcp/backups/adhoc -R
 				
 		
 				echo "chmod 755 /var/www/html/webcp/backups/ -R"

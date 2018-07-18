@@ -19,4 +19,4 @@ then
 	PASSWORD=${PASSWORD:0:$size-2}
 fi
 
-echo "$PASSWORD"
+echo "${PASSWORD//[$'\t\r\n ']}"

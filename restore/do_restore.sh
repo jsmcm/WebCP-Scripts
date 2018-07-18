@@ -71,7 +71,7 @@ do
 		fi
 
 		
-		
+		echo "looking for existence of /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_web.tar"		
 		if [ -f "/var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_web.tar" ]
 		then
 	

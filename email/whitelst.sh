@@ -4,8 +4,8 @@ FullFileName=/var/www/html/webcp/nm/whitelist
 
 	if [ -e $FullFileName ]
 	then	
-		rm -fr /etc/exim/whitelist
-		mv $FullFileName /etc/exim/whitelist                
+		rm -fr /var/www/html/mail/whitelist
+		mv $FullFileName /var/www/html/mail/whitelist                
 	fi
 
 exit
