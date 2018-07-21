@@ -29,5 +29,5 @@ then
 fi
 
 echo "Calling mail"
-echo "Backup complete for account: $UserName. File Name: $FileName" | mail -s "WebCP - $UserName backup complete" "$EmailAddress"
+echo "Backup complete for account: $UserName. File Name: $FileName" | mutt -s "WebCP - $UserName backup complete" "$EmailAddress"
 echo "mail called"

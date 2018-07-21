@@ -17,6 +17,7 @@ for FullFileName in /var/www/html/webcp/backups/$Type/*.tar.gz
 do
         if [ -f $FullFileName ]
         then
+		echo "/usr/webcp/backups/ftp_ins.sh $FullFileName $RemotePath $Host $UserName $Password $Type $Count"
 		Result=`/usr/webcp/backups/ftp_ins.sh "$FullFileName" "$RemotePath" "$Host" "$UserName" "$Password" "$Type" "$Count"`
 
 		FileSize=`ls -al --block-size=1 $FullFileName | awk '{print $5}'`
@@ -56,6 +57,6 @@ then
 
 	for EmailAddress in $(mysql cpadmin -u root -p${Password} -se "select email_address from admin where role ='admin';")
 	do
-		cat /tmp/webcp/failed_ftp | mail -s "WebCP - FTP Failed" "$EmailAddress"
+		cat /tmp/webcp/failed_ftp | mutt -s "WebCP - FTP Failed" "$EmailAddress"
 	done
 fi

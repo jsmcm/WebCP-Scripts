@@ -15,6 +15,8 @@ mkdir -p /tmp/webcp
 while : 
 do
 
+	ADD_SPAM_ASSASSIN_SH=0
+	DELETE_SPAM_ASSASSIN_SH=0
 	CATCHALL_SH=0
 	DOMAINS_SH=0
 	COMPOSER_SH=0
@@ -95,6 +97,12 @@ do
 				elif [ "$extension" == "wp" ]	
 				then
 					WEB_INSTALL_SH=1
+				elif [ "$extension" == "add_spamassassin" ]	
+				then
+					ADD_SPAM_ASSASSIN_SH=1
+				elif [ "$extension" == "delete_spamassassin" ]	
+				then
+					DELETE_SPAM_ASSASSIN_SH=1
 				elif [ "$extension" == "suspend" ]	
 				then
 					SUSPENSION_SH=1
@@ -198,6 +206,19 @@ do
 		/usr/webcp/suspension.sh &
 	fi 
 	
+	
+	echo "ADD_SPAM_ASSASSIN_SH: $ADD_SPAM_ASSASSIN_SH"
+	if [ "$ADD_SPAM_ASSASSIN_SH" == 1 ]
+	then
+		/usr/webcp/email/spamassassin.sh &
+	fi 
+	
+	echo "DELETE_SPAM_ASSASSIN_SH: $DELETE_SPAM_ASSASSIN_SH"
+	if [ "$DELETE_SPAM_ASSASSIN_SH" == 1 ]
+	then
+		/usr/webcp/email/delete_spamassassin.sh &
+	fi 
+
 	echo "CRT_SH: $CRT_SH"
 	if [ "$CRT_SH" == 1 ]
 	then

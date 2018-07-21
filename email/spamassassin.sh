@@ -1,31 +1,50 @@
 #!/bin/bash
 
-BLOCK=""
-WARN=""
-SUBJECT=""
-LOCALPART=""
-DOMAIN=""
-
-while IFS="=" read -r key value; 
+for FullFileName in /var/www/html/webcp/nm/*.add_spamassassin;
 do
-    	case "$key" in
-      		"block") BLOCK="$value" ;;
-	esac
-    	case "$key" in
-      		"warn") WARN="$value" ;;
-	esac
-    	case "$key" in
-      		"subject") SUBJECT="$value" ;;
-	esac
-    	case "$key" in
-      		"domain") DOMAIN="$value" ;;
-	esac
-    	case "$key" in
-      		"local_part") LOCALPART="$value" ;;
-	esac
-done < "/var/www/html/webcp/nm/john@testsix.demoserver.co.za.add_spamassassin"
 
-echo "local_part: '$LOCALPART'"
-echo "domain: '$DOMAIN'"
+        if [ -f $FullFileName ]
+        then
 
-#echo "$BLOCK" > /var/www/html/mail/domains/$domain/$email/denyspamscore
+		BLOCK=""
+		WARN=""
+		SUBJECT=""
+		LOCALPART=""
+		DOMAIN=""
+		
+		while IFS="=" read -r key value; 
+		do
+		    	case "$key" in
+		      		"block") BLOCK="${value//[$'\t\r\n ']}" ;;
+			esac
+		    	case "$key" in
+		      		"warn") WARN="${value//[$'\t\r\n ']}" ;;
+			esac
+		    	case "$key" in
+		      		"subject") SUBJECT="${value//[$'\t\r\n ']}" ;;
+			esac
+		    	case "$key" in
+		      		"domain") DOMAIN="${value//[$'\t\r\n ']}" ;;
+			esac
+		    	case "$key" in
+		      		"local_part") LOCALPART="${value//[$'\t\r\n ']}" ;;
+			esac
+		done < "$FullFileName"
+
+		echo "local_part: '$LOCALPART'"
+		echo "domain: '$DOMAIN'"
+		echo "subject: '$SUBJECT'"
+		echo "warn: '$WARN'"
+		echo "block: '$BLOCK'"
+
+		
+		mkdir -p /var/www/html/mail/domains/$DOMAIN/$LOCALPART
+		echo "$BLOCK" > /var/www/html/mail/domains/$DOMAIN/$LOCALPART/denyspamscore
+		echo "$WARN" > /var/www/html/mail/domains/$DOMAIN/$LOCALPART/warnspamscore
+		echo "$SUBJECT" > /var/www/html/mail/domains/$DOMAIN/$LOCALPART/warnspamsubject
+
+		rm -fr $FullFileName	
+	fi
+
+done
+
