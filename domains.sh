@@ -106,12 +106,15 @@ do
 			echo "pm.min_spare_servers = 2" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
 			echo "pm.max_spare_servers = 5" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			
+
+			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
 			echo "Checking for crt and crs files for $DomainName"
 			
 			UseSSL=0	
-			if [ -f "/etc/httpd/conf/ssl/$DomainName.crt" ] && [ -f "/etc/httpd/conf/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+			if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
 			then
 				UseSSL=1
 			elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ] 
@@ -126,103 +129,65 @@ do
 				echo "CertChain = $CertChain"
 				rm -fr /var/www/html/webcp/nm/$DomainName.crtchain
 
-				echo "They're HERE!"
-	                	echo "<VirtualHost $IP:443>" > /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo "	SSLEngine On" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo "	SSLProtocol -all +SSLv3 +TLSv1" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo "	SSLHonorCipherOrder On" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo "	SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM:!SSLv2:!EXPORT" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo "" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                
 				if [ $UseSSL == 1 ]
 				then
-					echo "	SSLCertificateFile /etc/httpd/conf/ssl/$DomainName.crt" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                	echo "	SSLCertificateKeyFile /etc/httpd/conf/ssl/$DomainName.key" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                	echo "	SSLCACertificateFile /etc/httpd/conf/ssl/$CertChain" >> /etc/httpd/conf/vhosts/$DomainName.conf
-				elif [ $UseSSL == 2 ]
-				then
-				        echo "  SSLCertificateFile /etc/letsencrypt/live/$DomainName/cert.pem" >> /etc/httpd/conf/vhosts/$DomainName.conf
-				        echo "  SSLCertificateKeyFile /etc/letsencrypt/live/$DomainName/privkey.pem" >> /etc/httpd/conf/vhosts/$DomainName.conf
-				        echo "  SSLCACertificateFile /etc/letsencrypt/live/$DomainName/fullchain.pem" >> /etc/httpd/conf/vhosts/$DomainName.conf
+					echo "	SSLCertificateFile /etc/nginx/ssl/$DomainName.crt" >> /etc/nginx/vhosts/$DomainName.conf
+		                	echo "	SSLCertificateKeyFile /etc/nginx/ssl/$DomainName.key" >> /etc/nginx/vhosts/$DomainName.conf
+		                	echo "	SSLCACertificateFile /etc/nginx/ssl/$CertChain" >> /etc/nginx/vhosts/$DomainName.conf
 				fi
 
-	               	 	echo "   DocumentRoot \"/home/$UserName/public_html\"" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	               	 	echo "   ServerName $DomainName" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-				ServerAlias="www.$DomainName mail.$DomainName ftp.$DomainName"
-				echo "   ServerAlias $ServerAlias" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-	
-	                	echo  "" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                	echo  "" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-	               		echo  " <IfModule mod_security2.c>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-	                    	for URI in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(extra2) FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$DomainName';")
-	                    	do
-	                        	echo "          <LocationMatch \"$URI\">" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-	
-	                            	for ModsecID in $(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE deleted = 0 AND setting = 'modsec_whitelist' AND extra1 = '$DomainName' AND extra2 = '$URI';")
-	                            	do
-	                                    	echo "                  SecRuleRemoveById $ModsecID" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                            	done
-	                            	echo "          </LocationMatch>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                    	done
-	
-	                    	echo "  </IfModule>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-	
-	                   	echo  "" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	                    	echo  "" >> /etc/httpd/conf/vhosts/$DomainName.conf
-	
-		
-		
-			
-	
-	        	        echo "   suPHP_Engine on" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "   suPHP_UserGroup $UserName $UserName" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "   AddHandler x-httpd-php .php .php3 .php4 .php5" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "   suPHP_AddHandler x-httpd-php"   >> /etc/httpd/conf/vhosts/$DomainName.conf
-			
-		                echo "   CustomLog \"/home/$UserName/http-access.log\" combined" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		
-		                echo "   <Directory \"/home/$UserName/public_html\">" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "      Options All" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "      AllowOverride All" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "      Order allow,deny" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "      Allow from all" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "   </Directory>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		
-		
-		                echo "  ScriptAlias /cgi-bin/ /home/$UserName/public_html/cgi-bin/" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "  <Directory \"/home/$UserName/public_html/cgi-bin\">" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "          AllowOverride None" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "          Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "          Order allow,deny" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "          Allow from all" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		                echo "  </Directory>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-		
 
-	        	        echo "</VirtualHost>" >> /etc/httpd/conf/vhosts/$DomainName.conf
-				echo ""
+
+
+				echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        return 301 https://www.$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+				echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        return 301 https://$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
 			fi	
 
 
 
 
-			echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
-			echo "listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "server_name \$server_addr;" >> /etc/nginx/sites-enabled/$DomainName.conf
-    			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-  			echo "return 301 http://$DomainName\$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-		        echo "listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			
+
+			if [ $UseSSL != 0 ]
+			then
+
+				if [ $UseSSL == 1 ]
+				then
+					echo ""
+				elif [ $UseSSL == 2 ]
+				then
+				        echo "	listen 443;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				        echo "	listen [::]:443;" >> /etc/nginx/sites-enabled/$DomainName.conf
+	
+					echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/cert.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+					echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+				fi
+			
+			else
+				echo "listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+		        	echo "listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			fi
+
 			echo "	" >> /etc/nginx/sites-enabled/$DomainName.conf
-		
 
 			ServerAlias=""
 			for NextParkedDomainName in $(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE parent_domain_id = $DomainID AND deleted = 0 AND domain_type = 'parked';")
