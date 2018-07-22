@@ -4,14 +4,14 @@ export DISPLAY=:0.0
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 HOME=/root
 
-source $HOME/.bash_profile
+source $HOME/.profile
 
 x=$(pgrep freessl.sh | wc -w)
 if [ $x -gt 2 ]; then
         exit
 fi
 
-if [ ! -d "/etc/httpd/conf/ssl/letsencrypt" ]
+if [ ! -d "/etc/nginx/ssl/letsencrypt" ]
 then
 	/usr/webcp/utils/install_letsencrypt.sh
 fi

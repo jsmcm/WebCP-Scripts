@@ -5,32 +5,38 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
+
 export DISPLAY=:0.0
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 HOME=/root
 
-source $HOME/.bash_profile
+source $HOME/.profile
 
-yum install epel-release -y
+Password=`/usr/webcp/get_password.sh`
 
-cd /tmp
-wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-rpm -Uvh epel-release-6*.rpm
+AdminEmail=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 LIMIT 1;")
 
-yum install expect -y
-
-if [ ! -d "/etc/httpd/conf/ssl" ]
+if [ "$AdminEmail" == "" ]
 then
-	mkdir /etc/httpd/conf/ssl
+	exit
 fi
 
-cd /etc/httpd/conf/ssl
-rm -fr /etc/httpd/conf/ssl/letsencrypt
+
+apt-get update
+
+apt-get install expect -y
+
+if [ ! -d "/etc/nginx/ssl" ]
+then
+	mkdir /etc/nginx/ssl
+fi
+
+cd /etc/nginx/ssl
+rm -fr /etc/nginx/ssl/letsencrypt
 
 git clone https://github.com/letsencrypt/letsencrypt
 
-cd /etc/httpd/conf/ssl/letsencrypt
+cd /etc/nginx/ssl/letsencrypt
 ./letsencrypt-auto
 
 rm -fr /var/www/html/webcp/nm/letsencrypt.install
-sleep 1
