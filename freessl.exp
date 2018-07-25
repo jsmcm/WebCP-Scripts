@@ -19,8 +19,28 @@ if { $Type == "subdomain" } {
 	eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d www.$HostName
 }
 
-expect "Enter email address"
-send "$EmailAddress\n"
-expect "Terms of Service"
-send "\n"
+expect {
+    "Enter email address" {
+ 	send -- "$EmailAddress\n"
+     }
+}
+
+expect {
+     "Terms of Service" {
+	send -- "\n"
+     }   
+}
+
+expect {
+     "(A)gree/(C)ancel" {
+         send -- "A\n"
+      }
+}
+
+expect {
+     "(Y)es/(N)o" {
+         send -- "N\n"
+      }
+}
+
 expect eof
