@@ -108,7 +108,7 @@ do
 			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
 			
 
-			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "" > /etc/nginx/sites-enabled/$DomainName.conf
 
 
 			echo "Checking for crt and crs files for $DomainName"
@@ -174,11 +174,15 @@ do
 					echo ""
 				elif [ $UseSSL == 2 ]
 				then
-				        echo "	listen 443;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				        echo "	listen [::]:443;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				        echo "	listen 443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				        echo "	listen [::]:443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
 	
 					echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/cert.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 					echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+					echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    					echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 
 				fi
 			
