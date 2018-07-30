@@ -1,89 +1,62 @@
 #!/bin/bash
 
-Password=`/usr/webcp/get_password.sh`
+# don't want to run this on dev or machines with git
+if [ -f "/var/www/html/webcp/.git/config" ]
+then
+	exit
+fi
+
+
 CurrentTime="$(date +"%Y-%m-%d_%H-%M-%S")"
-IP=`cat /var/www/html/webcp/includes/ip.txt`
 
-#echo "At top of update.sh" >> /usr/webcp/services/log.log
 
-if [ -f "/var/www/html/webcp/tmp/usr_webcp_scripts.zip" ]
+if [ -f "/var/www/html/webcp/tmp/scripts.zip" ]
 then
-	cd /usr/webcp
-	zip backups_$CurrentTime * *.* -r
-	rm -fr /usr/webcp/scripts.zip
-	mv /var/www/html/webcp/tmp/usr_webcp_scripts.zip /usr/webcp/scripts.zip
+	cd /usr/
+	zip backups_$CurrentTime.zip webcp -r
+	rm -fr /usr/scripts.zip
+	mv /var/www/html/webcp/tmp/scripts.zip /usr/scripts.zip
 	unzip -o scripts.zip
-	rm -fr /usr/webcp/scripts.zip
-	chmod 755 /usr/webcp/* -R
-	chmod 755 /usr/webcp/*.* -R
+	rm -fr /usr/scripts.zip
+	chmod 755 /usr/webcp -R
 fi
 
-#echo "checking for /var/www/html/webcp/tmp/exim_scripts.zip" >> /usr/webcp/services/log.log
-if [ -f "/var/www/html/webcp/tmp/exim_scripts.zip" ]
+
+
+if [ -f "/var/www/html/webcp/tmp/webcp.zip" ]
 then
-	#echo "its here..." >> /usr/webcp/services/log.log
-	cd /usr/webcp/templates
-	zip exim_backup_$CurrentTime.zip exim* -r
-	rm -fr /usr/webcp/templates/exim_scripts.zip
-	mv /var/www/html/webcp/tmp/exim_scripts.zip /usr/webcp/templates
-	unzip -o exim_scripts.zip
-	rm -fr /usr/webcp/templates/exim_scripts.zip
-	chmod 755 /usr/webcp/templates/*.* -R
-	chmod 755 /usr/webcp/templates/* -R
-	/usr/webcp/mysql/exim_root_password.sh $Password
+	cd /var/www/html/
+	zip webcp_$CurrentTime.zip webcp -r
+	mv /var/www/html/webcp/tmp/webcp.zip /var/www/html/
+	unzip -o webcp.zip
+	rm -fr /var/www/html/webcp.zip
+	chown www-data.www-data /var/www/html/webcp -R
 fi
 
-if [ -f "/var/www/html/webcp/tmp/httpd_scripts.zip" ]
+
+
+MD51=""
+if [ -f "/tmp/webcp/exim4.conf.zip" ]
 then
-	cd /usr/webcp/templates
-	zip httpd_backup_$CurrentTime.zip httpd.conf
-	rm -fr /usr/webcp/templates/httpd_scripts.zip
-	mv /var/www/html/webcp/tmp/httpd_scripts.zip /usr/webcp/templates
-	unzip -o httpd_scripts.zip
-	rm -fr /usr/webcp/templates/httpd_scripts.zip
-
-	cp /usr/webcp/templates/httpd.conf /usr/webcp/templates/httpd.tmp
-	replace "NameVirtualHost *" "NameVirtualHost $IP" -- /usr/webcp/templates/httpd.tmp
-
-	rm -fr /etc/httpd/conf/httpd.conf
-	mv /usr/webcp/templates/httpd.tmp /etc/httpd/conf/httpd.conf
-	/etc/init.d/httpd graceful
+        MD51=`md5sum /tmp/webcp/exim4.conf.zip | awk '{ print $1 }'`
 fi
 
-if [ -f "/var/www/html/webcp/tmp/crontab_scripts.zip" ]
+
+cd /tmp/webcp
+wget -N http://webcp.pw/api/downloads/2.0.0/config/exim4.conf.zip	
+
+if [ -f "/tmp/webcp/exim4.conf.zip" ]
 then
-	cd /usr/webcp/templates
-	zip crontab_backup_$CurrentTime.zip crontab
-	rm -fr /usr/webcp/templates/crontab_scripts.zip
-	mv /var/www/html/webcp/tmp/crontab_scripts.zip /usr/webcp/templates
-	unzip -o crontab_scripts.zip
-	rm -fr /usr/webcp/templates/crontab_scripts.zip
+        MD52=`md5sum /tmp/webcp/exim4.conf.zip | awk '{ print $1 }'`
 
-	rm -fr /etc/crontab
-	cp /usr/webcp/templates/crontab /etc/crontab
-	chmod 644 /etc/crontab
-	
-	pkill -9 bck_jobs.sh
-	pkill -9 domains_jobs.sh
-	pkill -9 fwd_jobs.sh
-	pkill -9 f2b_jobs.sh
-	pkill -9 web_install.sh
-	pkill -9 sus_jobs.sh
-	pkill -9 db_jobs.sh
-	pkill -9 rst_jobs.sh
-
-
-	/etc/init.d/crond restart
+	if [ "$MD51" != "$MD52" ]
+	then
+		cd /etc/exim4
+		rm -fr /etc/exim4/exim4.conf
+		cp /tmp/webcp/exim4.conf.zip /etc/exim4
+		unzip /etc/exim4/exim4.conf.zip
+		rm -fr /etc/exim4/exim4.conf.zip
+		service exim4 restart
+	fi
 fi
 
-
-
-if [ -f "/var/www/html/webcp/tmp/etc_skel_editor.zip" ]
-then
-	cd /etc/skel
-	zip editor_$CurrentTime.zip .editor -r
-	mv /var/www/html/webcp/tmp/etc_skel_editor.zip /etc/skel
-	unzip -o etc_skel_editor.zip
-	/usr/webcp/update/cp_ed2us.sh
-	rm -fr /etc/skel/etc_skel_editor.zip
-fi

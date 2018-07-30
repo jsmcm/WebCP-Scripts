@@ -417,12 +417,10 @@ do
 		/usr/webcp/virus/scan.sh /home/*/public_html 0 &
 		/usr/webcp/virus/scan.sh /home/*/mail 1 &
 		sa-update && service spamassassin restart &
-		/usr/bin/perl /usr/local/awstats/tools/awstats_updateall.pl now &
 		/usr/webcp/modsec.sh &
 		/usr/webcp/bandwidth/del_stale.sh &
-		/usr/webcp/update_spamassassin_local.sh &
 		/usr/webcp/update_modsecurity_conf.sh &
-		/usr/webcp/update_httpd_conf.sh &
+		/usr/webcp/update/update.sh &
 		exit
 	fi
 
