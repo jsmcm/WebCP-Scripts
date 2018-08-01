@@ -7,6 +7,11 @@ then
 fi
 
 
+if [ -f "/usr/webcp/.git/config" ]
+then
+	exit
+fi
+
 CurrentTime="$(date +"%Y-%m-%d_%H-%M-%S")"
 
 
