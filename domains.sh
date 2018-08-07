@@ -143,7 +143,7 @@ do
 				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        server_name \$server_addr;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        return 301 http://www.$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -166,6 +166,7 @@ do
 				echo "        location /webmail {" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "                return 301 http://$DomainName:10030;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
 				echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -175,17 +176,8 @@ do
 				echo "        location /phpmyadmin {" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "                return 301 http://$DomainName:10035;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
-
-
-
-				echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        return 301 http://$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 
 
 			fi	
