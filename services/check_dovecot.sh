@@ -1,6 +1,12 @@
 #! /bin/bash
 
-Var=`/etc/init.d/dovecot status`
+export DISPLAY=:0.0
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+HOME=/root
+
+source $HOME/.profile
+
+Var=`service dovecot status`
 
 if [[ "$Var" =~ "running" ]]
 then
@@ -8,14 +14,15 @@ then
 else
 
 	Password=`/usr/webcp/get_password.sh`
-	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND username = 'admin';")
+	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
 
         echo "not running"
-        /etc/init.d/dovecot restart
+        service dovecot restart
 
 	sleep 5
-	Var2=`/etc/init.d/dovecot status`
+	Var2=`service dovecot status`
 
+        echo $Var >> /usr/webcp/services/dovecot_stopped.txt
         Var=`date`
         Var="$Var = dovecot was stopped"
         echo $Var >> /usr/webcp/services/dovecot_stopped.txt
@@ -27,8 +34,6 @@ else
 	else
 		echo "On $Var, dovecot was stopped... I attempted an automatic restart but I could not restart dovecot!" | /usr/bin/mutt -s "DOVECOT STOPPED!!!!" "$EmailAddress"
 	fi
-
-	sleep 10
 fi
 
 

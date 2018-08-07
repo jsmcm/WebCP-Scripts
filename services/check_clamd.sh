@@ -1,6 +1,13 @@
 #! /bin/bash
 
-Var=`/etc/init.d/clamd status`
+export DISPLAY=:0.0
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+HOME=/root
+
+source $HOME/.profile
+
+
+Var=`service clamav-daemon status`
 
 if [[ "$Var" =~ "running" ]]
 then
@@ -8,14 +15,15 @@ then
 else
 
 	Password=`/usr/webcp/get_password.sh`
-	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND username = 'admin';")
+	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
 
         echo "not running"
-        /etc/init.d/clamd restart
+        service clamav-daemon restart
 
-	sleep 20
-	Var2=`/etc/init.d/clamd status`
+	sleep 5
+	Var2=`service clamav-daemon status`
 
+        echo $Var >> /usr/webcp/services/clamd_stopped.txt
         Var=`date`
         Var="$Var = clamd was stopped"
         echo $Var >> /usr/webcp/services/clamd_stopped.txt
@@ -28,7 +36,6 @@ else
 		echo "On $Var, clamd was stopped... I attempted an automatic restart but I could not restart clamd!" | /usr/bin/mutt -s "CLAMD STOPPED!!!!" "$EmailAddress"
 	fi
 
-	sleep 10
 fi
 
 

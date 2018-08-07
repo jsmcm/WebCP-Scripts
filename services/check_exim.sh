@@ -1,38 +1,44 @@
 #! /bin/bash
 
-Var=`service exim status`
+export DISPLAY=:0.0
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+HOME=/root
+
+source $HOME/.profile
+
+
+Var=`service exim4 status`
 
 echo "$Var"
 echo ""
 
-if [[ "$Var" =~ "Active: active" ]]
+if [[ "$Var" =~ "running" ]]
 then
         echo "running..."
 else
 
 	Password=`/usr/webcp/get_password.sh`
 
-	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND username = 'admin';")
+	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
 
         echo "not running"
-        service exim restart
+        service exim4 restart
 
 	sleep 5
-	Var2=`service exim status`
+	Var2=`service exim4 status`
 
         Var=`date`
-        Var="$Var = exim was stopped"
-        echo $Var >> /usr/webcp/services/exim_stopped.txt
+        Var="$Var = exim4 was stopped"
+        echo $Var >> /usr/webcp/services/exim4_stopped.txt
 
 
-	if [[ "$Var2" =~ "Active: active" ]]
+	if [[ "$Var2" =~ "running" ]]
 	then
-		echo "On $Var, exim was stopped... I did and automatic restart and exim was successfully restarted!" | /usr/bin/mutt -s "EXIM RESTARTED!!!!" "$EmailAddress"
+		echo "On $Var, exim4 was stopped... I did and automatic restart and exim4 was successfully restarted!" | /usr/bin/mutt -s "EXIM RESTARTED!!!!" "$EmailAddress"
 	else
-		echo "On $Var, exim was stopped... I attempted an automatic restart but I could not restart exim!" | /usr/bin/mutt -s "EXIM STOPPED!!!!" "$EmailAddress"
+		echo "On $Var, exim4 was stopped... I attempted an automatic restart but I could not restart exim4!" | /usr/bin/mutt -s "EXIM STOPPED!!!!" "$EmailAddress"
 	fi
 
-	sleep 10
 fi
 
 

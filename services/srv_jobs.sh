@@ -8,7 +8,7 @@ fi
 /usr/webcp/services/check_exim.sh
 /usr/webcp/services/check_clamd.sh
 /usr/webcp/services/check_dovecot.sh
-/usr/webcp/services/check_httpd.sh
+/usr/webcp/services/check_nginx.sh
 /usr/webcp/services/check_mysqld.sh
 /usr/webcp/services/check_pure-ftpd.sh
 
