@@ -1,24 +1,24 @@
 #!/bin/bash
 
-	if [ ! -d /etc/exim/dkim ]
+	if [ ! -d /etc/exim4/dkim ]
 	then	
-		mkdir /etc/exim/dkim
+		mkdir /etc/exim4/dkim
 	fi
 
-	if [ -d /etc/exim/dkim ]
+	if [ -d /etc/exim4/dkim ]
 	then
-		chgrp apache /etc/exim/dkim
-		chmod 0775 /etc/exim/dkim
+		chgrp apache /etc/exim4/dkim
+		chmod 0775 /etc/exim4/dkim
 	fi
 
-	if [ ! -e /etc/exim/dkim.private.key ]
+	if [ ! -e /etc/exim4/dkim.private.key ]
 	then	
-		openssl genrsa -out /etc/exim/dkim.private.key 1024
+		openssl genrsa -out /etc/exim4/dkim.private.key 1024
 	fi
 
-	if [ ! -e /etc/exim/dkim.public.key ]
+	if [ ! -e /etc/exim4/dkim.public.key ]
 	then	
-		openssl rsa -in /etc/exim/dkim.private.key -out /etc/exim/dkim.public.key -pubout -outform PEM
+		openssl rsa -in /etc/exim4/dkim.private.key -out /etc/exim4/dkim.public.key -pubout -outform PEM
 	fi
 
 exit
