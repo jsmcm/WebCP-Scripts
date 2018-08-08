@@ -42,6 +42,7 @@ do
 		if [ "${#UserName}" -gt "4" ]
 		then
 			rm -fr /home/$UserName
+			rm -fr /var/www/html/mail/domains/$DomainName
 		fi
 
 
