@@ -18,3 +18,10 @@ chmod 755 /usr/webcp -R
 cd /var/www/html/webcp
 git pull origin master
 chown www-data.www-data /var/www/html/webcp -R
+
+
+
+## EDITOR ##
+cd /var/www/html/editor
+git pull origin master
+chown www-data.www-data /var/www/html/editor -R

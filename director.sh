@@ -177,6 +177,9 @@ do
                                 elif [ "$extension" == "singleforward" ]
                                 then
                                         MAIL_FORWARD_SH=1
+                                elif [ "$extension" == "forward_address" ]
+                                then
+                                        MAIL_FORWARD_SH=1
 				elif [ "$extension" == "autoreply" ]
                                 then
                                         MAIL_AUTO_REPLY_SH=1
@@ -293,7 +296,8 @@ do
         if [ "$MAIL_FORWARD_SH" == 1 ]
         then
                 /usr/webcp/mail_forward.sh &
-        fi
+                /usr/webcp/email/touchforwardaddress.sh &
+	fi
 	
         if [ "$MAIL_AUTO_REPLY_SH" == 1 ]
         then
@@ -359,7 +363,7 @@ do
 	
 		/usr/webcp/email/do_logtail.sh &
 
-		/usr/webcp/f2b_jobs.sh &
+		/usr/webcp/fail2ban/f2b_jobs.sh &
 
 		echo "Testing connection to http through cron page" >> /tmp/http.log
 		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:10025/includes/cron/index.php`"
