@@ -134,9 +134,15 @@ Password=`/usr/webcp/get_password.sh`
                                         echo "  SSLCACertificateFile /etc/httpd/conf/ssl/$CertChain" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                 elif [ $UseSSL == 2 ]
                                 then
-                                        echo "  SSLCertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/cert.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
-                                        echo "  SSLCertificateKeyFile /etc/letsencrypt/live/$NextSubDomainBuffer/privkey.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
-                                        echo "  SSLCACertificateFile /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+
+                                        echo "  ssl_certificate /etc/letsencrypt/live/$NextSubDomainBuffer/cert.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  ssl_certificate_key /etc/letsencrypt/live/$NextSubDomainBuffer/privkey.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  ssl_trusted_certificate /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+
+                                        echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+
+
                                 fi
 
                                 echo "   DocumentRoot \"$Path\"" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
