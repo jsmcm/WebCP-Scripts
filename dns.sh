@@ -7,6 +7,13 @@ fi
 
 RESTART=0
 
+if [ ! -d /var/cache/bind/slaves ]
+then
+	mkdir -p /var/cache/bind/slaves
+	chown bind.bind /var/cache/bind/slaves
+fi
+
+
 for FullFileName in /var/www/html/webcp/nm/*.dnsadd; 
 do
 
