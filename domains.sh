@@ -92,6 +92,11 @@ do
 			
 			echo "[$UserName]" > /etc/php/7.0/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+
+			echo "catch_workers_output = yes" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			echo "php_admin_flag[log_errors] = on" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+
 			echo "user = $UserName" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
 			echo "group = $UserName" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
@@ -188,7 +193,7 @@ do
 				        echo "	listen 443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				        echo "	listen [::]:443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
 	
-					echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/cert.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+					echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 					echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 					echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
                                       

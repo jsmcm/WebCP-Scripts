@@ -66,7 +66,13 @@ do
 		fi
 	
 	done <$FullFileName
-				
+				  
+
+        www=`/usr/webcp/dns_query.sh www.$HostName`
+        if [ "$www" == "0" ]
+        then
+            Type="subdomain"
+        fi
 
 	if [ -z "$EmailAddress" ] 
 	then

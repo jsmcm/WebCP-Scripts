@@ -135,7 +135,7 @@ Password=`/usr/webcp/get_password.sh`
                                 elif [ $UseSSL == 2 ]
                                 then
 
-                                        echo "  ssl_certificate /etc/letsencrypt/live/$NextSubDomainBuffer/cert.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
+                                        echo "  ssl_certificate /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                         echo "  ssl_certificate_key /etc/letsencrypt/live/$NextSubDomainBuffer/privkey.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
                                         echo "  ssl_trusted_certificate /etc/letsencrypt/live/$NextSubDomainBuffer/fullchain.pem;" >> /etc/nginx/sites-enabled/$PrimaryDomainName.conf
 
