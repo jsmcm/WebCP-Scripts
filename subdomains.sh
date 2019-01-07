@@ -51,10 +51,10 @@ Password=`/usr/webcp/get_password.sh`
 			echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                try_files $uri $uri/ /index.php?$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "        location ~ \.php$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf

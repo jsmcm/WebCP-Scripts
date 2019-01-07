@@ -229,7 +229,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "	expires max;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
