@@ -7,7 +7,7 @@
 
 	if [ -d /etc/exim4/dkim ]
 	then
-		chgrp apache /etc/exim4/dkim
+		chgrp www-data /etc/exim4/dkim
 		chmod 0775 /etc/exim4/dkim
 	fi
 
