@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 source /root/.bashrc
 
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
@@ -425,6 +423,7 @@ do
 		/usr/webcp/bandwidth/del_stale.sh &
 		/usr/webcp/update_modsecurity_conf.sh &
 		/usr/webcp/update/update.sh &
+		/usr/webcp/freerenew.sh
 		exit
 	fi
 

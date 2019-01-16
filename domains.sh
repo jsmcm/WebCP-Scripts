@@ -40,6 +40,12 @@ do
 		UserQuota=$(mysql cpadmin -u root -p${Password} -se "SELECT (value / 1024) FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND package_options.setting = 'DiskSpace' AND domains.UserName = '$UserName' AND domains.domain_type = 'primary';")
 		IP=$(mysql cpadmin -u root -p${Password} -se "SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0 UNION  SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' AND NOT EXISTS (SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0) LIMIT 1;")
 
+		redirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND domain_id = $DomainID;")
+                  
+                if [ "$redirect" == "" ]
+                then
+                    redirect="www"
+                fi
 
 		if [ "${#UserName}" -gt "4" ]
 		then
@@ -144,14 +150,14 @@ do
 
 
 
-				echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        server_name \$server_addr;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "        return 301 http://www.$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
-				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "        listen [::]:80;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "        server_name \$server_addr;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "        return 301 http://www.$DomainName$request_uri;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				#echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 				echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -170,12 +176,59 @@ do
 				echo "        location /phpmyadmin {" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "                return 301 http://$DomainName:10035;" >> /etc/nginx/sites-enabled/$DomainName.conf
 				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+				echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+                                if [ "$redirect" == "naked" ]
+                                then
+				    echo "          return 301 https://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+                                else
+				    echo "          return 301 https://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+                                fi
+				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
 
-			fi	
 
+				if [ $UseSSL == 1 ]
+				then
+					echo ""
+				elif [ $UseSSL == 2 ]
+				then
+			                echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				        echo "	listen 443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				        echo "	listen [::]:443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
+	
+					echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+					echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+					echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+                                      
+					echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    					echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+  	                                if [ "$redirect" == "naked" ]
+	                                then
+				 		echo "        server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				    	else
+				 		echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+					fi
+
+ 					echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+  	                                if [ "$redirect" == "naked" ]
+	                                then
+					    echo "          return 301 https://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+	                                else
+					    echo "          return 301 https://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+	                                fi
+					echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+	
+					echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+				fi
+			fi
 
 
 
@@ -248,6 +301,23 @@ do
 		        echo "location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "        deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+				echo "        location /webcp {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "                return 301 http://$DomainName:10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+				echo "        location /webmail {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "                return 301 http://$DomainName:10030;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+				echo "        location /phpmyadmin {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "                return 301 http://$DomainName:10035;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
 			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf	
 			
 
@@ -436,7 +506,7 @@ done
 
 
 
-/usr/sbin/service nginx reload
+/usr/sbin/service nginx restart
 /usr/sbin/service php7.0-fpm restart
 
 /usr/webcp/email/mkemail.sh

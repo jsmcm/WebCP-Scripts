@@ -28,8 +28,8 @@ do
 		rm -fr /etc/php/7.0/fpm/pool.d/$UserName.conf
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 
-        	/usr/sbin/service nginx reload
-		/usr/sbin/service php7.0-fpm reload
+        	/usr/sbin/service nginx restart
+		/usr/sbin/service php7.0-fpm restart
 
                 rm -fr /etc/letsencrypt/live/$DomainName*
                 rm -fr /etc/letsencrypt/archive/$DomainName*
