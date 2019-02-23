@@ -7,6 +7,7 @@ fi
 
 SkipRestartCheck=$1
 Password=`/usr/webcp/get_password.sh`
+phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 
 Restart=0
@@ -96,27 +97,27 @@ do
 	
 
 			
-			echo "[$UserName]" > /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			echo "[$UserName]" > /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
-			echo "catch_workers_output = yes" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "php_admin_flag[log_errors] = on" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			echo "catch_workers_output = yes" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_flag[log_errors] = on" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
-			echo "user = $UserName" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "group = $UserName" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "listen = /run/php/php7.0-fpm-$UserName.sock" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "listen.owner = www-data" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "listen.group = www-data" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "pm = dynamic" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "pm.max_children = 25" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "pm.start_servers = 3" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "pm.min_spare_servers = 2" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "pm.max_spare_servers = 5" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/7.0/fpm/pool.d/$UserName.conf
+			echo "user = $UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "group = $UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "listen = /run/php/php$phpVersion-fpm-$UserName.sock" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "listen.owner = www-data" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "listen.group = www-data" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm = dynamic" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_children = 25" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm.start_servers = 3" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm.min_spare_servers = 2" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_spare_servers = 5" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			
 
 			echo "" > /etc/nginx/sites-enabled/$DomainName.conf
@@ -293,7 +294,7 @@ do
 		        echo "location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "		include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-		        echo "        fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+		        echo "        fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "        fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "        fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 		        echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -339,7 +340,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -365,7 +366,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -391,7 +392,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -418,7 +419,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -446,7 +447,7 @@ do
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -478,7 +479,7 @@ do
                         echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
                         echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
                         echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-                        echo "                fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+                        echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
                         echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
                         echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
                         echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -507,7 +508,7 @@ done
 
 
 /usr/sbin/service nginx restart
-/usr/sbin/service php7.0-fpm restart
+/usr/sbin/service php$phpVersion-fpm restart
 
 /usr/webcp/email/mkemail.sh
 

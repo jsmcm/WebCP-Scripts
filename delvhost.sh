@@ -1,5 +1,7 @@
 #!/bin/bash
 
+phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
+
 for FullFileName in /var/www/html/webcp/nm/*.dvh; 
 do
 
@@ -17,7 +19,7 @@ do
 		echo "DomainName: $DomainName"
 
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
-		rm -fr /etc/php/7.0/fpm/pool.d/$UserName.conf
+		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 		rm -fr $FullFileName
 	fi
 done

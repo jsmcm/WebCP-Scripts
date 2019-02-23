@@ -31,6 +31,8 @@ then
 	mkdir /etc/nginx/ssl
 fi
 
+rm -fr /opt/eff.org
+
 cd /etc/nginx/ssl
 rm -fr /etc/nginx/ssl/letsencrypt
 

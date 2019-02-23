@@ -9,6 +9,7 @@ PrimaryDomainName=$4
 IP=$5
 
 Password=`/usr/webcp/get_password.sh`
+phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 		echo "In subdomain, SubDomainID = $DomainID"
 
@@ -56,7 +57,7 @@ Password=`/usr/webcp/get_password.sh`
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "                fastcgi_pass unix:/run/php/php7.0-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "                fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf

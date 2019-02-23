@@ -5,6 +5,7 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
+phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 Password=`/usr/webcp/get_password.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_domain; 
@@ -25,11 +26,11 @@ do
 		GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 		UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 
-		rm -fr /etc/php/7.0/fpm/pool.d/$UserName.conf
+		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 
         	/usr/sbin/service nginx restart
-		/usr/sbin/service php7.0-fpm restart
+		/usr/sbin/service php$phpVersion-fpm restart
 
                 rm -fr /etc/letsencrypt/live/$DomainName*
                 rm -fr /etc/letsencrypt/archive/$DomainName*
