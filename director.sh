@@ -1,6 +1,5 @@
 #!/bin/bash
 source /root/.bashrc
-exit
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
 fi
