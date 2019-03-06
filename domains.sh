@@ -117,6 +117,7 @@ do
 			echo "pm.start_servers = 3" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "pm.min_spare_servers = 2" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "pm.max_spare_servers = 5" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_requests = 1000" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			
 
