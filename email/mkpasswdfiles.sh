@@ -7,22 +7,33 @@ UserName=$2
 GroupID=$3
 UserID=$4
 
-				
-if [ -f "/var/www/html/mail/domains/$DomainName/passwd" ]
+
+mysql cpadmin -u root -p${Password} -N -e "SELECT local_part, fqdn, password FROM mailboxes, domains WHERE domain_id = domains.id AND domain_user_name='$UserName' AND mailboxes.active=1" | while read local_part fqdn password; do
+
+
+if [ ! -d "/var/www/html/mail/domains/$fqdn" ]
 then
-	rm -fr /var/www/html/mail/domains/$DomainName/passwd
+	mkdir /var/www/html/mail/domains/$fqdn
+fi
+
+				
+if [ -f "/var/www/html/mail/domains/$fqdn/passwd" ]
+then
+	rm -fr /var/www/html/mail/domains/$fqdn/passwd
 fi
 	
-if [ -f "/var/www/html/mail/domains/$DomainName/dovecot-passwd" ]
+if [ -f "/var/www/html/mail/domains/$fqdn/dovecot-passwd" ]
 then
-	rm -fr /var/www/html/mail/domains/$DomainName/dovecot-passwd
+	rm -fr /var/www/html/mail/domains/$fqdn/dovecot-passwd
 fi
 
-mysql cpadmin -u root -p${Password} -N -e "SELECT local_part, password FROM mailboxes WHERE domain_user_name='$UserName' AND active=1" | while read local_part password; do
+done
 
-echo "$local_part@$DomainName:$password" >> /var/www/html/mail/domains/$DomainName/passwd
+mysql cpadmin -u root -p${Password} -N -e "SELECT local_part, fqdn, password FROM mailboxes, domains WHERE domain_id = domains.id AND domain_user_name='$UserName' AND mailboxes.active=1" | while read local_part fqdn password; do
 
-echo "$local_part:{plain-md5}$password:$GroupID:$UserID::/home/$UserName::userdb_mail=maildir:~/mail/$DomainName/$local_part" >> /var/www/html/mail/domains/$DomainName/dovecot-passwd
+echo "$local_part@$fqdn:$password" >> /var/www/html/mail/domains/$fqdn/passwd
+
+echo "$local_part:{plain-md5}$password:$GroupID:$UserID::/home/$UserName::userdb_mail=maildir:~/mail/$fqdn/$local_part" >> /var/www/html/mail/domains/$fqdn/dovecot-passwd
 
 done
 			
