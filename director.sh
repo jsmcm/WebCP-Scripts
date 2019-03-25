@@ -1,4 +1,6 @@
 #!/bin/bash
+
+
 source /root/.bashrc
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
@@ -330,7 +332,7 @@ do
 	
 	if [ "$DOMAINS_SH" == 1 ]
 	then
-		/usr/webcp/domains.sh &
+		/usr/webcp/domains/domains.sh &
 	fi 
 
 	if [ "$WEB_INSTALL_SH" == 1 ]
