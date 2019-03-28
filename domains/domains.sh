@@ -1,4 +1,5 @@
 #!/bin/bash
+exit
 
 x=$(pgrep domains.sh | wc -w)
 if [ $x -gt 2 ]; then

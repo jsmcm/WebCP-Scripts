@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit
 # subdomains.sh
 
 DomainID=$1

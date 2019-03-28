@@ -1,4 +1,5 @@
 #!/bin/bash
+exit
 
 DomainName=$1 
 UserName=$2
