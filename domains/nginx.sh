@@ -1,6 +1,5 @@
 #!/bin/bash
 
-exit
 
 DomainID=$1 
 DomainName=$2

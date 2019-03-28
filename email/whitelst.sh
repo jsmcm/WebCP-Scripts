@@ -8,4 +8,3 @@ FullFileName=/var/www/html/webcp/nm/whitelist
 		mv $FullFileName /var/www/html/mail/whitelist                
 	fi
 
-exit
