@@ -50,7 +50,7 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 			
 if [ "$redirect" == "www" ]
 then
-	echo "	return 301 http://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
+	echo "	return 301 https://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
 	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -133,7 +133,7 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 		        
 if [ "$redirect" == "naked" ]
 then
-	echo "	return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
+	echo "	return 301 https://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
 	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
