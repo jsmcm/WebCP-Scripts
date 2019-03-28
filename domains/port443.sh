@@ -22,21 +22,11 @@ fi
 echo "domainPath = $domainPath";
 
 
-echo "in port443.sh DomainName: $DomainName"
-echo "in port443.sh UserName: $UserName"
-echo "in port443.sh redirect: $redirect"
-echo "in port443.sh phpVersion: $phpVersion"
-echo "in port443.sh path: $path"
-echo "in port443.sh primaryDomain: $primaryDomain"
-echo "in port443.sh nginxConfigDomain: $nginxConfigDomain"
-echo "in port443.sh domainPath: $domainPath"
-
-
 # naked domain
 echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 		
-echo "	listen 443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	listen [::]:443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	listen 443 ssl;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	listen [::]:443 ssl;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -121,8 +111,8 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 # www domain
 echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 			
-echo "	listen 443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	listen [::]:443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	listen 443 ssl;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	listen [::]:443 ssl;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
