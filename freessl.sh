@@ -97,3 +97,5 @@ do
     touch /var/www/html/webcp/nm/$item.subdomain
 done
 
+/usr/webcp/email/make_dovecot_ssl.sh
+
