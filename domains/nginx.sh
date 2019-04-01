@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 DomainID=$1 
 DomainName=$2
 UserName=$3

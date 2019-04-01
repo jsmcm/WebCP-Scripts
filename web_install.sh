@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "In web_install.sh"
 if [ $(pgrep web_install.sh| wc -w) -gt 2 ]; then
 	echo "already running"
         exit
