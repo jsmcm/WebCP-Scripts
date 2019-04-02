@@ -3,6 +3,6 @@
 CurrentDate="$(date +"%Y-%m-%d")"
 #echo "Ran renewFree on $CurrentDate" >> /usr/webcp/freerenew.log
 
-chmod 755 /etc/letsencrypt/{archive,live}
-chgrp Debian-exim /etc/letsencrypt/{archive,live}
+chmod 755 /etc/letsencrypt/{archive,live} -R
+chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
 

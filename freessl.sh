@@ -100,6 +100,7 @@ do
 done
 
 /usr/webcp/email/make_dovecot_ssl.sh
-chmod 755 /etc/letsencrypt/{archive,live}
-chgrp Debian-exim /etc/letsencrypt/{archive,live} 
+
+chmod 755 /etc/letsencrypt/{archive,live} -R
+chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
 
