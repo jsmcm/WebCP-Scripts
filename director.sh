@@ -9,6 +9,8 @@ SECONDS=0
 MINUTES=0
 HOURS=0
 
+TenMinutesRunOnce=0
+
 mkdir -p /tmp/webcp
 
 while : 
@@ -391,10 +393,18 @@ do
 
 		/usr/webcp/services/srv_jobs.sh & 
 	fi
-	
+
+		
 	if [ $(($MINUTES % 10)) == 0 ]
 	then
-		/usr/webcp/server.sh &
+		if [ $TenMinutesRunOnce == 0 ]
+		then
+			/usr/webcp/server.sh &
+			/usr/webcp/stats/run.sh &
+			TenMinutesRunOnce=1
+		fi
+	else
+		TenMinutesRunOnce=0
 	fi
 
 	if [ $MINUTES -gt 59 ]
