@@ -364,6 +364,7 @@ do
 		/usr/webcp/email/do_logtail.sh &
 
 		/usr/webcp/fail2ban/f2b_jobs.sh &
+		/usr/webcp/stats/cpu.sh &
 
 		echo "Testing connection to http through cron page" >> /tmp/http.log
 		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:10025/includes/cron/index.php`"
@@ -400,7 +401,7 @@ do
 		if [ $TenMinutesRunOnce == 0 ]
 		then
 			/usr/webcp/server.sh &
-			/usr/webcp/stats/run.sh &
+			/usr/webcp/stats/ram.sh &
 			TenMinutesRunOnce=1
 		fi
 	else
