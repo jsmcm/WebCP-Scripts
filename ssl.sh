@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 x=$(pgrep ssl.sh | wc -w)
 if [ $x -gt 2 ]; then
         exit
@@ -131,4 +132,6 @@ do
 	rm -fr $FullFileName
 	fi
 done
+
+/usr/webcp/email/make_dovecot_ssl.sh
 

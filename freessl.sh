@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 export DISPLAY=:0.0
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 HOME=/root
@@ -96,4 +98,9 @@ do
 	echo "Touching $item.subdomain"
     touch /var/www/html/webcp/nm/$item.subdomain
 done
+
+/usr/webcp/email/make_dovecot_ssl.sh
+
+chmod 755 /etc/letsencrypt/{archive,live} -R
+chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
 

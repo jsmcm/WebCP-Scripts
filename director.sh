@@ -1,6 +1,6 @@
 #!/bin/bash
+
 source /root/.bashrc
-exit
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
 fi
@@ -8,6 +8,8 @@ fi
 SECONDS=0
 MINUTES=0
 HOURS=0
+
+TenMinutesRunOnce=0
 
 mkdir -p /tmp/webcp
 
@@ -331,7 +333,7 @@ do
 	
 	if [ "$DOMAINS_SH" == 1 ]
 	then
-		/usr/webcp/domains.sh &
+		/usr/webcp/domains/domains.sh &
 	fi 
 
 	if [ "$WEB_INSTALL_SH" == 1 ]
@@ -362,6 +364,7 @@ do
 		/usr/webcp/email/do_logtail.sh &
 
 		/usr/webcp/fail2ban/f2b_jobs.sh &
+		/usr/webcp/stats/cpu.sh &
 
 		echo "Testing connection to http through cron page" >> /tmp/http.log
 		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:10025/includes/cron/index.php`"
@@ -391,10 +394,18 @@ do
 
 		/usr/webcp/services/srv_jobs.sh & 
 	fi
-	
+
+		
 	if [ $(($MINUTES % 10)) == 0 ]
 	then
-		/usr/webcp/server.sh &
+		if [ $TenMinutesRunOnce == 0 ]
+		then
+			/usr/webcp/server.sh &
+			/usr/webcp/stats/ram.sh &
+			TenMinutesRunOnce=1
+		fi
+	else
+		TenMinutesRunOnce=0
 	fi
 
 	if [ $MINUTES -gt 59 ]
