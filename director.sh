@@ -12,6 +12,8 @@ HOURS=0
 TenMinutesRunOnce=0
 
 mkdir -p /tmp/webcp
+chgrp www-data /tmp/webcp -R
+chmod 775 /tmp/webcp -R
 
 while : 
 do
