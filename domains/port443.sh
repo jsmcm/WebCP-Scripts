@@ -6,6 +6,7 @@ redirect=$3
 phpVersion=$4
 path=$5
 primaryDomain=$6
+hsts=$7
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
@@ -33,6 +34,17 @@ echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc
 echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+if [ "$hsts" == "enforce" ]
+then
+	echo "	add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
 
 echo "	include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -120,6 +132,18 @@ echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /e
 echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
+if [ "$hsts" == "enforce" ]
+then
+	echo "	add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+echo "	include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

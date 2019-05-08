@@ -70,7 +70,7 @@ do
                        	elif [ $UseSSL == 2 ]
                         then
 
-                        	/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName
+                        	/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect
 
                         fi
               	else

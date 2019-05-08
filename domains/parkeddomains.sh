@@ -79,9 +79,9 @@ do
 
                     	    	if [ "$parkedRedirect" == "redirect" ]
 				then
-	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect
 				else
-	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect
 	                        fi
 
                         fi
