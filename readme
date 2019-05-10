@@ -1,0 +1,5 @@
+* 2.1.1 *
+= Released: 2019-05-10 =
+ - Changed cron and editor ports to work with cloudflare
+ - Disable pagespeed on service listeners
+ - Added this readme
