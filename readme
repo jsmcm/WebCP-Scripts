@@ -1,0 +1,4 @@
+* 2.1.0 *
+ - Changed cron and editor ports to work with cloudflare
+ - Disable pagespeed on service listeners
+ - Added this readme
