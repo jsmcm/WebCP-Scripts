@@ -14,6 +14,41 @@ echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2053\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 2053 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:2053 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        root /home/$UserName/.editor;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -74,6 +109,39 @@ echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2083\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 2083 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:2083 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        root /home/$UserName/.cron;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -105,6 +173,39 @@ echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2087\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 2087 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:2087 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        root /var/www/html/rainloop;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -126,12 +227,45 @@ echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
+echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2096\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen 2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen [::]:2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 2096 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:2096 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -160,12 +294,45 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
 			
+echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:10026\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
+
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 	 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen 10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen [::]:10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 10026 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:10026 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-XSS-Protection \"1; mode=block\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
