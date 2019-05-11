@@ -1,6 +1,7 @@
 * 2.1.2 *
-= Release: tba
+= Release: 2019-05-10 =
  - Fixing to the correct cloudflare ports
+ - Added ssl to service ports
 
 * 2.1.1 *
 = Released: 2019-05-10 =
