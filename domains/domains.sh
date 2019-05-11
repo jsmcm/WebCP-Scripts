@@ -100,12 +100,15 @@ do
 	                chown $UserName.$UserName /home/$UserName/mail/$DomainName
 	
 
-			
+		        mkdir /var/lib/php/sessions/$UserName
+	                chown $UserName.$UserName /var/lib/php/sessions/$UserName/
+
 			echo "[$UserName]" > /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
 			echo "catch_workers_output = yes" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_flag[log_errors] = on" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
 			echo "user = $UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf

@@ -28,6 +28,7 @@ do
 
 		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
+		rm -fr /var/lib/php/sessions/$UserName/
 
         	/usr/sbin/service nginx restart
 		/usr/sbin/service php$phpVersion-fpm restart

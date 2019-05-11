@@ -20,6 +20,7 @@ do
 
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+		rm -fr /var/lib/php/sessions/$UserName/
 		rm -fr $FullFileName
 	fi
 done

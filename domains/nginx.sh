@@ -36,6 +36,7 @@ Password=`/usr/webcp/get_password.sh`
 			fi
 
 	
+			
 			if [ $UseSSL != 0 ]
 			then
 
@@ -60,14 +61,15 @@ Password=`/usr/webcp/get_password.sh`
 				elif [ $UseSSL == 2 ]
 				then
 
-					/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" ""
+					/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect
+					/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion"
 
 				fi
 			else
 				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" ""
+				/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion"
 			fi
 
 
 
-			/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion"
 
