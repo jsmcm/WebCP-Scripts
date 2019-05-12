@@ -103,12 +103,12 @@ else
 	
 	
 	echo "	location /webmail {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://$DomainName:10030;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 http://$DomainName:2086;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	echo "	location /phpmyadmin {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://$DomainName:10035;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 http://$DomainName:2095;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
@@ -198,12 +198,12 @@ else
 	
 	
 	echo "	location /webmail {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://www.$DomainName:10030;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 http://www.$DomainName:2086;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	echo "	location /phpmyadmin {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://www.$DomainName:10035;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 http://www.$DomainName:2095;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	

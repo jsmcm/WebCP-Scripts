@@ -173,7 +173,7 @@ echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  return 301 https://$DomainName:2087\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2087;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -235,7 +235,7 @@ echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  return 301 https://$DomainName:2096\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:2096;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
