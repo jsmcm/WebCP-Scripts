@@ -97,18 +97,18 @@ else
 	
 	
 	echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://$DomainName:10025;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://$DomainName:10026;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	
 	echo "	location /webmail {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://$DomainName:2086;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://$DomainName:2087;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	echo "	location /phpmyadmin {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://$DomainName:2095;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://$DomainName:2096;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
@@ -192,18 +192,18 @@ else
 	
 	
 	echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://www.$DomainName:10025;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://www.$DomainName:10026;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	
 	echo "	location /webmail {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://www.$DomainName:2086;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://www.$DomainName:2087;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	echo "	location /phpmyadmin {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		return 301 http://www.$DomainName:2095;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		return 301 https://www.$DomainName:2096;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
