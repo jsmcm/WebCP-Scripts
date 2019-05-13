@@ -164,8 +164,8 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen 10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen [::]:10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf

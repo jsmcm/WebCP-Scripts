@@ -34,7 +34,7 @@ echo "	error_log /home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sit
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "		return 301 https://$DomainName:10026;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "		return 301 https://$DomainName:8443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
@@ -79,7 +79,7 @@ echo "	error_log /home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sit
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "		return 301 https://www.$DomainName:10026;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "		return 301 https://www.$DomainName:8443;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
