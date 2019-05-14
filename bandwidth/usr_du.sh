@@ -34,7 +34,7 @@ Password=`/usr/webcp/get_password.sh`
 
 			if [ $MailSent -eq 0 ]
 			then
-				URL="/usr/bin/wget http://localhost:10025/quota/SendDiskSpaceMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
+				URL="/usr/bin/wget http://localhost:8880/quota/SendDiskSpaceMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 
 			       	/usr/bin/wget -q -O /dev/null -o /dev/null $URL
@@ -52,7 +52,7 @@ Password=`/usr/webcp/get_password.sh`
 
 			if [ $MailSent -eq 0 ]
 			then
-				URL="/usr/bin/wget http://localhost:10025/quota/SendDiskSpaceMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
+				URL="/usr/bin/wget http://localhost:8880/quota/SendDiskSpaceMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 			       	
 				/usr/bin/wget -q -O /dev/null -o /dev/null $URL

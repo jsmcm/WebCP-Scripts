@@ -62,7 +62,7 @@ Password=`/usr/webcp/get_password.sh`
 
 			if [ $MailSent -eq 0 ]
 			then
-				URL="/usr/bin/wget http://localhost:10025/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
+				URL="/usr/bin/wget http://localhost:8880/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 				/usr/bin/wget -q -O /dev/null -o /dev/null $URL
 				$(mysql cpadmin -u root -p${Password} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '95_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")
@@ -78,7 +78,7 @@ Password=`/usr/webcp/get_password.sh`
 
 			if [ $MailSent -eq 0 ]
 			then
-				URL="/usr/bin/wget http://localhost:10025/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
+				URL="/usr/bin/wget http://localhost:8880/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 				/usr/bin/wget -q -O /dev/null -o /dev/null $URL
 				$(mysql cpadmin -u root -p${Password} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '80_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")

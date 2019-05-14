@@ -368,7 +368,7 @@ do
 		/usr/webcp/stats/cpu.sh &
 
 		echo "Testing connection to http through cron page" >> /tmp/http.log
-		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:10025/includes/cron/index.php`"
+		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:8880/includes/cron/index.php`"
 		echo "RESULT FROM WGET LOCALHOST: '$RESULT'" >> /tmp/http.log
 
 		if $( echo $RESULT | grep --quiet 'cron_ok' )

@@ -295,14 +295,14 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 			
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen 10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen [::]:10025;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  return 301 https://$DomainName:10026;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "  return 301 https://$DomainName:8443;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf;
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -313,8 +313,8 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen 10026 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        listen [::]:10026 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen 8443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        listen [::]:8443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf

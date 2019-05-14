@@ -12,8 +12,6 @@ phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 ## SCRIPTS ##
 cd /usr/webcp
 git pull origin master
-chmod 755 /usr/webcp -R
-
 
 
 ## WEBCP ##
