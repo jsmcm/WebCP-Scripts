@@ -14,6 +14,7 @@ Restart=0
 
 SharedIP=""
 sslRedirect=""
+pagespeed="off"
 
 for FullFileName in /var/www/html/webcp/nm/*.subdomain; 
 do
@@ -44,8 +45,14 @@ do
 
 		redirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'domain_redirect' AND domain_id = $DomainID;")
 		sslRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $DomainID;")
+		pagespeed=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $DomainID;")
                   
+		if [ "$pagespeed" == "" ]
+		then
+			pagespeed="off"
+		fi
 
+		echo "pagespeed 2: '$pagespeed'"
 		echo "UserName: $UserName"
 
 		if [ "${#UserName}" -gt "4" ]
@@ -129,10 +136,10 @@ do
 
 			echo "In domains.sh phpVersion: $phpVersion"
 
-			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$phpVersion"
+			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$phpVersion" "$pagespeed"
 		
 			echo "Calling Subdomains...";
-			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$phpVersion"
+			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$phpVersion" "$pagespeed"
 			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$phpVersion"
 	
 			Restart=1

@@ -9,7 +9,7 @@ IP=$4
 sslRedirect=$5
 phpVersion=$6
 
-
+pagespeed=""
 Password=`/usr/webcp/get_password.sh`
 
 echo "In parkeddomain, ParkedDomainID = $DomainID"
@@ -23,6 +23,7 @@ do
 	parentDomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $parentDomainId;")
 	sslRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $NextParkedDomainID;")
 	parkedRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'parked_redirect' AND domain_id = $NextParkedDomainID;")
+	pagespeed=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $NextParkedDomainID;")
 
 	if [ "${#path}" -gt "4" ]
 	then
@@ -52,16 +53,16 @@ do
                         then
                         	if [ "$parkedRedirect" == "redirect" ]
 				then
-                        		/usr/webcp/domains/port80SSLParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+                        		/usr/webcp/domains/port80SSLParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
 				else
-                        		/usr/webcp/domains/port80SSLRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+                        		/usr/webcp/domains/port80SSLRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
                         	fi
                         else
                         	if [ $parkedRedirect == "redirect" ]
 				then
-					/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+					/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
 				else
-                        		/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+                        		/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
                         	fi
 			fi
 
@@ -79,18 +80,18 @@ do
 
                     	    	if [ "$parkedRedirect" == "redirect" ]
 				then
-	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect
+	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed"
 				else
-	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect
+	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed"
 	                        fi
 
                         fi
               	else
                         if [ "$parkedRedirect" == "redirect" ]
 			then
-				/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+				/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
 			else
-                        	/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName
+                        	/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed"
                         fi
                	fi
 

@@ -3,14 +3,14 @@
 DomainName=$1 
 UserName=$2
 phpVersion=$3
-
+pagespeed=$4
 
 
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2052;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2052;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -40,7 +40,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 20001;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:20001;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -70,7 +70,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2082;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2082;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -101,7 +101,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2086;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2086;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -133,7 +133,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -167,7 +167,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed off;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf

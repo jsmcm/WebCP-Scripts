@@ -8,7 +8,7 @@ IP=$4
 redirect=$5
 sslRedirect=$6
 phpVersion=$7
-
+pagespeed=$8
 
 echo "in Nginx DomainID: $DomainID"
 echo "in Nginx DomainName: $DomainName"
@@ -43,9 +43,9 @@ Password=`/usr/webcp/get_password.sh`
 
 				if [ "$sslRedirect" == "enforce" ]
 				then
-					/usr/webcp/domains/port80SSLRedirect.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" ""
+					/usr/webcp/domains/port80SSLRedirect.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed"
 				else
-					/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" ""
+					/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed"
 				fi
 
 
@@ -61,13 +61,13 @@ Password=`/usr/webcp/get_password.sh`
 				elif [ $UseSSL == 2 ]
 				then
 
-					/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect
-					/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion"
+					/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect "$pagespeed"
+					/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed"
 
 				fi
 			else
-				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" ""
-				/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion"
+				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed"
+				/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed"
 			fi
 
 

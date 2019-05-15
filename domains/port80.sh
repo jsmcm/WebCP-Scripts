@@ -6,6 +6,7 @@ redirect=$3
 phpVersion=$4
 path=$5
 primaryDomain=$6
+pagespeed=$7
 
 echo "In port80.sh DomainName: $DomainName"
 echo "In port80.sh UserName: $UserName"
@@ -37,6 +38,8 @@ echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -106,6 +109,9 @@ echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

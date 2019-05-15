@@ -6,6 +6,7 @@ redirect=$3
 phpVersion=$4
 path=$5
 primaryDomain=$6
+pagespeed=$7
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
@@ -27,6 +28,9 @@ echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	access_log /home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -71,6 +75,10 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	

@@ -7,6 +7,7 @@ phpVersion=$4
 path=$5
 primaryDomain=$6
 hsts=$7
+pagespeed=$8
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
@@ -28,6 +29,9 @@ echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 		
 echo "	listen 443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -125,6 +129,9 @@ echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 			
 echo "	listen 443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
