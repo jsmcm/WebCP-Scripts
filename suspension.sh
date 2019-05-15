@@ -5,6 +5,7 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
+
 Reload=0
 Password=`/usr/webcp/get_password.sh`
 
@@ -72,6 +73,7 @@ do
 
 		DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
 
+		echo "Suspending $DomainName"
 
 		if [ "${#DomainName}" -gt "3" ]
 		then
@@ -80,13 +82,35 @@ do
 			then
 				mv /etc/nginx/sites-enabled/$DomainName.conf /etc/nginx/sites-suspended/$DomainName.conf
 			fi
+			
+			if [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+			then
+				echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
+				echo "listen 443 ssl;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "root /var/www/html/suspended;" >> /etc/nginx/sites-enabled/$DomainName.conf
+			
 
-			echo "server {" > /etc/nginx/sites-enabled/$DomainName.conf
-			echo "listen 443;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "return 301 http://$DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
-			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
+				echo "  include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+			
+			
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "rewrite ^ /index.html break;" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+				echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
+			fi
 
 			echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "listen 80;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -98,7 +122,14 @@ do
 			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 			echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
-	
+
+			
+
+			if [ -d "/var/www/html/mail/domains/$DomainName" ]
+			then
+				mv /var/www/html/mail/domains/$DomainName /var/www/html/mail/domains/suspended_$DomainName
+			fi
+
 			rm -fr $FullFileName
 		fi
 	fi
@@ -129,6 +160,12 @@ do
 
 				mv /etc/nginx/sites-suspended/$DomainName.conf /etc/nginx/sites-enabled/$DomainName.conf
 			fi
+
+			if [ -d "/var/www/html/mail/domains/suspended_$DomainName" ]
+			then
+				mv /var/www/html/mail/domains/suspended_$DomainName /var/www/html/mail/domains/$DomainName
+			fi
+
 	
 	
 			rm -fr $FullFileName
@@ -136,10 +173,8 @@ do
 
 done
 
-if [ $Reload == 1 ] 
+if [ $Reload -eq 1 ] 
 then
-	service nginx reload
+	echo "Reloading nginx"
+	/usr/sbin/service nginx reload
 fi
-
-
-echo "Done"
