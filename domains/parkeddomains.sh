@@ -9,7 +9,7 @@ IP=$4
 sslRedirect=$5
 phpVersion=$6
 
-pagespeed=""
+pagespeed="off"
 Password=`/usr/webcp/get_password.sh`
 
 echo "In parkeddomain, ParkedDomainID = $DomainID"
@@ -23,7 +23,14 @@ do
 	parentDomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $parentDomainId;")
 	sslRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $NextParkedDomainID;")
 	parkedRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'parked_redirect' AND domain_id = $NextParkedDomainID;")
-	pagespeed=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $NextParkedDomainID;")
+	pagespeedBuffer=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $NextParkedDomainID;")
+
+
+        if [ "$pagespeedBuffer" == "on" ]
+        then
+                pagespeed="on"
+        fi
+
 
 	if [ "${#path}" -gt "4" ]
 	then
