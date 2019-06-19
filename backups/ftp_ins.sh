@@ -29,9 +29,9 @@ DeleteFile=$Count
 
 if [ $DeleteFile -gt 0 ]
 then
-echo "ftp -n -v $Host"
+echo "ftp -n -v -p $Host"
 
-ftp -n -v $Host <<End-Of-DeleteFile
+ftp -n -v -p $Host <<End-Of-DeleteFile
 user $UserName $Password
 binary
 	
