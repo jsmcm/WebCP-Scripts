@@ -63,6 +63,7 @@ do
 			echo "chown $UserName.$UserName $Dir/new -R"
 			chown $UserName.$UserName $Dir/new -R
 
+			/usr/webcp/email/drop_welcome_mail.sh "$Dir/new" "$UserName@$DomainName"
 
 			mkdir -p /var/www/html/mail/domains/$DomainName/forward
 			echo "$UserName" > /var/www/html/mail/domains/$DomainName/username
