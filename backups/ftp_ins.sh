@@ -56,7 +56,7 @@ do
 	fi
 
 	
-ftp -n -v $Host << End-Of-RenameFile
+ftp -n -v -p $Host << End-Of-RenameFile
 user $UserName $Password
 binary
 	
@@ -69,7 +69,7 @@ End-Of-RenameFile
 done
 
 
-ftp -n -v $Host << End-Of-PutFile
+ftp -n -v -p $Host << End-Of-PutFile
 user $UserName $Password
 binary
 	

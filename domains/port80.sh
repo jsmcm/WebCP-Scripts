@@ -175,3 +175,4 @@ echo "}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
