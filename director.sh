@@ -1,4 +1,5 @@
 #!/bin/bash
+
 source /root/.bashrc
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
@@ -43,6 +44,10 @@ do
 	WEB_INSTALL_SH=0
 	EMAIL_WHITELIST_SH=0
 	DNS_SH=0
+	UNBAN_SH=0
+	BAN_SH=0
+	PERM_UNBAN_SH=0
+	PERM_BAN_SH=0
 
 	MD5=`md5sum /usr/webcp/director.sh | awk '{print $1}'`
 	echo "this md5 '$MD5'"
@@ -111,6 +116,18 @@ do
 				elif [ "$extension" == "unsuspend" ]	
 				then
 					SUSPENSION_SH=1
+				elif [ "$extension" == "unban" ]	
+				then
+					UNBAN_SH=1
+				elif [ "$extension" == "ban" ]	
+				then
+					BAN_SH=1
+				elif [ "$extension" == "permunban" ]	
+				then
+					PERM_UNBAN_SH=1
+				elif [ "$extension" == "permban" ]	
+				then
+					PERM_BAN_SH=1
 				elif [ "$extension" == "dma" ]	
 				then
 					DELEMAIL_SH=1
@@ -337,6 +354,27 @@ do
 		/usr/webcp/domains/domains.sh &
 	fi 
 
+	if [ "$UNBAN_SH" == 1 ]
+	then
+		/usr/webcp/fail2ban/unban.sh &
+	fi
+
+	if [ "$BAN_SH" == 1 ]
+	then
+		/usr/webcp/fail2ban/ban.sh &
+	fi
+	
+	if [ "$PERM_UNBAN_SH" == 1 ]
+	then
+		/usr/webcp/fail2ban/permunban.sh &
+	fi
+
+	if [ "$PERM_BAN_SH" == 1 ]
+	then
+		/usr/webcp/fail2ban/permban.sh &
+	fi
+
+
 	if [ "$WEB_INSTALL_SH" == 1 ]
 	then
 		/usr/webcp/web_install.sh &
@@ -364,7 +402,6 @@ do
 	
 		/usr/webcp/email/do_logtail.sh &
 
-		/usr/webcp/fail2ban/f2b_jobs.sh &
 		/usr/webcp/stats/cpu.sh &
 
 		echo "Testing connection to http through cron page" >> /tmp/http.log
@@ -416,6 +453,7 @@ do
 		/usr/webcp/bandwidth/bandwidth.sh &
 		/usr/webcp/skel/skel.sh &
 		/usr/webcp/check_quota.sh &
+		/usr/webcp/email/bayes_learn.sh &
 	fi
 
 	if [ $HOURS -gt 23 ]

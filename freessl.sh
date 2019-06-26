@@ -70,6 +70,7 @@ do
 	done <$FullFileName
 				  
 
+
         www=`/usr/webcp/dns_query.sh www.$HostName`
         if [ "$www" == "0" ]
         then
@@ -86,7 +87,7 @@ do
 	rm -fr /etc/letsencrypt/renewal/$HostName*.conf
 
 	cd /usr/webcp/
-	/usr/webcp/freessl.exp "$HostName" "$Path" "$Type" "$EmailAddress"
+	/usr/webcp/freessl.exp "$HostName" "$Path" "$Type" "$EmailAddress" 
 
 	rm -fr $FullFileName
 	fi

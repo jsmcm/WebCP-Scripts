@@ -60,6 +60,8 @@ do
 			echo "chmod 755 $Dir/new -R"
 			chmod 755 $Dir/new -R
 	
+			/usr/webcp/email/drop_welcome_email.sh "$Dir/new" "$UserName@$DomainName"
+			
 			echo "chown $UserName.$UserName $Dir/new -R"
 			chown $UserName.$UserName $Dir/new -R
 

@@ -29,9 +29,9 @@ DeleteFile=$Count
 
 if [ $DeleteFile -gt 0 ]
 then
-echo "ftp -n -v $Host"
+echo "ftp -n -v -p $Host"
 
-ftp -n -v $Host <<End-Of-DeleteFile
+ftp -n -v -p $Host <<End-Of-DeleteFile
 user $UserName $Password
 binary
 	
@@ -56,7 +56,7 @@ do
 	fi
 
 	
-ftp -n -v $Host << End-Of-RenameFile
+ftp -n -v -p $Host << End-Of-RenameFile
 user $UserName $Password
 binary
 	
@@ -69,7 +69,7 @@ End-Of-RenameFile
 done
 
 
-ftp -n -v $Host << End-Of-PutFile
+ftp -n -v -p $Host << End-Of-PutFile
 user $UserName $Password
 binary
 	

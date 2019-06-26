@@ -14,9 +14,12 @@ set EmailAddress [lindex $argv 3]
 #eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path /home/$DomainUserName/public_html --staging $DomainList --> if domains passed in
 
 if { $Type == "subdomain" } {
-	eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName
+
+		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName
+
 } else {
-	eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d www.$HostName
+
+		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d www.$HostName
 }
 
 expect {
