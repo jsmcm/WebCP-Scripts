@@ -1,5 +1,5 @@
 * 2.1.6 *
-= Release: =
+= Release: 2019-06-26 =
  - Turned pagespeed off by default but it will obey a setting of pagespeed in he domain_settings table
  - Suspend / Unsuspend works with domains (ssl) and emails
  - Fail2ban works
