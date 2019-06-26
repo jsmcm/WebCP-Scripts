@@ -453,6 +453,7 @@ do
 		/usr/webcp/bandwidth/bandwidth.sh &
 		/usr/webcp/skel/skel.sh &
 		/usr/webcp/check_quota.sh &
+		/usr/webcp/email/bayes_learn.sh &
 	fi
 
 	if [ $HOURS -gt 23 ]
