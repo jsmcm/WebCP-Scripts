@@ -3,6 +3,9 @@
  - Turned pagespeed off by default but it will obey a setting of pagespeed in he domain_settings table
  - Suspend / Unsuspend works with domains (ssl) and emails
  - Fail2ban works
+ - Adds bayes to user directories
+ - Adds welcome mail to new mail boxes
+ - Adds SSL to new domains automatically
 
 * 2.1.5 *
 = Release: 2019-05-14 =
