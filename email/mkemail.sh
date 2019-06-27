@@ -75,7 +75,8 @@ do
 			rm -fr $FullFileName
 		fi
 	fi
-	
+
+	service dovecot restart	
 
 done
 
