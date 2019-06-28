@@ -2,6 +2,7 @@
 = Release: =
 - Added dovecot restart after mail setup (for SSL) usage
 - Sets dkim pri/pub keys to user Debian-exim
+- Removes stale exim_trace_lock file after an hour
 
 * 2.1.6 *
 = Release: 2019-06-26 =
