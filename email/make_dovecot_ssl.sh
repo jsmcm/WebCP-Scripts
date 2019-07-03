@@ -8,7 +8,7 @@ do
         	filename=$(basename "$FullFileName")
 		filename=${filename%.*}
 
-		CRT="$CRT\nlocal_name $filename {\n"
+		CRT="$CRT\nlocal_name *.$filename {\n"
 		CRT="${CRT}ssl_cert = </etc/letsencrypt/live/$filename/cert.pem\n"
 		CRT="${CRT}ssl_key = </etc/letsencrypt/live/$filename/privkey.pem\n"
 		CRT="${CRT}}\n"

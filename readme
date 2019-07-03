@@ -1,3 +1,11 @@
+* 2.1.7 *
+= Release: 2019-07-03 =
+- Added dovecot restart after mail setup (for SSL) usage
+- Sets dkim pri/pub keys to user Debian-exim
+- Removes stale exim_trace_lock file after an hour
+- Adds symlink to domain's letsencrypt from mail.domainname
+- Disable hsts enforcement until we resolve ssl on hostname
+
 * 2.1.6 *
 = Release: 2019-06-26 =
  - Turned pagespeed off by default but it will obey a setting of pagespeed in he domain_settings table

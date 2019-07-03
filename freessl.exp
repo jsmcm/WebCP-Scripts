@@ -9,17 +9,26 @@ set HostName [lindex $argv 0]
 set Path [lindex $argv 1]
 set Type [lindex $argv 2]
 set EmailAddress [lindex $argv 3]
+set mail [lindex $argv 4]
 #set DomainList [lindex $argv 3] --> if domains passed in
 
 #eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path /home/$DomainUserName/public_html --staging $DomainList --> if domains passed in
 
 if { $Type == "subdomain" } {
 
+	if { $mail == "1" } {
+		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d mail.$HostName
+	} else {
 		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName
+	}
 
 } else {
 
+	if { $mail == "1" } {
+		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d www.$HostName  -d mail.$HostName
+	} else {
 		eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path $Path -d $HostName -d www.$HostName
+	}
 }
 
 expect {
