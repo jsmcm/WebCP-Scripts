@@ -6,7 +6,8 @@ redirect=$3
 phpVersion=$4
 path=$5
 primaryDomain=$6
-hsts=$7
+#hsts=$7
+hsts="no"
 pagespeed=$8
 
 nginxConfigDomain=$DomainName
