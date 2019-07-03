@@ -69,7 +69,7 @@ do
 	
 	done <$FullFileName
 				  
-
+	mail=`/usr/webcp/dns_query.sh mail.$HostName`
 
         www=`/usr/webcp/dns_query.sh www.$HostName`
         if [ "$www" == "0" ]
@@ -87,7 +87,12 @@ do
 	rm -fr /etc/letsencrypt/renewal/$HostName*.conf
 
 	cd /usr/webcp/
-	/usr/webcp/freessl.exp "$HostName" "$Path" "$Type" "$EmailAddress" 
+	/usr/webcp/freessl.exp "$HostName" "$Path" "$Type" "$EmailAddress" "$mail"
+
+	if [ ! -d "/etc/letsencrypt/live/mail.$HostName" ]
+	then
+		ln -s /etc/letsencrypt/live/$HostName /etc/letsencrypt/live/mail.$HostName
+	fi
 
 	rm -fr $FullFileName
 	fi
@@ -104,4 +109,6 @@ done
 
 chmod 755 /etc/letsencrypt/{archive,live} -R
 chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
+
+service dovecot restart
 

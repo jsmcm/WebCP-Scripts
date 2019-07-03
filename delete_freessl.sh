@@ -20,6 +20,11 @@ do
 	        rm -fr /etc/letsencrypt/archive/$Domain*
 	        rm -fr /etc/letsencrypt/renewal/$Domain*.conf
 
+		if [ -L "/etc/letsencrypt/live/mail.$Domain" ]
+		then
+			rm -fr /etc/letsencrypt/live/mail.$Domain
+		fi
+
 		if [ "$DomainID" != "-1" ]
 		then
 			DomainIDs+=($DomainID)
