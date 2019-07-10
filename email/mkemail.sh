@@ -71,7 +71,7 @@ do
 
 
 			/usr/webcp/email/mkpasswdfiles.sh $DomainName $UserName $GroupID $UserID				
-				
+			chown www-data.www-data /var/www/html/mail/domains/$DomainName -R
 			rm -fr $FullFileName
 		fi
 	fi
