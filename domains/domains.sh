@@ -10,6 +10,7 @@ Password=`/usr/webcp/get_password.sh`
 phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 
+
 Restart=0
 
 SharedIP=""
@@ -43,6 +44,13 @@ do
 		#domainType=$(mysql cpadmin -u root -p${Password} -se "SELECT domain_type FROM domains WHERE deleted = 0 AND id = $DomainID;")
 		#path=$(mysql cpadmin -u root -p${Password} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $DomainID;")
 		UserQuota=$(mysql cpadmin -u root -p${Password} -se "SELECT (value / 1024) FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND package_options.setting = 'DiskSpace' AND domains.UserName = '$UserName' AND domains.domain_type = 'primary';")
+
+		php=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'php_version' AND domain_id = $DomainID;")
+
+		if [ ! -z "$php" ]
+		then
+        		phpVersion=$php
+		fi
 
 		#emailAddress==$(mysql cpadmin -u root -p${Password} -se "select email_address from admin where id = (select client_id from domains where id = $DomainID and deleted = 0);")
 
