@@ -33,6 +33,7 @@ do
 
         	/usr/sbin/service nginx restart
 		/usr/sbin/service php$phpVersion-fpm restart
+		/usr/sbin/service php5.6-fpm restart
 
                 rm -fr /etc/letsencrypt/live/$DomainName*
                 rm -fr /etc/letsencrypt/archive/$DomainName*

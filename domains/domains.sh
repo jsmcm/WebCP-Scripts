@@ -168,6 +168,7 @@ done
 
 /usr/sbin/service nginx restart
 /usr/sbin/service php$phpVersion-fpm restart
+/usr/sbin/service php5.6-fpm restart
 
 /usr/webcp/email/mkemail.sh
 /usr/webcp/domains/rename_tmp_free_ssl.sh
