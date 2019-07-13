@@ -47,6 +47,9 @@ do
 
 		php=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'php_version' AND domain_id = $DomainID;")
 
+		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+                rm -fr /etc/php/5.6/fpm/pool.d/$UserName.conf
+
 		if [ ! -z "$php" ]
 		then
         		phpVersion=$php

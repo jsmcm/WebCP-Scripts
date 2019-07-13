@@ -1,3 +1,7 @@
+* 2.2.2 *
+= Release: =
+ - Remove php version user pool files before making new ones
+
 * 2.2.1 *
 = Release: 2019-07-13 =
  - Remove php.5.6 pool files too when deleting an account
