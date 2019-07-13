@@ -27,6 +27,7 @@ do
 		UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 
 		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+		rm -fr /etc/php/5.6/fpm/pool.d/$UserName.conf
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 		rm -fr /var/lib/php/sessions/$UserName/
 
