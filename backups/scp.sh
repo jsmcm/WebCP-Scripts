@@ -11,4 +11,4 @@ Port=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_setting
 `ssh -p ${Port} ${UserName}@${HostName} mkdir -p ${Directory}`
 `ssh -p ${Port} ${UserName}@${HostName} rm -fr ${Directory}/*`
 
-scp -P ${Port} /var/www/html/webcp/backups/daily/*.tar.gz ${UserName}@${HostName}:${Directory}/
+scp -P ${Port} /var/www/html/backups/daily/*.tar.gz ${UserName}@${HostName}:${Directory}/

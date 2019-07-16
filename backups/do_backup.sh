@@ -33,16 +33,16 @@ Mail=0
 
 Password=`/usr/webcp/get_password.sh`
 
-if [ ! -d "/var/www/html/webcp/backups/monthly" ]; then
-        mkdir /var/www/html/webcp/backups/monthly
+if [ ! -d "/var/www/html/backups/monthly" ]; then
+        mkdir /var/www/html/backups/monthly
 fi
 
-if [ ! -d "/var/www/html/webcp/backups/weekly" ]; then
-        mkdir /var/www/html/webcp/backups/weekly
+if [ ! -d "/var/www/html/backups/weekly" ]; then
+        mkdir /var/www/html/backups/weekly
 fi
 
-if [ ! -d "/var/www/html/webcp/backups/daily" ]; then
-        mkdir /var/www/html/webcp/backups/daily
+if [ ! -d "/var/www/html/backups/daily" ]; then
+        mkdir /var/www/html/backups/daily
 fi
 
 
@@ -248,17 +248,17 @@ do
 				if [[ "$Web" == 1 ]]; then
 					/usr/webcp/backups/webtar.gz.sh $DomainUserName $RandomString			
 					/usr/webcp/backups/mysql_dump.sh $DomainUserName $RandomString			
-					/usr/bin/crontab -l -u ${DomainUserName} > /var/www/html/webcp/backups/tmp/$RandomString/cron.dat
+					/usr/bin/crontab -l -u ${DomainUserName} > /var/www/html/backups/tmp/$RandomString/cron.dat
 				fi
 				
 				if [[ "$Mail" == 1 ]]; then
 					/usr/webcp/backups/mailtar.gz.sh $DomainUserName $RandomString			
 				fi
 
-				chown www-data.www-data /var/www/html/webcp/backups/tmp/$RandomString -R
-				chmod 755 /var/www/html/webcp/backups/tmp/$RandomString -R
+				chown www-data.www-data /var/www/html/backups/tmp/$RandomString -R
+				chmod 755 /var/www/html/backups/tmp/$RandomString -R
 			
-				cd /var/www/html/webcp/backups/tmp/$RandomString
+				cd /var/www/html/backups/tmp/$RandomString
 
 
 				FullFileExists=""
@@ -267,31 +267,31 @@ do
 
 				if [[ "$Monthly" == "all" ]]; then
 
-					if [[ -f /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz ]]; then
-						rm -fr /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz
+					if [[ -f /var/www/html/backups/monthly/$DomainUserName.tar.gz ]]; then
+						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
 					echo "Creating Monthly full file"
-					nice /bin/tar cvfz /var/www/html/webcp/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
+					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
 					FullFileExists="monthly"
 
 				elif [[ "$Monthly" == "web" ]]; then
 
-					if [[ -f /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz ]]; then
-						rm -fr /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz
+					if [[ -f /var/www/html/backups/monthly/$DomainUserName.tar.gz ]]; then
+						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
 					echo "Creating Monthly web file"
-					nice /bin/tar cvfz /var/www/html/webcp/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
+					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
 					WebFileExists="monthly"
 
 				elif [[ "$Monthly" == "mail" ]]; then
-					if [[ -f /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz ]]; then
-						rm -fr /var/www/html/webcp/backups/monthly/$DomainUserName.tar.gz
+					if [[ -f /var/www/html/backups/monthly/$DomainUserName.tar.gz ]]; then
+						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
 					echo "Creating Monthly mail file"
-					nice /bin/tar cvfz /var/www/html/webcp/backups/monthly/${DomainUserName}.tar.gz *_mail.tar
+					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *_mail.tar
 					MailFileExists="monthly"
 
 				fi			
@@ -300,50 +300,50 @@ do
 
                                 if [[ "$Weekly" == "all" ]]; then
 
-                                        if [[ -f /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/weekly/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/weekly/$DomainUserName.tar.gz
                                         fi
 
 					if [ -z "$FullFileExists" ]
 					then
 						echo "Creating weekly full file"
-	                                        nice /bin/tar cvfz /var/www/html/webcp/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
+	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
 						FullFileExists="weekly"
 					else
 						echo "Copying full file from ${FullFileExists}"
-						nice cp /var/www/html/webcp/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/weekly
+						nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
 
                                 elif [[ "$Weekly" == "web" ]]; then
 
-                                        if [[ -f /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/weekly/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/weekly/$DomainUserName.tar.gz
                                         fi
 
 					if [ -z "$WebFileExists" ]
 					then
 						echo "Creating weekly web file"
-	                                        nice /bin/tar cvfz /var/www/html/webcp/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
+	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
 						WebFileExists="weekly"
 					else
 						echo "Copying web file from ${WebFileExists}"
-						nice cp /var/www/html/webcp/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/weekly
+						nice cp /var/www/html/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
 			
 
                                 elif [[ "$Weekly" == "mail" ]]; then
-                                        if [[ -f /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/weekly/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/weekly/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/weekly/$DomainUserName.tar.gz
                                         fi
 
 					if [ -z "$MailFileExists" ]
 					then
 						echo "Creating weekly mail file"
-	                                        nice /bin/tar cvfz /var/www/html/webcp/backups/weekly/${DomainUserName}.tar.gz *_mail.tar
+	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *_mail.tar
 						MailFileExists="weekly"
 					else
 						echo "Copying mail file from ${MailFileExists}"
-						nice cp /var/www/html/webcp/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/weekly
+						nice cp /var/www/html/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
                                 fi
 
@@ -352,50 +352,50 @@ do
 
                                 if [[ "$Daily" == "all" ]]; then
 
-                                        if [[ -f /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/daily/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/daily/$DomainUserName.tar.gz
                                         fi
 
                                         if [ -z "$FullFileExists" ]
                                         then
                                                 echo "Creating daily full file"
-                                                nice /bin/tar cvfz /var/www/html/webcp/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
+                                                nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
                                                 FullFileExists="daily"
                                         else
                                                 echo "Copying full file from ${FullFileExists}"
-                                                nice cp /var/www/html/webcp/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/daily
+                                                nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
 
                                 elif [[ "$Daily" == "web" ]]; then
 
-                                        if [[ -f /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/daily/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/daily/$DomainUserName.tar.gz
                                         fi
 
                                         if [ -z "$WebFileExists" ]
                                         then
                                                 echo "Creating daily web file"
-                                                nice /bin/tar cvfz /var/www/html/webcp/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
+                                                nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
                                                 WebFileExists="daily"
                                         else
                                                 echo "Copying web file from ${WebFileExists}"
-                                                nice cp /var/www/html/webcp/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/daily
+                                                nice cp /var/www/html/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
 
 
                                 elif [[ "$Daily" == "mail" ]]; then
-                                        if [[ -f /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/daily/$DomainUserName.tar.gz
+                                        if [[ -f /var/www/html/backups/daily/$DomainUserName.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/daily/$DomainUserName.tar.gz
                                         fi
 
                                         if [ -z "$MailFileExists" ]
                                         then
                                                 echo "Creating daily mail file"
-                                                nice /bin/tar cvfz /var/www/html/webcp/backups/daily/${DomainUserName}.tar.gz *_mail.tar
+                                                nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *_mail.tar
                                                 MailFileExists="daily"
                                         else
                                                 echo "Copying mail file from ${MailFileExists}"
-                                                nice cp /var/www/html/webcp/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/daily
+                                                nice cp /var/www/html/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
                                 fi
 
@@ -404,39 +404,39 @@ do
 
                                 if [[ "$Adhoc" == "all" ]]; then
 
-                                        if [[ -f /var/www/html/webcp/backups/adhoc/$DomainUserName_$RandomString.tar.gz ]]; then
-                                                rm -fr /var/www/html/webcp/backups/adhoc/$DomainUserName_$RandomString.tar.gz
+                                        if [[ -f /var/www/html/backups/adhoc/$DomainUserName_$RandomString.tar.gz ]]; then
+                                                rm -fr /var/www/html/backups/adhoc/$DomainUserName_$RandomString.tar.gz
                                         fi
 
                                         if [ -z "$FullFileExists" ]
                                         then
                                                 echo "Creating adhoc full file"
-                                                nice /bin/tar cvfz /var/www/html/webcp/backups/adhoc/${DomainUserName}_${RandomString}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
+                                                nice /bin/tar cvfz /var/www/html/backups/adhoc/${DomainUserName}_${RandomString}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
                                                 FullFileExists="adhoc"
                                         else
                                                 echo "Copying full file from ${FullFileExists}"
-                                                nice cp /var/www/html/webcp/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/webcp/backups/adhoc/$DomainUserName_$RandomString.tar.gz
+                                                nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/adhoc/$DomainUserName_$RandomString.tar.gz
                                         fi
 				fi
 
 				
 
-				echo "rm -fr /var/www/html/webcp/backups/tmp/$RandomString"
-				cd /var/www/html/webcp/backups/tmp
-				rm -fr /var/www/html/webcp/backups/tmp/$RandomString
+				echo "rm -fr /var/www/html/backups/tmp/$RandomString"
+				cd /var/www/html/backups/tmp
+				rm -fr /var/www/html/backups/tmp/$RandomString
 	
 				echo "Chowning"	
-				chown www-data.www-data /var/www/html/webcp/backups/monthly -R
-				chown www-data.www-data /var/www/html/webcp/backups/weekly -R
-				chown www-data.www-data /var/www/html/webcp/backups/daily -R
-				chown www-data.www-data /var/www/html/webcp/backups/adhoc -R
+				chown www-data.www-data /var/www/html/backups/monthly -R
+				chown www-data.www-data /var/www/html/backups/weekly -R
+				chown www-data.www-data /var/www/html/backups/daily -R
+				chown www-data.www-data /var/www/html/backups/adhoc -R
 				
 		
-				echo "chmod 755 /var/www/html/webcp/backups/ -R"
-				chmod 755 /var/www/html/webcp/backups/monthly -R
-				chmod 755 /var/www/html/webcp/backups/weekly -R
-				chmod 755 /var/www/html/webcp/backups/daily -R
-				chmod 755 /var/www/html/webcp/backups/adhoc -R
+				echo "chmod 755 /var/www/html/backups/ -R"
+				chmod 755 /var/www/html/backups/monthly -R
+				chmod 755 /var/www/html/backups/weekly -R
+				chmod 755 /var/www/html/backups/daily -R
+				chmod 755 /var/www/html/backups/adhoc -R
 
 				echo "check if email address set ($EmailAddress)"
 				if [ ! -z "$EmailAddress" ]
@@ -492,4 +492,3 @@ fi
 
 echo "Done"
 
-exit
