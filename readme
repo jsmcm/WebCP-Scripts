@@ -1,5 +1,5 @@
 * 2.2.2 *
-= Release: =
+= Release: 2019-07-16 =
  - Remove php version user pool files before making new ones
  - Add mail subdir to nginx for mail ssl
  - Delete all versions of php user conf (pool.d) on php version change or account delete
