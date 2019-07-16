@@ -13,7 +13,7 @@ Failed=0
 echo "The following FTP files failed to transfer: " > /tmp/webcp/failed_ftp
 echo "" >> /tmp/webcp/failed_ftp
 
-for FullFileName in /var/www/html/webcp/backups/$Type/*.tar.gz
+for FullFileName in /var/www/html/backups/$Type/*.tar.gz
 do
         if [ -f $FullFileName ]
         then

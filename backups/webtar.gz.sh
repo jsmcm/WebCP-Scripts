@@ -22,14 +22,14 @@ then
 fi
 			
 
-if [ ! -d "/var/www/html/webcp/backups/tmp" ]; then
-	mkdir /var/www/html/webcp/backups/tmp
+if [ ! -d "/var/www/html/backups/tmp" ]; then
+	mkdir /var/www/html/backups/tmp
 fi
 
-if [ ! -d "/var/www/html/webcp/backups/tmp/$RandomPath" ]; then
-	mkdir /var/www/html/webcp/backups/tmp/$RandomPath
+if [ ! -d "/var/www/html/backups/tmp/$RandomPath" ]; then
+	mkdir /var/www/html/backups/tmp/$RandomPath
 fi
 
 cd /home/
-#/bin/tar cf /var/www/html/webcp/backups/tmp/$RandomPath/${UserName}_web.tar public_html/ .passwd/
-nice /bin/tar cf /var/www/html/webcp/backups/tmp/$RandomPath/${UserName}_web.tar ${UserName}/ --exclude=mail  
+#/bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar public_html/ .passwd/
+nice /bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar ${UserName}/ --exclude=mail  
