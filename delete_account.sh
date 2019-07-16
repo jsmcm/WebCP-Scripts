@@ -29,14 +29,14 @@ do
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 		rm -fr /var/lib/php/sessions/$UserName/
 
-        	/usr/sbin/service nginx restart
+        	/usr/sbin/service nginx -reload
 		
 		for phpDirectory in /etc/php/*;
 		do
 
         		phpVersion=${phpDirectory##*/}
 			rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			/usr/sbin/service php$phpVersion-fpm restart
+			/usr/sbin/service php$phpVersion-fpm reload
 
 		done
 

@@ -178,13 +178,13 @@ do
 
 done
 
-/usr/sbin/service nginx restart
+/usr/sbin/service nginx reload
 
 for phpDirectory in /etc/php/*;
 do
 
         phpVersion=${phpDirectory##*/}
-        /usr/sbin/service php$phpVersion-fpm restart
+        /usr/sbin/service php$phpVersion-fpm reload
 
 done
 
