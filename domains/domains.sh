@@ -7,7 +7,7 @@ fi
 
 SkipRestartCheck=$1
 Password=`/usr/webcp/get_password.sh`
-phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
+defaultPHPVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 
 
@@ -47,9 +47,11 @@ do
 
 		php=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'php_version' AND domain_id = $DomainID;")
 
+		clientPHPVersion=$defaultPHPVersion
+
 		if [ ! -z "$php" ]
 		then
-        		phpVersion=$php
+        		clientPHPVersion=$php
 		fi
 
 		#emailAddress==$(mysql cpadmin -u root -p${Password} -se "select email_address from admin where id = (select client_id from domains where id = $DomainID and deleted = 0);")
@@ -126,37 +128,47 @@ do
 		        mkdir /var/lib/php/sessions/$UserName
 	                chown $UserName.$UserName /var/lib/php/sessions/$UserName/
 
-			echo "[$UserName]" > /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
-			echo "catch_workers_output = yes" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "php_admin_flag[log_errors] = on" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
-			echo "user = $UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "group = $UserName" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "listen = /run/php/php$phpVersion-fpm-$UserName.sock" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "listen.owner = www-data" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "listen.group = www-data" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm = dynamic" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_children = 25" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm.start_servers = 3" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm.min_spare_servers = 2" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_spare_servers = 5" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_requests = 1000" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-			echo "" >> /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			for phpDirectory in /etc/php/*;
+			do
 
-			echo "In domains.sh phpVersion: $phpVersion"
+        			phpVersion=${phpDirectory##*/}
+        			rm /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
 
-			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$phpVersion" "$pagespeed"
+			done
+
+			echo "[$UserName]" > /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+
+			echo "catch_workers_output = yes" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_flag[log_errors] = on" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+
+			echo "user = $UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "group = $UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "listen = /run/php/php$clientPHPVersion-fpm-$UserName.sock" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "listen.owner = www-data" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "listen.group = www-data" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm = dynamic" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_children = 25" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm.start_servers = 3" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm.min_spare_servers = 2" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_spare_servers = 5" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "pm.max_requests = 1000" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+
+			echo "In domains.sh clientPHPVersion: $clientPHPVersion"
+
+			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$clientPHPVersion" "$pagespeed"
 		
 			echo "Calling Subdomains...";
-			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$phpVersion" "$pagespeed"
-			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$phpVersion"
+			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$pagespeed"
+			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion"
 	
 			Restart=1
 		fi
@@ -167,7 +179,14 @@ do
 done
 
 /usr/sbin/service nginx restart
-/usr/sbin/service php$phpVersion-fpm restart
+
+for phpDirectory in /etc/php/*;
+do
+
+        phpVersion=${phpDirectory##*/}
+        /usr/sbin/service php$phpVersion-fpm restart
+
+done
 
 /usr/webcp/email/mkemail.sh
 /usr/webcp/domains/rename_tmp_free_ssl.sh
