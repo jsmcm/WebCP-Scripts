@@ -25,16 +25,16 @@ fi
 			
 UserName=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains WHERE deleted = 0 AND id = $DomainID;")
 
-if [ ! -d "/var/www/html/webcp/backups/tmp" ]; then
-	mkdir /var/www/html/webcp/backups/tmp
+if [ ! -d "/var/www/html/backups/tmp" ]; then
+	mkdir /var/www/html/backups/tmp
 fi
 
-if [ ! -d "/var/www/html/webcp/backups/tmp/$RandomPath" ]; then
-	mkdir /var/www/html/webcp/backups/tmp/$RandomPath
+if [ ! -d "/var/www/html/backups/tmp/$RandomPath" ]; then
+	mkdir /var/www/html/backups/tmp/$RandomPath
 fi
 
 cd /home/$UserName
-/usr/bin/zip /var/www/html/webcp/backups/tmp/$RandomPath/${UserName}_home.zip public_html/ mail/ .passwd/ -r
+/usr/bin/zip /var/www/html/backups/tmp/$RandomPath/${UserName}_home.zip public_html/ mail/ .passwd/ -r
 
 
 
