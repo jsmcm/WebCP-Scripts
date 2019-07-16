@@ -35,7 +35,6 @@ echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -49,6 +48,8 @@ if [ "$redirect" == "www" ]
 then
 	echo "	return 301 http://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
+
+	echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -108,7 +109,6 @@ echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -123,6 +123,7 @@ if [ "$redirect" == "naked" ]
 then
 	echo "	return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
+	echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

@@ -26,15 +26,23 @@ do
 		GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 		UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 
-		rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
-		rm -fr /etc/php/5.6/fpm/pool.d/$UserName.conf
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 		rm -fr /var/lib/php/sessions/$UserName/
 
         	/usr/sbin/service nginx restart
-		/usr/sbin/service php$phpVersion-fpm restart
+		
+		for phpDirectory in /etc/php/*;
+		do
+
+        		phpVersion=${phpDirectory##*/}
+			rm -fr /etc/php/$phpVersion/fpm/pool.d/$UserName.conf
+			/usr/sbin/service php$phpVersion-fpm restart
+
+		done
+
 
                 rm -fr /etc/letsencrypt/live/$DomainName*
+                rm -fr /etc/letsencrypt/live/mail.$DomainName*
                 rm -fr /etc/letsencrypt/archive/$DomainName*
                 rm -fr /etc/letsencrypt/renewal/$DomainName*.conf 
 
