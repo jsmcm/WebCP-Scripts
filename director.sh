@@ -449,6 +449,7 @@ do
 	then
 		MINUTES=0
 		let "HOURS=HOURS+1"
+		/usr/webcp/email/dkim.sh &
 		/usr/webcp/bandwidth/bandwidth.sh &
 		/usr/webcp/skel/skel.sh &
 		/usr/webcp/check_quota.sh &
@@ -460,7 +461,6 @@ do
 	
 		echo "IN 24 hours!!!" >> /home/24
 		HOURS=0
-		/usr/webcp/email/dkim.sh &
 		/usr/webcp/utils/update_letsencrypt.sh &
 		/usr/webcp/f2b_spamhause.sh & 
 		/usr/webcp/dele_tmp.sh &
