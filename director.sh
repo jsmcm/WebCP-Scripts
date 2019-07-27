@@ -47,6 +47,7 @@ do
 	BAN_SH=0
 	PERM_UNBAN_SH=0
 	PERM_BAN_SH=0
+	SSH_SH=0
 
 	MD5=`md5sum /usr/webcp/director.sh | awk '{print $1}'`
 	echo "this md5 '$MD5'"
@@ -93,10 +94,19 @@ do
 				echo "extension: $extension"
 				echo "---------------"
 				echo ""
-	
+
 				if [ "$extension" == "subdomain" ]	
 				then
 					DOMAINS_SH=1
+				elif [ "$extension" == "delete_pub_key" ]	
+				then
+					SSH_SH=1
+				elif [ "$extension" == "add_pub_key" ]	
+				then
+					SSH_SH=1
+				elif [ "$extension" == "authorise_domain_pub_key" ]	
+				then
+					SSH_SH=1
 				elif [ "$extension" == "uquota" ]	
 				then
 					USER_QUOTA_SH=1
@@ -225,6 +235,12 @@ do
 	if [ "$SUSPENSION_SH" == 1 ]
 	then
 		/usr/webcp/suspension.sh &
+	fi 
+	
+	echo "SSH_SH: $SSH_SH"
+	if [ "$SSH_SH" == 1 ]
+	then
+		/usr/webcp/ssh/ssh.sh &
 	fi 
 	
 	
