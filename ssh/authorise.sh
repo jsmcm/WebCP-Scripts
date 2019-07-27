@@ -31,6 +31,14 @@ do
                         chmod 700 $path
                 fi
 
+                if [ ! -d "/home/$domainUser/.ssh_hashes/"  ]
+                then
+                        mkdir /home/$domainUser/.ssh_hashes/
+                        chown $domainUser.www-data /home/$domainUser/.ssh_hashes/
+                        chmod 760 /home/$domainUser/.ssh_hashes/
+                fi
+
+
 
 		rm ${path}authorized_keys
 
