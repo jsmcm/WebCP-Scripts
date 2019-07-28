@@ -32,6 +32,16 @@ do
 			chmod 700 $path
 		fi
 
+
+                if [ ! -d "/home/$domainUser/.ssh_hashes/"  ]
+                then
+                        mkdir /home/$domainUser/.ssh_hashes/
+                        chown $domainUser.www-data /home/$domainUser/.ssh_hashes/
+                        chmod 770 /home/$domainUser/.ssh_hashes/
+                fi
+
+
+
 		echo "fileName: $fileName"
 		echo "path: $path"
 

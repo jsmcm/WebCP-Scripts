@@ -103,6 +103,15 @@ do
 	                chmod 770 /home/$UserName/.passwd
 
 
+                        mkdir /home/$UserName/.ssh
+                        chown $UserName.$UserName /home/$UserName/.ssh
+                        chmod 700 /home/$UserName/.ssh
+
+                        mkdir /home/$UserName/.ssh_hashes/
+                        chown $UserName.www-data /home/$UserName/.ssh_hashes/
+                        chmod 770 /home/$UserName/.ssh_hashes/
+                
+
 	                chown www-data.www-data /home/$UserName/.passwd -R
 	                chown $UserName.$UserName /home/$UserName/.passwd/read.php
 	                chown $UserName.$UserName /home/$UserName/.passwd/write.php
