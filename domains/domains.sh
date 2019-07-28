@@ -109,7 +109,7 @@ do
 
                         mkdir /home/$UserName/.ssh_hashes/
                         chown $UserName.www-data /home/$UserName/.ssh_hashes/
-                        chmod 760 /home/$UserName/.ssh_hashes/
+                        chmod 770 /home/$UserName/.ssh_hashes/
                 
 
 	                chown www-data.www-data /home/$UserName/.passwd -R

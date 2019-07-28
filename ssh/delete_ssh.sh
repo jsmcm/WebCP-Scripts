@@ -37,7 +37,7 @@ do
                 then
                         mkdir /home/$domainUser/.ssh_hashes/
                         chown $domainUser.www-data /home/$domainUser/.ssh_hashes/
-                        chmod 760 /home/$domainUser/.ssh_hashes/
+                        chmod 770 /home/$domainUser/.ssh_hashes/
                 fi
 
 
