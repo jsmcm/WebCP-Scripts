@@ -43,8 +43,10 @@ do
 
                 rm -fr /etc/letsencrypt/live/$DomainName*
                 rm -fr /etc/letsencrypt/live/mail.$DomainName*
-                rm -fr /etc/letsencrypt/archive/$DomainName*
-                rm -fr /etc/letsencrypt/renewal/$DomainName*.conf 
+		rm -fr /etc/letsencrypt/archive/$DomainName*
+		rm -fr /etc/letsencrypt/renewal/$DomainName*.conf 
+
+		rm -fr /var/www/html/mail/domains/$DomainName
 
                 rm -fr /etc/httpd/conf/ssl/$DomainName.crt
                 rm -fr /etc/httpd/conf/ssl/$DomainName.csr
