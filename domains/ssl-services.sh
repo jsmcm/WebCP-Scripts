@@ -11,7 +11,7 @@ echo "        listen 2052;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2052;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -27,7 +27,7 @@ echo "        listen 2053 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.co
 echo "        listen [::]:2053 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -77,7 +77,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 20001;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:20001;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -107,7 +107,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2082;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2082;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -123,7 +123,7 @@ echo "        listen 2083 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.co
 echo "        listen [::]:2083 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -171,7 +171,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2086;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2086;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -187,7 +187,7 @@ echo "        listen 2087 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.co
 echo "        listen [::]:2087 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -233,7 +233,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:2095;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -252,7 +252,7 @@ echo "        listen 2096 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.co
 echo "        listen [::]:2096 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -300,7 +300,7 @@ echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen [::]:8880;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -319,7 +319,7 @@ echo "        listen 8443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.co
 echo "        listen [::]:8443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "		pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
