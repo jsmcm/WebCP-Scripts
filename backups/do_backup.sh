@@ -34,15 +34,15 @@ Mail=0
 Password=`/usr/webcp/get_password.sh`
 
 if [ ! -d "/var/www/html/backups/monthly" ]; then
-        mkdir /var/www/html/backups/monthly
+        mkdir -p /var/www/html/backups/monthly
 fi
 
 if [ ! -d "/var/www/html/backups/weekly" ]; then
-        mkdir /var/www/html/backups/weekly
+        mkdir -p /var/www/html/backups/weekly
 fi
 
 if [ ! -d "/var/www/html/backups/daily" ]; then
-        mkdir /var/www/html/backups/daily
+        mkdir -p /var/www/html/backups/daily
 fi
 
 
