@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 x=$(pgrep update_letsencrypt.sh | wc -w)
 if [ $x -gt 2 ]; then
         exit
@@ -13,9 +11,9 @@ HOME=/root
 
 source $HOME/.profile
 
-if [ -d "/etc/httpd/conf/ssl/letsencrypt" ]
+if [ -d "/etc/nginx/ssl/letsencrypt" ]
 then
-	/etc/httpd/conf/ssl/letsencrypt/letsencrypt-auto
+	/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew
 fi
 
 
