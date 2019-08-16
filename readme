@@ -1,5 +1,15 @@
+* 2.2.3 *
+= Release: 2019-08-16 =
+ - Fixed user/group on exim dkim key files
+ - Changed dkim checks from 24 hour to 1 hour 
+ - Fixed email passwd scripts to delete mail accounts passwords when mail account is deleted
+ - Delete /var/www/mail/domains/$DomainName when account is deleted
+ - Commented pagespeed out
+ - Added -p tag to mkdir in backup folder creation
+ - Fixed LetsEncrypt Renewal script"
+
 * 2.2.2 *
-= Release: =
+= Release: 2019-07-16 =
  - Remove php version user pool files before making new ones
  - Add mail subdir to nginx for mail ssl
  - Delete all versions of php user conf (pool.d) on php version change or account delete
