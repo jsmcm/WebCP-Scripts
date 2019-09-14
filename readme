@@ -1,3 +1,10 @@
+* 2.2.5 *
+= Release: =
+
+* 2.2.4 *
+= Release: 2019-09-14 =
+ - Added nginx forbid rules for .user.ini and php.ini files
+
 * 2.2.3 *
 = Release: 2019-08-16 =
  - Fixed user/group on exim dkim key files
