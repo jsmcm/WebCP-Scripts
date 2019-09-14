@@ -73,6 +73,20 @@ else
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
 	echo "	location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		expires 30d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -100,15 +114,6 @@ else
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
-	echo "	location ~ /\.user.ini {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	
-	echo "	location ~ /php.ini {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	
 	
@@ -182,6 +187,18 @@ else
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 	
 	echo "	location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		expires 30d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -206,16 +223,6 @@ else
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
 	echo "	location ~ /\.ht {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	
-	echo "	location ~ /\.user.ini {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	
-	echo "	location ~ /php.ini {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		deny all;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
