@@ -14,6 +14,7 @@ source $HOME/.profile
 if [ -d "/etc/nginx/ssl/letsencrypt" ]
 then
 	/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew
+	service nginx reload
 fi
 
 

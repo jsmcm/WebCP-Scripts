@@ -3,7 +3,6 @@ source /root/.bashrc
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
 fi
-
 SECONDS=0
 MINUTES=0
 HOURS=0
