@@ -8,6 +8,8 @@ path=$5
 primaryDomain=$6
 pagespeed=$7
 
+mailSubDomainAdded=0
+
 echo "In port80.sh DomainName: $DomainName"
 echo "In port80.sh UserName: $UserName"
 echo "In port80.sh redirect: $redirect"
@@ -37,7 +39,13 @@ echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+if [ "$redirect" == "www" ]
+then
+	echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+else
+	echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	mailSubDomainAdded=1
+fi
 
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -130,8 +138,20 @@ echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+if [ "$redirect" == "naked" ]
+then
+	echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+else
+
+	if [ $mailSubDomainAdded == 0 ] 
+	then
+		echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	else
+		echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi	
+fi
+	
+	echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
