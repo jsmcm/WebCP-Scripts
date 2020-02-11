@@ -13,7 +13,9 @@ source $HOME/.profile
 
 if [ -d "/etc/nginx/ssl/letsencrypt" ]
 then
-	/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew
+	echo "running letsencrypt-auto renew" >> /usr/webcp/utils/debug
+	out=`/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew`
+	echo "out = $out" >> /usr/webcp/utils/debug
 fi
 
 
