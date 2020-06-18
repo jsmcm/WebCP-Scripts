@@ -22,7 +22,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/public_html"
+domainPath="/home/$UserName/home/public_html"
 if [ "$path" != "" ]
 then
 	domainPath=$path
@@ -42,8 +42,8 @@ echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$n
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 if [ "$redirect" == "www" ]
@@ -116,8 +116,8 @@ echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enable
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 		        

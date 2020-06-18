@@ -12,7 +12,7 @@ set EmailAddress [lindex $argv 3]
 set mail [lindex $argv 4]
 #set DomainList [lindex $argv 3] --> if domains passed in
 
-#eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path /home/$DomainUserName/public_html --staging $DomainList --> if domains passed in
+#eval spawn /etc/nginx/ssl/letsencrypt/letsencrypt-auto certonly -a webroot --webroot-path /home/$DomainUserName/home/public_html --staging $DomainList --> if domains passed in
 
 if { $Type == "subdomain" } {
 
