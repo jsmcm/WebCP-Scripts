@@ -11,8 +11,8 @@ do
 
 	if [ "${#Path}" -gt "6" ]
 	then
-		echo "chown $NextUN.$NextUN /home/$NextUN -R"
-		chown $NextUN.$NextUN /home/$NextUN -R
+		echo "chown $NextUN.$NextUN /home/$NextUN/home -R"
+		chown $NextUN.$NextUN /home/$NextUN/home -R
 		chgrp www-data /home/$NextUN/.passwd
 	fi
 	echo ""

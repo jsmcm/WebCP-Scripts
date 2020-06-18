@@ -12,7 +12,7 @@ Password=`/usr/webcp/get_password.sh`
 		echo "DiskAllowance: $DiskAllowance"
 
 
-		DiskUsage=`du -s -B 1 /home/$DomainUserName`
+		DiskUsage=`du -s -B 1 /home/$DomainUserName/home`
 
 		DiskUsage=$(echo $DiskUsage | awk '{print $1}')
 

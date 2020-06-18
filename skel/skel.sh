@@ -1,10 +1,10 @@
 #!/bin/bash
 
-rm -fr /etc/skel/public_html/*
+rm -fr /etc/skel/home/public_html/*
 
-if [ ! -d "/etc/skel/public_html" ]
+if [ ! -d "/etc/skel/home/public_html" ]
 then
-	mkdir /etc/skel/public_html
+	mkdir /etc/skel/home/public_html -p
 fi
 
 UseFailSafe=1
@@ -27,14 +27,9 @@ fi
 if [ $UseFailSafe -eq 0 ]
 then
 	echo "Using ph"
-	cp -fr /var/www/html/webcp/skel/public_html/* /etc/skel/public_html
+	cp -fr /var/www/html/webcp/skel/public_html/* /etc/skel/home/public_html
 else
 	echo "using failsafe"
-	cp -fr /var/www/html/webcp/skel/failsafe /etc/skel/public_html/index.php
+	cp -fr /var/www/html/webcp/skel/failsafe /etc/skel/home/public_html/index.php
 fi
-
-exit
-
-
-
 

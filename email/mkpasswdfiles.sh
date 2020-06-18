@@ -27,7 +27,7 @@ mysql cpadmin -u root -p${Password} -N -e "SELECT local_part, fqdn, password FRO
 				
 	echo "$local_part@$fqdn:$password" >> /var/www/html/mail/domains/$fqdn/passwd
 
-	echo "$local_part:{plain-md5}$password:$GroupID:$UserID::/home/$UserName::userdb_mail=maildir:~/mail/$fqdn/$local_part" >> /var/www/html/mail/domains/$fqdn/dovecot-passwd
+	echo "$local_part:{plain-md5}$password:$GroupID:$UserID::/home/$UserName/home::userdb_mail=maildir:~/mail/$fqdn/$local_part" >> /var/www/html/mail/domains/$fqdn/dovecot-passwd
 
 done
 			

@@ -15,7 +15,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/public_html"
+domainPath="/home/$UserName/home/public_html"
 if [ "$path" != "" ]
 then
         domainPath=$path
@@ -33,8 +33,8 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$DomainUserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$DomainUserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -81,8 +81,8 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
-echo "	access_log /home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$DomainUserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$DomainUserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

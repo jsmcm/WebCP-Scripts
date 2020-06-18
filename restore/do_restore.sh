@@ -77,20 +77,20 @@ do
 	
 			if [ "${#UserName}" -gt "4" ]
 			then	
-				rm -fr /home/$UserName/.passwd/*
-				rm -fr /home/$UserName/public_html
+				rm -fr /home/$UserName/home/.passwd/*
+				rm -fr /home/$UserName/home/public_html
 
 				echo "cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_web.tar /home/"
-				cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_web.tar /home/
+				cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_web.tar /home/$UserName/home
 
-				echo "cd /home/"
-				cd /home/
+				echo "cd /home/$UserName/home"
+				cd /home/$UserName/home
 
-				echo "/bin/tar xf /home/${UserName}_web.tar"
-				/bin/tar xf /home/${UserName}_web.tar
+				echo "/bin/tar xf /home/$UserName/home/${UserName}_web.tar"
+				/bin/tar xf /home/$UserName/home/${UserName}_web.tar
 		
-				echo "rm -fr /home/${UserName}_web.tar"
-				rm -fr /home/${UserName}_web.tar
+				echo "rm -fr /home/$UserName/home/${UserName}_web.tar"
+				rm -fr /home/$UserName/home/${UserName}_web.tar
 			fi
 		
 		fi	
@@ -100,18 +100,18 @@ do
 		then
 			if [ "${#UserName}" -gt "4" ]
 			then	
-				rm -fr /home/$UserName/mail
-				echo "cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_mail.tar /home/${UserName}/"
-				cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_mail.tar /home/${UserName}/
+				rm -fr /home/$UserName/home/mail
+				echo "cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_mail.tar /home/${UserName}/home"
+				cp /var/www/html/webcp/restore/tmp/${RandomString}/${UserName}_mail.tar /home/${UserName}/home
 
-				echo "cd /home/${UserName}/"
-				cd /home/${UserName}/
+				echo "cd /home/${UserName}/home"
+				cd /home/${UserName}/home
 
-				echo "/bin/tar xf /home/${UserName}/${UserName}_mail.tar"
-				/bin/tar xf /home/${UserName}/${UserName}_mail.tar
+				echo "/bin/tar xf /home/${UserName}/home/${UserName}_mail.tar"
+				/bin/tar xf /home/${UserName}/home/${UserName}_mail.tar
 		
-				echo "rm -fr /home/${UserName}/${UserName}_mail.tar"
-				rm -fr /home/${UserName}/${UserName}_mail.tar
+				echo "rm -fr /home/${UserName}/home/${UserName}_mail.tar"
+				rm -fr /home/${UserName}/home/${UserName}_mail.tar
 			fi	
 		fi	
 
@@ -121,18 +121,18 @@ do
 		
 
 		echo "changin permission"
-		chmod 755 /home/$UserName/mail -R
-		chmod 755 /home/$UserName/.passwd -R
-		chmod 770 /home/$UserName/.passwd
+		chmod 755 /home/$UserName/home/mail -R
+		chmod 755 /home/$UserName/home/.passwd -R
+		chmod 770 /home/$UserName/home/.passwd
 		
 		
 		echo "Changin owner to $UserName"
-		chown $UserName.$UserName /home/$UserName/ -R
+		chown $UserName.$UserName /home/$UserName/home/ -R
 
-		chown apache.apache /home/$UserName/.passwd -R
-		chown $UserName.$UserName /home/$UserName/.passwd/read.php
-		chown $UserName.$UserName /home/$UserName/.passwd/write.php
-		chown $UserName.apache /home/$UserName/.passwd
+		chown www-data.www-data /home/$UserName/home/.passwd -R
+		chown $UserName.$UserName /home/$UserName/home/.passwd/read.php
+		chown $UserName.$UserName /home/$UserName/home/.passwd/write.php
+		chown $UserName.apache /home/$UserName/home/.passwd
 
 		# we read it once to get random string and username, then again
 		# to get database.... should work in one shot, but if someone

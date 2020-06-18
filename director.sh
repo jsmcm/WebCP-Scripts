@@ -1,6 +1,5 @@
 #!/bin/bash
 source /root/.bashrc
-exit
 if [ $(pgrep director.sh| wc -w) -gt 2 ]; then
 	exit
 fi
@@ -482,8 +481,8 @@ do
 		/usr/webcp/f2b_spamhause.sh & 
 		/usr/webcp/dele_tmp.sh &
 		/usr/bin/freshclam --quiet &
-		/usr/webcp/virus/scan.sh /home/*/public_html 0 &
-		/usr/webcp/virus/scan.sh /home/*/mail 1 &
+		/usr/webcp/virus/scan.sh /home/*/home/public_html 0 &
+		/usr/webcp/virus/scan.sh /home/*/home/mail 1 &
 		sa-update && service spamassassin restart &
 		/usr/webcp/modsec.sh &
 		/usr/webcp/bandwidth/del_stale.sh &
