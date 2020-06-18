@@ -18,6 +18,21 @@ echo "        root /home/$UserName/home/.editor;" >> /etc/nginx/sites-enabled/$D
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -32,6 +47,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
@@ -48,6 +64,21 @@ echo "        root /home/$UserName/home/.passwd;" >> /etc/nginx/sites-enabled/$D
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -62,6 +93,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
@@ -78,6 +110,22 @@ echo "        root /home/$UserName/home/.cron;" >> /etc/nginx/sites-enabled/$Dom
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -92,6 +140,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -109,6 +158,21 @@ echo "        root /var/www/html/rainloop;" >> /etc/nginx/sites-enabled/$DomainN
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -123,6 +187,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
@@ -141,6 +206,21 @@ echo "        root /var/www/html/phpmyadmin;" >> /etc/nginx/sites-enabled/$Domai
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -155,6 +235,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
@@ -175,6 +256,23 @@ echo "        root /var/www/html/webcp;" >> /etc/nginx/sites-enabled/$DomainName
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+
+        echo "  location ~ /\.user\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+        echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+
+
+
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -189,6 +287,7 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        location ~ /\.ht {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "}" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
