@@ -1,3 +1,8 @@
+* 2.2.5 *
+= Release: 2019-10-25 =
+ - Adds new domains to /etc/hosts file
+ - Fixes a bug in which the mail. subdomain was being added to multiple blocks in the nginx conf file, leading to failing letsencrypt renewals
+
 * 2.2.4 *
 = Release: 2019-09-14 =
  - Added nginx forbid rules for .user.ini and php.ini files

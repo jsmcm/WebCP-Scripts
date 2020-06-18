@@ -16,6 +16,7 @@ then
 	echo "running letsencrypt-auto renew" >> /usr/webcp/utils/debug
 	out=`/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew`
 	echo "out = $out" >> /usr/webcp/utils/debug
+	service nginx reload
 fi
 
 

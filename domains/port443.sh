@@ -9,6 +9,7 @@ primaryDomain=$6
 #hsts=$7
 hsts="no"
 pagespeed=$8
+mailSubDomainAdded=0
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
@@ -57,7 +58,14 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-	echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	if [ "$redirect" == "www" ]
+	then
+		echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	else
+		mailSubDomainAdded=1
+		echo "	server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi
+
 
 echo "	access_log /home/$UserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	error_log /home/$UserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -167,7 +175,21 @@ then
 	echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
-	echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+if [ "$redirect" == "naked" ]
+then
+	echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+else
+
+	if [ $mailSubDomainAdded == 0 ]
+	then
+		echo "	server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	else
+		echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi	
+fi
+
 
 echo "	include /etc/letsencrypt/options-ssl-nginx.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

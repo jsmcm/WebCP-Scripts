@@ -201,7 +201,7 @@ done
 
 /usr/webcp/email/mkemail.sh
 /usr/webcp/domains/rename_tmp_free_ssl.sh
-
+/usr/webcp/domains/make_hosts.sh
 
 
 
