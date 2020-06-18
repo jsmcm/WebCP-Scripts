@@ -54,6 +54,7 @@ do
 
 		if [ "${#UserName}" -gt "4" ]
 		then
+			/usr/webcp/domains/unmount.sh $UserName
 			rm -fr /home/$UserName
 			rm -fr /var/www/html/mail/domains/$DomainName
 		fi
