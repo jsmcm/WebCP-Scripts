@@ -2,11 +2,15 @@
 
 username=$1
 
-umount /home/$username/bin
-umount /home/$username/dev
-umount /home/$username/lib
-umount /home/$username/lib64
-umount /home/$username/usr/bin
-umount /home/$username/usr/lib
+umount -l /home/$username/etc/alternatives
+umount -l /home/$username/bin
+umount -l /home/$username/dev
+umount -l /home/$username/lib
+umount -l /home/$username/lib64
+#umount -l /home/$username/usr/bin
+#umount -l /home/$username/usr/lib
+#umount -l /home/$username/usr/share
+umount -l /home/$username/usr
+
 
 
