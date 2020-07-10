@@ -17,7 +17,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/home/public_html"
+domainPath="/home/$UserName/home/$UserName/public_html"
 if [ "$path" != "" ]
 then
         domainPath=$path

@@ -79,10 +79,10 @@ do
 			userdel $UserName
 			groupdel $UserName
 
-			echo "groupadd $UserName -g $GroupID" > /home/domains.txt	
+			#echo "groupadd $UserName -g $GroupID" > /home/domains.txt	
 		        /usr/sbin/groupadd $UserName -g $GroupID
 	
-			echo "groupadd $UserName -g $GroupID" >> /home/domains.txt	
+			#echo "groupadd $UserName -g $GroupID" >> /home/domains.txt	
 		        /usr/sbin/groupadd $UserName -g $GroupID
 	
 
@@ -92,7 +92,12 @@ do
 
 			chown root.root /home/$UserName
 	                chmod 755 /home/$UserName
-	
+
+			mkdir /home/$UserName/home/$UserName
+			cp -fr /home/$UserName/.bashrc /home/$UserName/home/$UserName/
+			cp -fr /home/$UserName/.bash_logout /home/$UserName/home/$UserName/
+			cp -fr /home/$UserName/.profile /home/$UserName/home/$UserName/
+
 	                chown $UserName.$UserName /home/$UserName/home -R
 	                chmod 755 /home/$UserName/home -R
 	
@@ -202,6 +207,6 @@ done
 /usr/webcp/email/mkemail.sh
 /usr/webcp/domains/rename_tmp_free_ssl.sh
 /usr/webcp/domains/make_hosts.sh
-
+/usr/webcp/domains/remove-duplicate-mounts.sh
 
 

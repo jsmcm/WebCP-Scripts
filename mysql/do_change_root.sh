@@ -15,6 +15,7 @@ then
 	/usr/webcp/mysql/pureftpd_root_password.sh $Password  
 	
 	rm -fr /var/www/html/webcp/nm/root.password
+
 fi
 
 echo "done"
