@@ -18,6 +18,9 @@ mkdir /home/$username/usr/share -p
 if [ -d "/home/$username/public_html" ]
 then
 	mv -f /home/$username/public_html /home/$username/home/$username
+	mv -f /home/$username/.cron /home/$username/home/$username
+	mv -f /home/$username/.editor /home/$username/home/$username
+	mv -f /home/$username/.passwd /home/$username/home/$username
 fi
 
 chown $username.$username /home/$username/home/$username -R
