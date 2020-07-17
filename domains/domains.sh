@@ -123,20 +123,20 @@ do
 	                chown $UserName.www-data /home/$UserName/.passwd
 
 	
-	                chmod 755 /home/$UserName/home/public_html/index.php
-	                chown $UserName.$UserName /home/$UserName/home/public_html/index.php
+	                #chmod 755 /home/$UserName/home/public_html/index.php
+	                #chown $UserName.$UserName /home/$UserName/home/public_html/index.php
 	
-	                mkdir /home/$UserName/home/mail
+	                mkdir /home/$UserName/home/$UserName/mail
 		
-	                chmod 755 /home/$UserName/home/mail
+	                chmod 755 /home/$UserName/home/$UserName/mail
 	
-	                chown $UserName.$UserName /home/$UserName/home/mail
+	                chown $UserName.$UserName /home/$UserName/home/$UserName/mail
 	
-	                mkdir /home/$UserName/home/mail/$DomainName
+	                mkdir /home/$UserName/home/$UserName/mail/$DomainName
         	        
-			chmod 755 /home/$UserName/home/mail/$DomainName
+			chmod 755 /home/$UserName/home/$UserName/mail/$DomainName
 			
-	                chown $UserName.$UserName /home/$UserName/home/mail/$DomainName
+	                chown $UserName.$UserName /home/$UserName/home/$UserName/mail/$DomainName
 	
 
 		        mkdir /var/lib/php/sessions/$UserName

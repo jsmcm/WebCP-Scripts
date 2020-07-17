@@ -18,7 +18,7 @@ do
 
                     if [ "${#UserName}" -gt "4" ]
                     then
-			rm -f /home/$UserName/home/mail/$fqdn/.forward
+			rm -f /home/$UserName/home/$UserName/mail/$fqdn/.forward
 		    fi
 
                 done
@@ -65,8 +65,8 @@ do
                 mysql cpadmin -u root -p${Password} -N -e "SELECT UserName, fqdn FROM domains WHERE deleted = 0  AND client_id = $ClientID" | while read UserName fqdn; do
                     	if [ "${#UserName}" -gt "1" ]
 			then
-				chown $UserName.$UserName /home/$UserName/home/mail/$fqdn/.forward
-		   		chmod 755 /home/$UserName/home/mail/$fqdn/.forward
+				chown $UserName.$UserName /home/$UserName/home/$UserName/mail/$fqdn/.forward
+		   		chmod 755 /home/$UserName/home/$UserName/mail/$fqdn/.forward
 			fi
                 done
 

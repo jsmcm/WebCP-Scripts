@@ -110,4 +110,4 @@ chmod 755 /etc/letsencrypt/{archive,live} -R
 chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
 
 service dovecot restart
-
+service nginx reload
