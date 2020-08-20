@@ -32,12 +32,18 @@ echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$DomainUserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$DomainUserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$DomainUserName/home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$DomainUserName/home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "		return 301 http://$DomainName:8880;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -83,9 +89,16 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	
-echo "	access_log /home/$DomainUserName/home/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$DomainUserName/home/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$DomainUserName/home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$DomainUserName/home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 
 echo "	location /webcp {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "		return 301 http://www.$DomainName:8880;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
