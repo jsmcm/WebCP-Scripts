@@ -24,7 +24,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/public_html"
+domainPath="/home/$UserName/home/$UserName/public_html"
 if [ "$path" != "" ]
 then
 	domainPath=$path
@@ -50,9 +50,18 @@ fi
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
 
 if [ "$redirect" == "www" ]
 then
@@ -154,10 +163,17 @@ fi
 	echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 		        
 if [ "$redirect" == "naked" ]
 then

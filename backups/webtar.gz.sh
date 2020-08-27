@@ -30,6 +30,6 @@ if [ ! -d "/var/www/html/backups/tmp/$RandomPath" ]; then
 	mkdir /var/www/html/backups/tmp/$RandomPath
 fi
 
-cd /home/
+cd /home/${UserName}/home
 #/bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar public_html/ .passwd/
 nice /bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar ${UserName}/ --exclude=mail  

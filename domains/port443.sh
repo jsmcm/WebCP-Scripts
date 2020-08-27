@@ -18,7 +18,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/public_html"
+domainPath="/home/$UserName/home/$UserName/public_html"
 if [ "$path" != "" ]
 then
         domainPath=$path
@@ -33,8 +33,6 @@ echo "	listen 443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.con
 echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -48,7 +46,7 @@ then
 	echo "	add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
@@ -67,8 +65,14 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	fi
 
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 			
@@ -157,8 +161,6 @@ echo "	listen 443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.con
 echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
-echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -172,7 +174,7 @@ then
 	echo "	add_header X-Content-Type-Options \"nosniff\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	add_header Referrer-Policy \"no-referrer-when-downgrade\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	add_header Content-Security-Policy \"default-src * data: 'unsafe-eval' 'unsafe-inline'\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "	add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\" always;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
@@ -196,10 +198,18 @@ echo "	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;" >> /etc/nginx/sites-enabl
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 
-echo "	access_log /home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	error_log /home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	access_log /home/$UserName/home/$UserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	error_log /home/$UserName/home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-		        
+
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "          return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
 if [ "$redirect" == "naked" ]
 then
 	echo "	return 301 https://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	

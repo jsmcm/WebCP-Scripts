@@ -79,28 +79,33 @@ do
 			userdel $UserName
 			groupdel $UserName
 
-			echo "groupadd $UserName -g $GroupID" > /home/domains.txt	
+			#echo "groupadd $UserName -g $GroupID" > /home/domains.txt	
 		        /usr/sbin/groupadd $UserName -g $GroupID
 	
-			echo "groupadd $UserName -g $GroupID" >> /home/domains.txt	
+			#echo "groupadd $UserName -g $GroupID" >> /home/domains.txt	
 		        /usr/sbin/groupadd $UserName -g $GroupID
 	
 
 			# To add a password please see /usr/webcp/backups/mkdirs.sh
-			echo "useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName" >> /home/domains.txt
+			#echo "useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName" >> /home/domains.txt
 			/usr/sbin/useradd -m -s /bin/bash -g $UserName -u $UserID  $UserName
 
+			chown root.root /home/$UserName
 	                chmod 755 /home/$UserName
-	                chown $UserName.$UserName /home/$UserName
-	
-	                chown $UserName.$UserName /home/$UserName/public_html
-	                chmod 755 /home/$UserName/public_html
+
+			mkdir /home/$UserName/home/$UserName
+			cp -fr /home/$UserName/.bashrc /home/$UserName/home/$UserName/
+			cp -fr /home/$UserName/.bash_logout /home/$UserName/home/$UserName/
+			cp -fr /home/$UserName/.profile /home/$UserName/home/$UserName/
+
+	                chown $UserName.$UserName /home/$UserName/home -R
+	                chmod 755 /home/$UserName/home -R
 	
 			echo "Setting $UserName to ${UserQuota%.*}" >> /home/q.txt
 			setquota -u $UserName ${UserQuota%.*} ${UserQuota%.*} 0 0 -a ext4
 	
-	                chmod 755 /home/$UserName/.passwd -R
-	                chmod 770 /home/$UserName/.passwd
+	                chmod 755 /home/$UserName/home/.passwd -R
+	                chmod 770 /home/$UserName/home/.passwd
 
 
                         mkdir /home/$UserName/.ssh
@@ -118,26 +123,26 @@ do
 	                chown $UserName.www-data /home/$UserName/.passwd
 
 	
-	                chmod 755 /home/$UserName/public_html/index.php
-	                chown $UserName.$UserName /home/$UserName/public_html/index.php
+	                #chmod 755 /home/$UserName/home/public_html/index.php
+	                #chown $UserName.$UserName /home/$UserName/home/public_html/index.php
 	
-	                mkdir /home/$UserName/mail
+	                mkdir /home/$UserName/home/$UserName/mail
 		
-	                chmod 755 /home/$UserName/mail
+	                chmod 755 /home/$UserName/home/$UserName/mail
 	
-	                chown $UserName.$UserName /home/$UserName/mail
+	                chown $UserName.$UserName /home/$UserName/home/$UserName/mail
 	
-	                mkdir /home/$UserName/mail/$DomainName
+	                mkdir /home/$UserName/home/$UserName/mail/$DomainName
         	        
-			chmod 755 /home/$UserName/mail/$DomainName
+			chmod 755 /home/$UserName/home/$UserName/mail/$DomainName
 			
-	                chown $UserName.$UserName /home/$UserName/mail/$DomainName
+	                chown $UserName.$UserName /home/$UserName/home/$UserName/mail/$DomainName
 	
 
 		        mkdir /var/lib/php/sessions/$UserName
 	                chown $UserName.$UserName /var/lib/php/sessions/$UserName/
 
-
+			/usr/webcp/domains/mount.sh $UserName $UserID
 
 			for phpDirectory in /etc/php/*;
 			do
@@ -151,6 +156,8 @@ do
 			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 
 			echo "catch_workers_output = yes" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[open_basedir] = /home/$UserName/home/$UserName/:/var/www/html/editor/" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+
 			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_flag[log_errors] = on" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
@@ -200,6 +207,6 @@ done
 /usr/webcp/email/mkemail.sh
 /usr/webcp/domains/rename_tmp_free_ssl.sh
 /usr/webcp/domains/make_hosts.sh
-
+/usr/webcp/domains/remove-duplicate-mounts.sh
 
 

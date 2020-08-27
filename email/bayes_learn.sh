@@ -10,8 +10,8 @@ Password=`/usr/webcp/get_password.sh`
 
 mysql cpadmin -u root -p${Password} -N -e "SELECT domain_user_name, local_part, fqdn FROM mailboxes, domains WHERE domains.deleted = 0 AND mailboxes.active = 1 AND mailboxes.domain_id = domains.id;" | while read domain_user_name local_part fqdn; do
 
-	spamPath="/home/$domain_user_name/mail/$fqdn/$local_part/.Spam/cur"
-	hamPath="/home/$domain_user_name/mail/$fqdn/$local_part/cur"
+	spamPath="/home/$domain_user_name/home/$domain_user_name/mail/$fqdn/$local_part/.Spam/cur"
+	hamPath="/home/$domain_user_name/home/$domain_user_name/mail/$fqdn/$local_part/cur"
 	
 	if [ -d "$spamPath" ]
 	then

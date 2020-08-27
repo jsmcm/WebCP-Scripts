@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 export DISPLAY=:0.0
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 HOME=/root
@@ -111,4 +110,4 @@ chmod 755 /etc/letsencrypt/{archive,live} -R
 chgrp Debian-exim /etc/letsencrypt/{archive,live} -R
 
 service dovecot restart
-
+service nginx reload

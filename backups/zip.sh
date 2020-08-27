@@ -33,7 +33,7 @@ if [ ! -d "/var/www/html/backups/tmp/$RandomPath" ]; then
 	mkdir /var/www/html/backups/tmp/$RandomPath
 fi
 
-cd /home/$UserName
+cd /home/$UserName/home/$UserName/
 /usr/bin/zip /var/www/html/backups/tmp/$RandomPath/${UserName}_home.zip public_html/ mail/ .passwd/ -r
 
 
