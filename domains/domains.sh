@@ -93,14 +93,11 @@ do
 			chown root.root /home/$UserName
 	                chmod 755 /home/$UserName
 
-			mkdir /home/$UserName/home/$UserName
+			mkdir /home/$UserName/home/$UserName -p
 			cp -fr /home/$UserName/.bashrc /home/$UserName/home/$UserName/
 			cp -fr /home/$UserName/.bash_logout /home/$UserName/home/$UserName/
 			cp -fr /home/$UserName/.profile /home/$UserName/home/$UserName/
 
-	                chown $UserName.$UserName /home/$UserName/home -R
-	                chmod 755 /home/$UserName/home -R
-	
 			echo "Setting $UserName to ${UserQuota%.*}" >> /home/q.txt
 			setquota -u $UserName ${UserQuota%.*} ${UserQuota%.*} 0 0 -a ext4
 	
@@ -123,8 +120,41 @@ do
 	                chown $UserName.www-data /home/$UserName/.passwd
 
 	
-	                #chmod 755 /home/$UserName/home/public_html/index.php
-	                #chown $UserName.$UserName /home/$UserName/home/public_html/index.php
+			useFailSafe=0
+
+			if [ ! -d "/var/www/html/webcp/skel/public_html" ]
+			then
+				useFailSafe=1
+				mkdir /home/$UserName/home/$UserName/public_html -p
+				cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+			fi
+
+
+			if [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ] && [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ]
+			then
+				useFailSafe=1
+				cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+			fi
+
+
+			if [ $useFailSafe == 0 ]
+			then
+				cp -fr /var/www/html/webcp/skel/public_html /home/$UserName/home/$UserName/
+			fi
+
+
+
+	                chown $UserName.$UserName /home/$UserName/home -R
+	                chmod 755 /home/$UserName/home -R
+	
+		
+			if [ -d "/home/$UserName/.cron" ]
+			then
+        			mv -f /home/$UserName/.cron /home/$UserName/home/$UserName
+        			mv -f /home/$UserName/.editor /home/$UserName/home/$UserName
+        			mv -f /home/$UserName/.passwd /home/$UserName/home/$UserName
+			fi
+
 	
 	                mkdir /home/$UserName/home/$UserName/mail
 		

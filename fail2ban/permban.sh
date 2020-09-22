@@ -24,7 +24,7 @@ do
 
 	if [ "$ip" != "*" ]
 	then
-		/usr/sbin/ufw deny from $ip
+		/usr/sbin/ufw insert 1 deny from $ip
 		$(mysql cpadmin -u root -p${Password} -se "INSERT INTO fail2ban VALUES (0, '$ip', '', '', '', '*', 0, 'inout', '$(date +\%Y-\%m-\%d\ \%H:\%M:\%S)', 0, 'perm', 'perm', 'perm');")
 		rm -fr $FullFileName
 	fi
