@@ -1,6 +1,12 @@
+* 3.0.3 *
+= Release: 2020-09-24 =
+ - domain.sh not to recreated index.php etc if it already exists
+
+
 * 3.0.2 *
 = Release: 2020-09-24 =
  - Fixes to email management for parked domains
+
 
 * 3.0.1 *
 = Release: 2020-09-16 =
