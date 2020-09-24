@@ -120,29 +120,32 @@ do
 	                chown $UserName.www-data /home/$UserName/.passwd
 
 	
-			useFailSafe=0
-
-			if [ ! -d "/var/www/html/webcp/skel/public_html" ]
+			if [ ! -f "/home/$UserName/home/$UserName/public_html/index.php" ] && [ ! -f "/home/$UserName/home/$UserName/public_html/index.htm" ] && [ ! -f "/home/$UserName/home/$UserName/public_html/index.html" ]
 			then
-				useFailSafe=1
-				mkdir /home/$UserName/home/$UserName/public_html -p
-				cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+
+				useFailSafe=0
+
+				if [ ! -d "/var/www/html/webcp/skel/public_html" ]
+				then
+					useFailSafe=1
+					mkdir /home/$UserName/home/$UserName/public_html -p
+					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+				fi
+
+
+				if [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ] && [ ! -f "/var/www/html/webcp/skel/public_html/index.htm" ] && [ ! f "/var/www/html/webcp/skel/public_html/index.html" ]
+				then
+					useFailSafe=1
+					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+				fi
+
+
+				if [ $useFailSafe == 0 ]
+				then
+					cp -fr /var/www/html/webcp/skel/public_html /home/$UserName/home/$UserName/
+				fi
+
 			fi
-
-
-			if [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ] && [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ]
-			then
-				useFailSafe=1
-				cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
-			fi
-
-
-			if [ $useFailSafe == 0 ]
-			then
-				cp -fr /var/www/html/webcp/skel/public_html /home/$UserName/home/$UserName/
-			fi
-
-
 
 	                chown $UserName.$UserName /home/$UserName/home -R
 	                chmod 755 /home/$UserName/home -R
