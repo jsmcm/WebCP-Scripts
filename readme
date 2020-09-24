@@ -1,3 +1,7 @@
+* 3.0.2 *
+= Release: 2020-09-24 =
+ - Fixes to email management for parked domains
+
 * 3.0.1 *
 = Release: 2020-09-16 =
   - Implemented new mount points for chroots

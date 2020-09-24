@@ -205,6 +205,9 @@ do
                                 elif [ "$extension" == "singleforward" ]
                                 then
                                         MAIL_FORWARD_SH=1
+                                elif [ "$extension" == "delete_forward_address" ]
+                                then
+                                        MAIL_FORWARD_SH=1
                                 elif [ "$extension" == "forward_address" ]
                                 then
                                         MAIL_FORWARD_SH=1
@@ -331,6 +334,7 @@ do
         then
                 /usr/webcp/mail_forward.sh &
                 /usr/webcp/email/touchforwardaddress.sh &
+                /usr/webcp/email/deleteforwardaddress.sh &
 	fi
 	
         if [ "$MAIL_AUTO_REPLY_SH" == 1 ]

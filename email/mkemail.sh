@@ -23,7 +23,7 @@ do
 		UserName=${y##*/}
                	UserName=${UserName%_*}
 		echo "UserName: $UserName"
-                DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+                #DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
                 GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
                 UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
 
@@ -31,7 +31,13 @@ do
 	
 		Dir=`cat $FullFileName`
 		echo $Dir
+
+	        DomainName=${Dir%/*}
+        	echo "domain: $DomainName"
 	
+        	DomainName=${DomainName##*/}
+       		echo "domain: $DomainName"
+
 		if [ "${#Dir}" -gt "4" ]
 		then
 			echo "mkdir $Dir -p"
