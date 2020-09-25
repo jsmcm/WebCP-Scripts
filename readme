@@ -1,3 +1,7 @@
+* 3.0.4 *
+= Release: 2020-09-25 = 
+ - Added a script to mount user directories on start
+ 
 * 3.0.3 *
 = Release: 2020-09-24 =
  - domain.sh not to recreated index.php etc if it already exists

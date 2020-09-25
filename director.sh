@@ -14,6 +14,10 @@ mkdir -p /tmp/webcp
 chgrp www-data /tmp/webcp -R
 chmod 775 /tmp/webcp -R
 
+#remount the user bind mounts
+/usr/webcp/domains/start_up_mounts.sh
+/usr/webcp/domains/remove-duplicate-mounts.sh
+
 while : 
 do
 
