@@ -28,19 +28,22 @@ apt-get update
 
 apt-get install expect -y
 
-if [ ! -d "/etc/nginx/ssl" ]
-then
-	mkdir /etc/nginx/ssl
-fi
+#if [ ! -d "/etc/nginx/ssl" ]
+#then
+#	mkdir /etc/nginx/ssl
+#fi
 
-rm -fr /opt/eff.org
+#rm -fr /opt/eff.org
 
-cd /etc/nginx/ssl
-rm -fr /etc/nginx/ssl/letsencrypt
+#cd /etc/nginx/ssl
+#rm -fr /etc/nginx/ssl/letsencrypt
 
-git clone https://github.com/letsencrypt/letsencrypt
+#git clone https://github.com/letsencrypt/letsencrypt
 
-cd /etc/nginx/ssl/letsencrypt
-./letsencrypt-auto
+#cd /etc/nginx/ssl/letsencrypt
+#./letsencrypt-auto
+
+apt-get install snapd -y
+snap install --classic certbot
 
 rm -fr /var/www/html/webcp/nm/letsencrypt.install

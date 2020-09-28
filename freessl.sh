@@ -12,10 +12,10 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
-if [ ! -d "/etc/nginx/ssl/letsencrypt" ]
-then
-	/usr/webcp/utils/install_letsencrypt.sh
-fi
+#if [ ! -d "/etc/nginx/ssl/letsencrypt" ]
+#then
+#	/usr/webcp/utils/install_letsencrypt.sh
+#fi
 
 DomainIDs=()
 for FullFileName in /var/www/html/webcp/nm/*.freessl;
