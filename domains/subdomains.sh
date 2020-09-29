@@ -36,7 +36,7 @@ do
 		echo "NextSubDomainName: $NextSubDomainName"
 
 		UseSSL=0
-                if [ -f "/etc/httpd/conf/ssl/$NextSubDomainName.crt" ] && [ -f "/etc/httpd/conf/ssl/$NextSubDomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$NextSubDomainName.crtchain" ]
+                if [ -f "/etc/nginx/ssl/$NextSubDomainName.crt" ] && [ -f "/etc/nginx/ssl/$NextSubDomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$NextSubDomainName.crtchain" ]
                 then
                 	UseSSL=1
                 elif [ -f "/etc/letsencrypt/live/$NextSubDomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$NextSubDomainName.conf" ]
@@ -57,22 +57,8 @@ do
                         	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed"
                         fi
 
-
-                        if [ $UseSSL == 1 ]
-                        then
-                        	CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
-                                echo "CertChain = $CertChain"
-                                rm -fr /var/www/html/webcp/nm/$DomainName.crtchain
-
-                                echo "  SSLCertificateFile /etc/nginx/ssl/$DomainName.crt" >> /etc/nginx/vhosts/$DomainName.conf
-                                echo "  SSLCertificateKeyFile /etc/nginx/ssl/$DomainName.key" >> /etc/nginx/vhosts/$DomainName.conf
-                                echo "  SSLCACertificateFile /etc/nginx/ssl/$CertChain" >> /etc/nginx/vhosts/$DomainName.conf
-                       	elif [ $UseSSL == 2 ]
-                        then
-
                         	/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect "$pagespeed"
 
-                        fi
               	else
                 	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed"
                	fi

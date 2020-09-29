@@ -242,4 +242,7 @@ done
 /usr/webcp/domains/make_hosts.sh
 /usr/webcp/domains/remove-duplicate-mounts.sh
 
-
+if [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+	then
+		rm -fr /var/www/html/webcp/nm/$DomainName.crtchain
+	fi

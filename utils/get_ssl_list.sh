@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CSR=""
-for FullFileName in /etc/httpd/conf/ssl/*.csr;
+for FullFileName in /etc/nginx/ssl/*.csr;
 do
 	if [ -f $FullFileName ]
 	then	
@@ -18,7 +18,7 @@ do
 done
 
 CRT=""
-for FullFileName in /etc/httpd/conf/ssl/*.crt;
+for FullFileName in /etc/nginx/ssl/*.crt;
 do
 
 	if [ -f $FullFileName ]

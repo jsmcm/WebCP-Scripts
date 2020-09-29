@@ -6,6 +6,11 @@ if [ $x -gt 2 ]; then
         exit
 fi
 
+if [ ! -d "/etc/nginx/ssl/" ]
+then
+	mkdir /etc/nginx/ssl/ -p
+fi
+
 for FullFileName in /var/www/html/webcp/nm/*.ssl;
 do
 	if [ -f "$FullFileName" ]
@@ -102,19 +107,19 @@ do
 		exit
 	fi
 		
-	if [ -f "/etc/httpd/conf/ssl/$HostName.csr" ]
+	if [ -f "/etc/nginx/ssl/$HostName.csr" ]
 	then
-		rm -fr /etc/httpd/conf/ssl/$HostName.csr
+		rm -fr /etc/nginx/ssl/$HostName.csr
 	fi
 	
-	if [ -f "/etc/httpd/conf/ssl/$HostName.crt" ]
+	if [ -f "/etc/nginx/ssl/$HostName.crt" ]
 	then
-		rm -fr /etc/httpd/conf/ssl/$HostName.crt
+		rm -fr /etc/nginx/ssl/$HostName.crt
 	fi
 	
-	if [ -f "/etc/httpd/conf/ssl/$HostName.key" ]
+	if [ -f "/etc/nginx/ssl/$HostName.key" ]
 	then
-		rm -fr /etc/httpd/conf/ssl/$HostName.key
+		rm -fr /etc/nginx/ssl/$HostName.key
 	fi
 	
 	echo ""

@@ -49,9 +49,9 @@ do
 
 		rm -fr /var/www/html/mail/domains/$DomainName
 
-                rm -fr /etc/httpd/conf/ssl/$DomainName.crt
-                rm -fr /etc/httpd/conf/ssl/$DomainName.csr
-                rm -fr /etc/httpd/conf/ssl/$DomainName.key
+                rm -fr /etc/nginx/ssl/$DomainName.crt
+                rm -fr /etc/nginx/ssl/$DomainName.csr
+                rm -fr /etc/nginx/ssl/$DomainName.key
 
 		if [ "${#UserName}" -gt "4" ]
 		then

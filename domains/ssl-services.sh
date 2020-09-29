@@ -29,10 +29,21 @@ echo "        listen [::]:2053 ssl http2;" >> /etc/nginx/sites-enabled/$DomainNa
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+fi
+
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -156,9 +167,20 @@ echo "        listen [::]:2083 ssl http2;" >> /etc/nginx/sites-enabled/$DomainNa
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+fi
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -238,9 +260,20 @@ echo "        listen [::]:2087 ssl http2;" >> /etc/nginx/sites-enabled/$DomainNa
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+fi
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -318,9 +351,20 @@ echo "        listen [::]:2096 ssl http2;" >> /etc/nginx/sites-enabled/$DomainNa
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+fi
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
@@ -400,9 +444,20 @@ echo "        listen [::]:8443 ssl http2;" >> /etc/nginx/sites-enabled/$DomainNa
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "  ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "  ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$DomainName.conf
+fi
+
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 echo "  add_header X-Frame-Options \"SAMEORIGIN\" always;" >> /etc/nginx/sites-enabled/$DomainName.conf
