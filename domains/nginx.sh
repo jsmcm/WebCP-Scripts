@@ -49,22 +49,9 @@ Password=`/usr/webcp/get_password.sh`
 				fi
 
 
-				if [ $UseSSL == 1 ]
-				then
-					CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
-					echo "CertChain = $CertChain"
-					rm -fr /var/www/html/webcp/nm/$DomainName.crtchain
-					
-					echo "	SSLCertificateFile /etc/nginx/ssl/$DomainName.crt" >> /etc/nginx/vhosts/$DomainName.conf
-		                	echo "	SSLCertificateKeyFile /etc/nginx/ssl/$DomainName.key" >> /etc/nginx/vhosts/$DomainName.conf
-		                	echo "	SSLCACertificateFile /etc/nginx/ssl/$CertChain" >> /etc/nginx/vhosts/$DomainName.conf
-				elif [ $UseSSL == 2 ]
-				then
+				/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect "$pagespeed"
+				/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed"
 
-					/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect "$pagespeed"
-					/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed"
-
-				fi
 			else
 				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed"
 				/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed"

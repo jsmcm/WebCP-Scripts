@@ -42,7 +42,7 @@ do
 		echo "sslRedirect: $sslRedirect"
 
 		UseSSL=0
-                if [ -f "/etc/httpd/conf/ssl/$parkedDomainName.crt" ] && [ -f "/etc/httpd/conf/ssl/$parkedDomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$parkedDomainName.crtchain" ]
+                if [ -f "/etc/nginx/ssl/$parkedDomainName.crt" ] && [ -f "/etc/nginx/ssl/$parkedDomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$parkedDomainName.crtchain" ]
                 then
                 	UseSSL=1
                 elif [ -f "/etc/letsencrypt/live/$parkedDomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$parkedDomainName.conf" ]
@@ -73,26 +73,13 @@ do
                         	fi
 			fi
 
-                        if [ $UseSSL == 1 ]
-                        then
-                        	CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
-                                echo "CertChain = $CertChain"
-                                rm -fr /var/www/html/webcp/nm/$DomainName.crtchain
-
-                                echo "  SSLCertificateFile /etc/nginx/ssl/$DomainName.crt" >> /etc/nginx/vhosts/$DomainName.conf
-                                echo "  SSLCertificateKeyFile /etc/nginx/ssl/$DomainName.key" >> /etc/nginx/vhosts/$DomainName.conf
-                                echo "  SSLCACertificateFile /etc/nginx/ssl/$CertChain" >> /etc/nginx/vhosts/$DomainName.conf
-                       	elif [ $UseSSL == 2 ]
-                        then
 
                     	    	if [ "$parkedRedirect" == "redirect" ]
 				then
 	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed"
 				else
 	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed"
-	                        fi
-
-                        fi
+                        	fi
               	else
                         if [ "$parkedRedirect" == "redirect" ]
 			then

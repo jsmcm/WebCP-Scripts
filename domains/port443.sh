@@ -33,10 +33,21 @@ echo "	listen 443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.con
 echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+	CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
 
-echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+    echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+    echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 if [ "$hsts" == "enforce" ]
@@ -162,9 +173,20 @@ echo "	listen [::]:443 ssl http2;" >> /etc/nginx/sites-enabled/$nginxConfigDomai
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 
-echo "	ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+if [ -f "/etc/nginx/ssl/$DomainName.crt" ] && [ -f "/etc/nginx/ssl/$DomainName.csr" ] && [ -f "/var/www/html/webcp/nm/$DomainName.crtchain" ]
+then
+        CertChain=`cat /var/www/html/webcp/nm/$DomainName.crtchain`
+        echo "  ssl_certificate /etc/nginx/ssl/$DomainName.crt;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_certificate_key /etc/nginx/ssl/$DomainName.key;" >> /etc/nginx/sites-enabled/$DomainName.conf
+        echo "  ssl_trusted_certificate /etc/nginx/ssl/$CertChain;" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+elif [ -f "/etc/letsencrypt/live/$DomainName/cert.pem" ] && [ -f "/etc/letsencrypt/renewal/$DomainName.conf" ]
+then
+    echo "      ssl_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+    echo "      ssl_certificate_key /etc/letsencrypt/live/$DomainName/privkey.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+    echo "      ssl_trusted_certificate /etc/letsencrypt/live/$DomainName/fullchain.pem;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 if [ "$hsts" == "enforce" ]

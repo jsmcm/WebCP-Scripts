@@ -7,8 +7,8 @@ then
 	exit
 fi
 
-if [ -f "/etc/httpd/conf/ssl/$DomainName.csr" ] 
+if [ -f "/etc/nginx/ssl/$DomainName.csr" ] 
 then
-	CSR=`cat /etc/httpd/conf/ssl/$DomainName.csr`
+	CSR=`cat /etc/nginx/ssl/$DomainName.csr`
 	echo $CSR
 fi

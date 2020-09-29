@@ -10,19 +10,19 @@ do
 		DomainID=`cat $FullFileName`
 		echo "DomainID: $DomainID"
 
-		if [ -f "/etc/httpd/conf/ssl/$Domain.crt" ]
+		if [ -f "/etc/nginx/ssl/$Domain.crt" ]
 		then
-			rm -fr /etc/httpd/conf/ssl/$Domain.crt
+			rm -fr /etc/nginx/ssl/$Domain.crt
 		fi
 
-		if [ -f "/etc/httpd/conf/ssl/$Domain.csr" ]
+		if [ -f "/etc/nginx/ssl/$Domain.csr" ]
 		then
-			rm -fr /etc/httpd/conf/ssl/$Domain.csr
+			rm -fr /etc/nginx/ssl/$Domain.csr
 		fi
 
-		if [ -f "/etc/httpd/conf/ssl/$Domain.key" ]
+		if [ -f "/etc/nginx/ssl/$Domain.key" ]
 		then
-			rm -fr /etc/httpd/conf/ssl/$Domain.key
+			rm -fr /etc/nginx/ssl/$Domain.key
 		fi
 	
 		if [ "$DomainID" != "-1" ]
