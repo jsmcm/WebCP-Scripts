@@ -1,3 +1,8 @@
+* 3.0.7 *
+= Release: 2020-10-15 =
+ - Added  /tmp to open base dir
+ - Fixed phperror.log path to add new double home/username
+
 * 3.0.6 *
 = Release: 2020-09-29 =
  - Fixed bought SSL installation
