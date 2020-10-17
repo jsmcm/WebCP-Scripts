@@ -38,6 +38,8 @@ echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "#redirect == $redirect" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 if [ "$redirect" == "www" ]
 then
