@@ -14,7 +14,8 @@ source $HOME/.profile
 if [ -d "/etc/nginx/ssl/letsencrypt" ]
 then
 	echo "running letsencrypt-auto renew" >> /usr/webcp/utils/debug
-	out=`/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew`
+	#out=`/etc/nginx/ssl/letsencrypt/letsencrypt-auto renew`
+	out=`/snap/bin/certbot renew`
 	echo "out = $out" >> /usr/webcp/utils/debug
 	service nginx reload
 fi
