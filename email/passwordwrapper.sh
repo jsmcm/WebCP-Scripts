@@ -18,20 +18,20 @@ do
 	then	
 
 		#echo $FullFileName
-		#x=$FullFileName
-		#y=${x%.mailpassword}
-		#UserName=${y##*/}
-               	#UserName=${UserName%_*}
-                #DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
-                #GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
-                #UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+		x=$FullFileName
+		y=${x%.mailpassword}
+		UserName=${y##*/}
+               	UserName=${UserName%_*}
+                DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+                GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+                UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
 
 		#echo "DomainName: $DomainName"
 		#echo "UserName: $UserName"
 		#echo "Guid: $GroupID"
 		#echo "Uid: $UserID"
 		
-		#/usr/webcp/email/mkpasswdfiles.sh $DomainName $UserName $GroupID $UserID				
+		/usr/webcp/email/mkpasswdfiles.sh $DomainName $UserName $GroupID $UserID				
 		rm -fr $FullFileName
 				
 	fi

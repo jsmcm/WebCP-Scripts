@@ -1,3 +1,7 @@
+* 3.0.9 *
+= Release: 2020-10-20 =
+ - Fixed passwordwrapper to actually call the mkpassword script (was commented out)
+
 * 3.0.8 *
 = Release: 2020-10-17 =
  - Fixed nginx config to pass mail subdomain through to acme challenge
