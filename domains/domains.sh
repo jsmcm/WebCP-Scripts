@@ -189,9 +189,9 @@ do
 			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 
 			echo "catch_workers_output = yes" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "php_admin_value[open_basedir] = /home/$UserName/home/$UserName/:/home/$UserName/:/var/www/html/editor/" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[open_basedir] = /home/$UserName/home/$UserName/:/home/$UserName/:/var/www/html/editor/:/tmp" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 
-			echo "php_admin_value[error_log] = /home/$UserName/phperrors.log" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+			echo "php_admin_value[error_log] = /home/$UserName/home/$UserName/phperrors.log" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_flag[log_errors] = on" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 

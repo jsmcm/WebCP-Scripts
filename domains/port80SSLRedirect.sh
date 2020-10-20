@@ -8,6 +8,8 @@ path=$5
 primaryDomain=$6
 pagespeed=$7
 
+mailSubDomainAdded=0
+
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
 then
@@ -27,7 +29,16 @@ echo "domainPath = $domainPath";
 echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+if [ "$redirect" == "www" ]
+then
+        echo "  server_name $DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+else
+        echo "  server_name $DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        mailSubDomainAdded=1
+fi
+
+
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -82,7 +93,23 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "server {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen 80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	listen [::]:80;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-echo "	server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+if [ "$redirect" == "naked" ]
+then
+        echo "  server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+else
+
+        if [ $mailSubDomainAdded == 0 ]
+        then
+                echo "  server_name www.$DomainName mail.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        else
+                echo "  server_name www.$DomainName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        fi
+fi
+
+
+
+
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
