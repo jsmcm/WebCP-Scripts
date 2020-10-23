@@ -80,6 +80,10 @@ echo "	access_log /home/$UserName/home/$UserName/nginx-access.log  main;" >> /et
 echo "	error_log /home/$UserName/home/$UserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "          return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -91,8 +95,6 @@ if [ "$redirect" == "www" ]
 then
 	echo "	return 301 https://www.$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -226,6 +228,10 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+	
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "          return 301 http://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -236,8 +242,6 @@ if [ "$redirect" == "naked" ]
 then
 	echo "	return 301 https://$DomainName\$request_uri\$query_string;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf	
 else
-	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
