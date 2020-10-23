@@ -17,7 +17,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/home/$UserName/public_html"
+domainPath="/home/$DomainUserName/home/$DomainUserName/public_html"
 if [ "$path" != "" ]
 then
         domainPath=$path
@@ -47,6 +47,11 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	access_log /home/$DomainUserName/home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	error_log /home/$DomainUserName/home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -118,6 +123,11 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	access_log /home/$DomainUserName/home/$DomainUserName/nginx-access.log  main;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	error_log /home/$DomainUserName/home/$DomainUserName/nginx-error.log  warn;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+echo "  root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
