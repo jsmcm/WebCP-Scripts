@@ -195,6 +195,15 @@ do
 			echo "php_admin_value[session.save_path] = /var/lib/php/sessions/$UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "php_admin_flag[log_errors] = on" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 
+                        length=${#clientPHPVersion}
+                        length=$((length + 6))
+
+                        mysql cpadmin -u root -p${Password} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_${clientPHPVersion}_%';" | while read settingName settingValue; do
+			     echo "php_admin_value[$settingName] = $settingValue" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        done
+
+
+
 			echo "user = $UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "group = $UserName" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf

@@ -52,6 +52,7 @@ do
 	PERM_UNBAN_SH=0
 	PERM_BAN_SH=0
 	SSH_SH=0
+	PHP_CONFIG_SH=0
 
 	MD5=`md5sum /usr/webcp/director.sh | awk '{print $1}'`
 	echo "this md5 '$MD5'"
@@ -203,6 +204,9 @@ do
                                 elif [ "$extension" == "freessl" ]
                                 then
                                        	FREESSL_SH=1
+                                elif [ "$extension" == "phpconfig" ]
+                                then
+                                       	PHP_CONFIG_SH=1
                                 elif [ "$extension" == "restore" ]
                                 then
 					RESTORE_DO_RESTORE_SH=1
@@ -244,6 +248,14 @@ do
 	then
 		/usr/webcp/suspension.sh &
 	fi 
+	
+	
+	echo "PHP_CONFIG_SH: $PHP_CONFIG_SH"
+	if [ "$PHP_CONFIG_SH" == 1 ]
+	then
+		/usr/webcp/server/php_config.sh &
+	fi 
+	
 	
 	echo "SSH_SH: $SSH_SH"
 	if [ "$SSH_SH" == 1 ]

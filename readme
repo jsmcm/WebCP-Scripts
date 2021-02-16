@@ -1,3 +1,7 @@
+* 3.0.9 *
+= Release: 2021-02-16 =
+ - Added support to recreate php.ini for pool files when user updates php configs
+
 * 3.0.8 *
 = Release: 2020-10-17 =
  - Fixed nginx config to pass mail subdomain through to acme challenge
