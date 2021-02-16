@@ -82,6 +82,7 @@ do
 	fi
 
 	rm -fr /etc/letsencrypt/live/$HostName*
+	rm -fr /etc/letsencrypt/live/mail.$HostName*
 	rm -fr /etc/letsencrypt/archive/$HostName*
 	rm -fr /etc/letsencrypt/renewal/$HostName*.conf
 

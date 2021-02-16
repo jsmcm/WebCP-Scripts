@@ -1,6 +1,14 @@
-* 3.0.9 *
+* 3.0.11 *
 = Release: 2021-02-16 =
  - Added support to recreate php.ini for pool files when user updates php configs
+
+* 3.0.10 *
+= Release: 2020-10-23 =
+ - Added root to all blocks of nginx confs for letsencrypt to get its webroot_path right
+
+* 3.0.9 *
+= Release: 2020-10-20 =
+ - Fixed passwordwrapper to actually call the mkpassword script (was commented out)
 
 * 3.0.8 *
 = Release: 2020-10-17 =

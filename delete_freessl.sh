@@ -16,6 +16,7 @@ do
 		DomainID=`cat $FullFileName`
 		echo "DomainID: $DomainID"
 
+	        rm -fr /etc/letsencrypt/live/mail.$Domain
 	        rm -fr /etc/letsencrypt/live/$Domain*
 	        rm -fr /etc/letsencrypt/archive/$Domain*
 	        rm -fr /etc/letsencrypt/renewal/$Domain*.conf
