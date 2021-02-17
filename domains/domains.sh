@@ -212,12 +212,39 @@ do
 			echo "listen.owner = www-data" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "listen.group = www-data" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+		
+
+
+
+
+                        #set the defaults
+                        declare -A php_pm=()
+                        php_pm[max_children]="25"
+                        php_pm[start_servers]=3
+                        php_pm[min_spare_servers]=2
+                        php_pm[max_spare_servers]=5
+                        php_pm[max_requests]=1000
+
+                        #now override from the db is set
+                        length=${#clientPHPVersion}
+                        length=$((length + 9))
+
+                        while read settingName settingValue; do
+
+                            php_pm[$settingName]="$settingValue"
+
+                        done<<<$(mysql cpadmin -u root -p${Password} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_pm_${clientPHPVersion}_%';")
+
+
 			echo "pm = dynamic" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_children = 25" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "pm.start_servers = 3" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "pm.min_spare_servers = 2" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_spare_servers = 5" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
-			echo "pm.max_requests = 1000" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        echo "pm.max_children = ${php_pm[max_children]}" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        echo "pm.start_servers = ${php_pm[start_servers]}" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        echo "pm.min_spare_servers = ${php_pm[min_spare_servers]}" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        echo "pm.max_spare_servers = ${php_pm[max_spare_servers]}" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+                        echo "pm.max_requests = ${php_pm[max_requests]}" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
+
+			
+			
 			echo "" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
 
 			echo "In domains.sh clientPHPVersion: $clientPHPVersion"

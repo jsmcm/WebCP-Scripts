@@ -1,3 +1,7 @@
+* 3.1.0 *
+= Release: 2021-02-17 =
+ - Added PM management to php config file generator
+
 * 3.0.9 *
 = Release: 2021-02-16 =
  - Added support to recreate php.ini for pool files when user updates php configs
