@@ -1,3 +1,7 @@
+* 3.1.1 *
+= Release: 2021-02-23 =
+ - Added Aws S3 backups
+
 * 3.1.0 *
 = Release: 2021-02-17 =
  - Added PM management to php config file generator

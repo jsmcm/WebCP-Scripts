@@ -53,6 +53,8 @@ do
 	PERM_BAN_SH=0
 	SSH_SH=0
 	PHP_CONFIG_SH=0
+	AWS_CONFIG_SH=0
+	AWS_CREDENTIALS_SH=0
 
 	MD5=`md5sum /usr/webcp/director.sh | awk '{print $1}'`
 	echo "this md5 '$MD5'"
@@ -207,6 +209,12 @@ do
                                 elif [ "$extension" == "phpconfig" ]
                                 then
                                        	PHP_CONFIG_SH=1
+                                elif [ "$filename" == "config.aws" ]
+                                then
+                                       	AWS_CONFIG_SH=1
+                                elif [ "$extension" == "credentials.aws" ]
+                                then
+                                       	AWS_CREDENTIALS_SH=1
                                 elif [ "$extension" == "restore" ]
                                 then
 					RESTORE_DO_RESTORE_SH=1
@@ -255,6 +263,22 @@ do
 	then
 		/usr/webcp/server/php_config.sh &
 	fi 
+	
+	
+	echo "AWS_CONFIG_SH: $AWS_CONFIG_SH"
+	if [ "$AWS_CONFIG_SH" == 1 ]
+	then
+		/usr/webcp/backups/copy_aws_config &
+	fi 
+	
+	
+	echo "AWS_CREDENTIALS_SH: $AWS_CREDENTIALS_SH"
+	if [ "$AWS_CREDENTIALS_SH" == 1 ]
+	then
+		/usr/webcp/backups/copy_aws_credentials.sh &
+	fi 
+	
+	
 	
 	
 	echo "SSH_SH: $SSH_SH"
