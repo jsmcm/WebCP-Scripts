@@ -1,6 +1,10 @@
-* 3.1.1 *
+* 3.1.2 *
 = Release: 2021-02-23 =
  - Added Aws S3 backups
+
+*3.1.1*
+= Release: 2021-02-19
+ - Fixed bug in domains.sh which was not checking for blank indexes in the dynamic php pm associative array"
 
 * 3.1.0 *
 = Release: 2021-02-17 =
