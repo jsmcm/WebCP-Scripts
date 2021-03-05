@@ -231,7 +231,10 @@ do
 
                         while read settingName settingValue; do
 
-                            php_pm[$settingName]="$settingValue"
+		            if [ "$settingName" != "" ]
+	                    then
+                                php_pm[$settingName]="$settingValue"
+                            fi
 
                         done<<<$(mysql cpadmin -u root -p${Password} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_pm_${clientPHPVersion}_%';")
 
