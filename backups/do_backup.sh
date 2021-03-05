@@ -16,15 +16,20 @@ DomainUserName=""
 DomainPath=""
 Daily=""
 DailyFTPUse="off"
+DailyAWSUse="off"
 DailyFTPCount=1
 
 Weekly=""
 WeeklyFTPUse="off"
+WeeklyAWSUse="off"
 WeeklyFTPCount=1
 
 Monthly=""
 MonthlyFTPUse="off"
+MonthlyAWSUse="off"
 MonthlyFTPCount=1
+
+AWSBucket=""
 
 Adhoc=""
 
@@ -51,16 +56,16 @@ do
 
 	if [ -f $FullFileName ]
 	then	
-		echo $FullFileName
+		#echo $FullFileName
 		x=$FullFileName
-                echo "x: '$x'"
+                #echo "x: '$x'"
 		y=${x%.backup}
-                echo "y: '$y'"
+                #echo "y: '$y'"
 		DomainID=${y##*/}
-                echo "file: '$DomainID'"
+                #echo "file: '$DomainID'"
 
 
-		echo "Read: $FullFileName"
+		#echo "Read: $FullFileName"
 		while read line
 		do
 
@@ -71,55 +76,67 @@ do
 					RandomString=$line
 
 					RandomString=${RandomString##*RandomString=}
-					echo "RandomString: '$RandomString'"
+					#echo "RandomString: '$RandomString'"
 					
 				elif [[ "$line" == *"EmailAddress"* ]]; then
 					EmailAddress=$line
 					
 					EmailAddress=${EmailAddress##*EmailAddress=}
-					echo "EmailAddress: '$EmailAddress'"
+					#echo "EmailAddress: '$EmailAddress'"
 				
 				elif [[ "$line" == *"Type"* ]]; then
 					Type=$line
 					
 					Type=${Type##*Type=}
-					echo "Type: '$Type'"
+					#echo "Type: '$Type'"
 
 				elif [[ "$line" == *"DomainName"* ]]; then
 					DomainName=$line
 					
 					DomainName=${DomainName##*DomainName=}
-					echo "DomainName: '$DomainName'"
+					#echo "DomainName: '$DomainName'"
 				
 				elif [[ "$line" == *"DomainUserName"* ]]; then
 					DomainUserName=$line
 					
 					DomainUserName=${DomainUserName##*DomainUserName=}
-					echo "DomainUserName: '$DomainUserName'"
+					#echo "DomainUserName: '$DomainUserName'"
 
 				elif [[ "$line" == *"DomainPath"* ]]; then
 					DomainPath=$line
 					
 					DomainPath=${DomainPath##*DomainPath=}
-					echo "DomainPath: '$DomainPath'"
+					#echo "DomainPath: '$DomainPath'"
+
+				elif [[ "$line" == *"AWSBucket"* ]]; then
+					AWSBucket=$line
+					
+					AWSBucket=${AWSBucket##*AWSBucket=}
+					#echo "AWSBucket: '$AWSBucket'"
 
 				elif [[ "$line" == *"DailyFTPUse"* ]]; then
 					DailyFTPUse=$line
 					
 					DailyFTPUse=${DailyFTPUse##*DailyFTPUse=}
-					echo "DailyFTPUse: '$DailyFTPUse'"
+					#echo "DailyFTPUse: '$DailyFTPUse'"
+
+				elif [[ "$line" == *"DailyAWSUse"* ]]; then
+					DailyAWSUse=$line
+					
+					DailyAWSUse=${DailyAWSUse##*DailyAWSUse=}
+					#echo "DailyAWSUse: '$DailyAWSUse'"
 
 				elif [[ "$line" == *"DailyFTPCount"* ]]; then
 					DailyFTPCount=$line
 					
 					DailyFTPCount=${DailyFTPCount##*DailyFTPCount=}
-					echo "DailyFTPCount: '$DailyFTPCount'"
+					#echo "DailyFTPCount: '$DailyFTPCount'"
 
                                 elif [[ "$line" == *"Daily"* ]]; then
                                         Daily=$line
                           
                                         Daily=${Daily##*Daily=}
-                                        echo "Daily: '$Daily'"
+                                        #echo "Daily: '$Daily'"
 						
 					if [[ "$Daily" == "all" ]]; then
 						Web=1
@@ -134,20 +151,26 @@ do
                                         WeeklyFTPUse=$line
 
                                         WeeklyFTPUse=${WeeklyFTPUse##*WeeklyFTPUse=}
-                                        echo "WeeklyFTPUse: '$WeeklyFTPUse'"
+                                        #echo "WeeklyFTPUse: '$WeeklyFTPUse'"
+
+                                elif [[ "$line" == *"WeeklyAWSUse"* ]]; then
+                                        WeeklyAWSUse=$line
+
+                                        WeeklyAWSUse=${WeeklyAWSUse##*WeeklyAWSUse=}
+                                        #echo "WeeklyAWSUse: '$WeeklyAWSUse'"
 
                                 elif [[ "$line" == *"WeeklyFTPCount"* ]]; then
                                         WeeklyFTPCount=$line
 
                                         WeeklyFTPCount=${WeeklyFTPCount##*WeeklyFTPCount=}
-                                        echo "WeeklyFTPCount: '$WeeklyFTPCount'"
+                                        #echo "WeeklyFTPCount: '$WeeklyFTPCount'"
 
 
                                   elif [[ "$line" == *"Weekly"* ]]; then
                                         Weekly=$line
                           
                                         Weekly=${Weekly##*Weekly=}
-                                        echo "Weekly: '$Weekly'"
+                                        #echo "Weekly: '$Weekly'"
 						
 					if [[ "$Weekly" == "all" ]]; then
 						Web=1
@@ -165,20 +188,26 @@ do
                                         MonthlyFTPUse=$line
 
                                         MonthlyFTPUse=${MonthlyFTPUse##*MonthlyFTPUse=}
-                                        echo "MonthlyFTPUse: '$MonthlyFTPUse'"
+                                        #echo "MonthlyFTPUse: '$MonthlyFTPUse'"
+
+                                elif [[ "$line" == *"MonthlyAWSUse"* ]]; then
+                                        MonthlyAWSUse=$line
+
+                                        MonthlyAWSUse=${MonthlyAWSUse##*MonthlyAWSUse=}
+                                        #echo "MonthlyAWSUse: '$MonthlyAWSUse'"
 
                                 elif [[ "$line" == *"MonthlyFTPCount"* ]]; then
                                         MonthlyFTPCount=$line
 
                                         MonthlyFTPCount=${MonthlyFTPCount##*MonthlyFTPCount=}
-                                        echo "MonthlyFTPCount: '$MonthlyFTPCount'"
+                                        #echo "MonthlyFTPCount: '$MonthlyFTPCount'"
 
 
                                   elif [[ "$line" == *"Monthly"* ]]; then
                                        	Monthly=$line
                           
                                        	Monthly=${Monthly##*Monthly=}
-                                        echo "Monthly: '$Monthly"
+                                        #echo "Monthly: '$Monthly"
 
 					if [[ "$Monthly" == "all" ]]; then
 						Web=1
@@ -199,30 +228,30 @@ do
                                         FTPPassword=$line
                           
                                         FTPPassword=${FTPPassword##*FTPPassword=}
-                                        echo "FTPPassword: '$FTPPassword'"
+                                        #echo "FTPPassword: '$FTPPassword'"
                                 elif [[ "$line" == *"FTPHost"* ]]; then
                                         FTPHost=$line
                           
                                         FTPHost=${FTPHost##*FTPHost=}
-                                        echo "FTPHost: '$FTPHost'"
+                                        #echo "FTPHost: '$FTPHost'"
 					
                                   elif [[ "$line" == *"FTPRemotePath"* ]]; then
                                         FTPRemotePath=$line
                           
                                         FTPRemotePath=${FTPRemotePath##*FTPRemotePath=}
-                                        echo "FTPRemotePath: '$FTPRemotePath'"
+                                        #echo "FTPRemotePath: '$FTPRemotePath'"
 
                                 elif [[ "$line" == *"FTPUserName"* ]]; then
                                         FTPUserName=$line
                           
                                         FTPUserName=${FTPUserName##*FTPUserName=}
-                                        echo "FTPUserName: '$FTPUserName'"
+                                        #echo "FTPUserName: '$FTPUserName'"
 					
                                 elif [[ "$line" == *"FTPPassword"* ]]; then
                                         FTPPassword=$line
                           
                                         FTPPassword=${FTPPassword##*FTPPassword=}
-                                        echo "FTPPassword: '$FTPPassword'"
+                                        #echo "FTPPassword: '$FTPPassword'"
 				fi
 					
 			fi
@@ -242,7 +271,7 @@ do
 
 			if [ ! -z "$DomainUserName" ]
 			then
-				echo "RUNNING WITH Random: $RandomString and Domain User: $DomainUserName"
+				#echo "RUNNING WITH Random: $RandomString and Domain User: $DomainUserName"
 
 				
 				if [[ "$Web" == 1 ]]; then
@@ -271,7 +300,7 @@ do
 						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
-					echo "Creating Monthly full file"
+					#echo "Creating Monthly full file"
 					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
 					FullFileExists="monthly"
 
@@ -281,7 +310,7 @@ do
 						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
-					echo "Creating Monthly web file"
+					#echo "Creating Monthly web file"
 					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
 					WebFileExists="monthly"
 
@@ -290,7 +319,7 @@ do
 						rm -fr /var/www/html/backups/monthly/$DomainUserName.tar.gz
 					fi
 
-					echo "Creating Monthly mail file"
+					#echo "Creating Monthly mail file"
 					nice /bin/tar cvfz /var/www/html/backups/monthly/${DomainUserName}.tar.gz *_mail.tar
 					MailFileExists="monthly"
 
@@ -306,11 +335,11 @@ do
 
 					if [ -z "$FullFileExists" ]
 					then
-						echo "Creating weekly full file"
+						#echo "Creating weekly full file"
 	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
 						FullFileExists="weekly"
 					else
-						echo "Copying full file from ${FullFileExists}"
+						#echo "Copying full file from ${FullFileExists}"
 						nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
 
@@ -322,11 +351,11 @@ do
 
 					if [ -z "$WebFileExists" ]
 					then
-						echo "Creating weekly web file"
+						#echo "Creating weekly web file"
 	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
 						WebFileExists="weekly"
 					else
-						echo "Copying web file from ${WebFileExists}"
+						#echo "Copying web file from ${WebFileExists}"
 						nice cp /var/www/html/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
 			
@@ -338,11 +367,11 @@ do
 
 					if [ -z "$MailFileExists" ]
 					then
-						echo "Creating weekly mail file"
+						#echo "Creating weekly mail file"
 	                                        nice /bin/tar cvfz /var/www/html/backups/weekly/${DomainUserName}.tar.gz *_mail.tar
 						MailFileExists="weekly"
 					else
-						echo "Copying mail file from ${MailFileExists}"
+						#echo "Copying mail file from ${MailFileExists}"
 						nice cp /var/www/html/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/weekly
 					fi
                                 fi
@@ -358,11 +387,11 @@ do
 
                                         if [ -z "$FullFileExists" ]
                                         then
-                                                echo "Creating daily full file"
+                                                #echo "Creating daily full file"
                                                 nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
                                                 FullFileExists="daily"
                                         else
-                                                echo "Copying full file from ${FullFileExists}"
+                                                #echo "Copying full file from ${FullFileExists}"
                                                 nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
 
@@ -374,11 +403,11 @@ do
 
                                         if [ -z "$WebFileExists" ]
                                         then
-                                                echo "Creating daily web file"
+                                                #echo "Creating daily web file"
                                                 nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *.dat *_web.tar *.xml sql/*
                                                 WebFileExists="daily"
                                         else
-                                                echo "Copying web file from ${WebFileExists}"
+                                                #echo "Copying web file from ${WebFileExists}"
                                                 nice cp /var/www/html/backups/${WebFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
 
@@ -390,11 +419,11 @@ do
 
                                         if [ -z "$MailFileExists" ]
                                         then
-                                                echo "Creating daily mail file"
+                                                #echo "Creating daily mail file"
                                                 nice /bin/tar cvfz /var/www/html/backups/daily/${DomainUserName}.tar.gz *_mail.tar
                                                 MailFileExists="daily"
                                         else
-                                                echo "Copying mail file from ${MailFileExists}"
+                                                #echo "Copying mail file from ${MailFileExists}"
                                                 nice cp /var/www/html/backups/${MailFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/daily
                                         fi
                                 fi
@@ -410,53 +439,53 @@ do
 
                                         if [ -z "$FullFileExists" ]
                                         then
-                                                echo "Creating adhoc full file"
+                                                #echo "Creating adhoc full file"
                                                 nice /bin/tar cvfz /var/www/html/backups/adhoc/${DomainUserName}_${RandomString}.tar.gz *.dat *_web.tar *.xml sql/* *_mail.tar
                                                 FullFileExists="adhoc"
                                         else
-                                                echo "Copying full file from ${FullFileExists}"
+                                                #echo "Copying full file from ${FullFileExists}"
                                                 nice cp /var/www/html/backups/${FullFileExists}/${DomainUserName}.tar.gz /var/www/html/backups/adhoc/$DomainUserName_$RandomString.tar.gz
                                         fi
 				fi
 
 				
 
-				echo "rm -fr /var/www/html/backups/tmp/$RandomString"
+				#echo "rm -fr /var/www/html/backups/tmp/$RandomString"
 				cd /var/www/html/backups/tmp
 				rm -fr /var/www/html/backups/tmp/$RandomString
 	
-				echo "Chowning"	
+				#echo "Chowning"	
 				chown www-data.www-data /var/www/html/backups/monthly -R
 				chown www-data.www-data /var/www/html/backups/weekly -R
 				chown www-data.www-data /var/www/html/backups/daily -R
 				chown www-data.www-data /var/www/html/backups/adhoc -R
 				
 		
-				echo "chmod 755 /var/www/html/backups/ -R"
+				#echo "chmod 755 /var/www/html/backups/ -R"
 				chmod 755 /var/www/html/backups/monthly -R
 				chmod 755 /var/www/html/backups/weekly -R
 				chmod 755 /var/www/html/backups/daily -R
 				chmod 755 /var/www/html/backups/adhoc -R
 
-				echo "check if email address set ($EmailAddress)"
+				#echo "check if email address set ($EmailAddress)"
 				if [ ! -z "$EmailAddress" ]
 				then
-					echo $HOME
-					pwd
-					echo "Calling send_email script"
+					#echo $HOME
+					#pwd
+					#echo "Calling send_email script"
 					/usr/webcp/backups/send_email.sh $DomainUserName $EmailAddress ${DomainUserName}_${RandomString}.tar.gz
-					echo "Mail sent"
+					#echo "Mail sent"
 				fi
 	
 			fi
 		fi
 
-		echo "rm -fr $FullFileName"
+		#echo "rm -fr $FullFileName"
 		rm -fr $FullFileName
 
 	fi
 
-	echo "Looping"
+	#echo "Looping"
 
 
 done
@@ -466,7 +495,7 @@ if [ "$DailyFTPUse" == "on" ]
 then
 	if [ ! -z "$FTPHost" ]
 	then
-		echo "Sending to daily FTP with $DailyFTPCount!"
+		#echo "Sending to daily FTP with $DailyFTPCount!"
 		nice /usr/webcp/backups/ftp.sh $FTPHost $FTPUserName $FTPPassword $FTPRemotePath daily $DailyFTPCount
 	fi
 fi 
@@ -475,7 +504,7 @@ if [ "$WeeklyFTPUse" == "on" ]
 then
 	if [ ! -z "$FTPHost" ]
 	then
-		echo "Sending to weekly FTP with $WeeklyFTPCount!"
+		#echo "Sending to weekly FTP with $WeeklyFTPCount!"
 		nice /usr/webcp/backups/ftp.sh $FTPHost $FTPUserName $FTPPassword $FTPRemotePath weekly $WeeklyFTPCount
 	fi
 fi 
@@ -484,10 +513,33 @@ if [ "$MonthlyFTPUse" == "on" ]
 then
 	if [ ! -z "$FTPHost" ]
 	then
-		echo "Sending to monthly FTP with $MonthlyFTPCount!"
+		#echo "Sending to monthly FTP with $MonthlyFTPCount!"
 		nice /usr/webcp/backups/ftp.sh $FTPHost $FTPUserName $FTPPassword $FTPRemotePath monthly $MonthlyFTPCount
 	fi
 fi 
+
+
+
+if [ "$DailyAWSUse" == "on" ]
+then
+	#echo "Sending to daily AWS with $DailyFTPCount!"
+	#echo "nice /usr/webcp/backups/aws.sh $AWSBucket daily $DailyFTPCount"
+	nice /usr/webcp/backups/aws.sh $AWSBucket daily $DailyFTPCount
+fi 
+
+if [ "$WeeklyAWSUse" == "on" ]
+then
+	#echo "Sending to weekly AWS with $WeeklyFTPCount!"
+	nice /usr/webcp/backups/aws.sh $AWSBucket weekly $WeeklyFTPCount
+fi 
+
+
+if [ "$MonthlyAWSUse" == "on" ]
+then
+	#echo "Sending to monthly AWS with $MonthlyFTPCount!"
+	nice /usr/webcp/backups/aws.sh $AWSBucket monthly $MonthlyFTPCount
+fi 
+
 
 
 echo "Done"
