@@ -522,6 +522,7 @@ do
 	
 		echo "IN 24 hours!!!" >> /home/24
 		HOURS=0
+		/usr/webcp/utils/fix_persmissions.sh &
 		/usr/webcp/utils/update_letsencrypt.sh &
 		/usr/webcp/f2b_spamhause.sh & 
 		/usr/webcp/dele_tmp.sh &
