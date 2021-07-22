@@ -212,7 +212,7 @@ do
                                 elif [ "$filename" == "config.aws" ]
                                 then
                                        	AWS_CONFIG_SH=1
-                                elif [ "$extension" == "credentials.aws" ]
+                                elif [ "$filename" == "credentials.aws" ]
                                 then
                                        	AWS_CREDENTIALS_SH=1
                                 elif [ "$extension" == "restore" ]
