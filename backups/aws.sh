@@ -6,6 +6,12 @@ Count=$3
 
 Failed=0
 
+if [ ! -f "/usr/local/bin/aws" ]
+then
+	#install aws cli
+	/usr/webcp/backups/aws_install.sh
+fi
+
 echo "The following AWS files failed to transfer: " > /tmp/webcp/failed_aws
 echo "" >> /tmp/webcp/failed_aws
 discard=`/usr/local/bin/aws s3 mb s3://$RemotePath`
