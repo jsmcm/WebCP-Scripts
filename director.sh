@@ -268,14 +268,14 @@ do
 	echo "AWS_CONFIG_SH: $AWS_CONFIG_SH"
 	if [ "$AWS_CONFIG_SH" == 1 ]
 	then
-		/usr/webcp/backups/copy_aws_config &
+		/usr/webcp/backups/aws_config.sh &
 	fi 
 	
 	
 	echo "AWS_CREDENTIALS_SH: $AWS_CREDENTIALS_SH"
 	if [ "$AWS_CREDENTIALS_SH" == 1 ]
 	then
-		/usr/webcp/backups/copy_aws_credentials.sh &
+		/usr/webcp/backups/aws_credentials.sh &
 	fi 
 	
 	
