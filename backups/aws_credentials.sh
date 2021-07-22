@@ -6,6 +6,12 @@ if [ $x -gt 2 ]; then
 fi
 
 
+if [ ! -d "/root/.aws" ]
+then
+        /usr/webcp/backups/aws_install.sh
+        exit
+fi
+
 
 	if [ -f "/var/www/html/webcp/nm/credentials.aws" ]
 	then	
