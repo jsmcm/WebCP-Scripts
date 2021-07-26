@@ -522,9 +522,9 @@ fi
 
 if [ "$DailyAWSUse" == "on" ]
 then
-	#echo "Sending to daily AWS with $DailyFTPCount!"
-	#echo "nice /usr/webcp/backups/aws.sh $AWSBucket daily $DailyFTPCount"
+
 	nice /usr/webcp/backups/aws.sh $AWSBucket daily $DailyFTPCount
+
 fi 
 
 if [ "$WeeklyAWSUse" == "on" ]

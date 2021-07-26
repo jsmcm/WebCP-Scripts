@@ -51,7 +51,7 @@ do
 	/usr/local/bin/aws s3 mv s3://${RemotePath}/${Type}_${FileName}$TempFile s3://${RemotePath}/${Type}_${FileName}.$Rename > /dev/null
 done
 
-/usr/local/bin/aws s3 cp ${LocalFile} s3://${RemotePath}/${Type}_${FileName}  &2>1
+/usr/local/bin/aws s3 cp ${LocalFile} s3://${RemotePath}/${Type}_${FileName} # &2>1
 #echo "/usr/local/bin/aws s3 cp ${LocalFile} s3://${RemotePath}/${Type}_${FileName}"
 
 

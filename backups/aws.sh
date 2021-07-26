@@ -20,12 +20,14 @@ for FullFileName in /var/www/html/backups/$Type/*.tar.gz
 do
         if [ -f $FullFileName ]
         then
-		Result=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count" |  cut -d$'\r' -f 2 | cut -c1-6`
+
+		#Result=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count" |  cut -d$'\r' -f 2 | cut -c1-6`
+		Result=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count" | cut -d$'\r' -f 2 | cut -c1-9`
 
 
 		AWSResult=0
 
-		if [[ $Result == "upload" ]]
+		if [[ $Result == "Completed" ]]
 		then
 			AWSResult=1
 		fi
