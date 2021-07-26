@@ -1,3 +1,7 @@
+* 3.1.5 *
+= Release: 2021-07-26
+  - Fixed aws success signal from uploads to Completed
+
 * 3.1.4 *
 = Release: 2021-07-22
   - Fixed name typo of script in director (incorrectly reference aws config/credential scripts
