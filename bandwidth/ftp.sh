@@ -1,6 +1,9 @@
 #!/bin/bash
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
 CurrentHour="$(date +"%H")"
 CurrentTime="$(date +"%Y-%m-%d %H:%M:%S")"
 
@@ -32,7 +35,7 @@ do
 			
 			echo $sum
 
-			DomainName=$(mysql cpadmin -u root -p${Password} -se "INSERT INTO bandwidth VALUES (0, '$DomainUserName', 'ftp', '$CurrentTime', $sum, 0);")
+			DomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "INSERT INTO bandwidth VALUES (0, '$DomainUserName', 'ftp', '$CurrentTime', $sum, 0);")
 
 			rm -fr $FullFileName
 		fi

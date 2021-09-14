@@ -1,17 +1,19 @@
 #!/bin/bash
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 
-	for DomainUserName in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
+	for DomainUserName in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
 	do
                 
 		#echo "DomainUserName: $DomainUserName"
 
-		TrafficAllowance=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND setting = 'Traffic' AND domains.UserName = '$DomainUserName' AND domains.domain_type = 'primary'")
+		TrafficAllowance=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT value FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND setting = 'Traffic' AND domains.UserName = '$DomainUserName' AND domains.domain_type = 'primary'")
 
 		#echo "TrafficAllowance: $TrafficAllowance"
 
-		TrafficUsage=$(mysql cpadmin -u root -p${Password} -se "SELECT SUM(bandwidth) AS bandwidth FROM bandwidth WHERE domain_user_name = '$DomainUserName'")
+		TrafficUsage=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT SUM(bandwidth) AS bandwidth FROM bandwidth WHERE domain_user_name = '$DomainUserName'")
 
 		#echo "TrafficUsage: $TrafficUsage"
 
@@ -56,7 +58,7 @@ Password=`/usr/webcp/get_password.sh`
 		if [ $Percentage -gt 94 ]
 		then
 
-			MailSent=$(mysql cpadmin -u root -p${Password} -se "SELECT IFNULL(MIN(id), 0) FROM user_notices WHERE notice_type = '95_traffic' AND user_name = '$DomainUserName' ")
+			MailSent=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT IFNULL(MIN(id), 0) FROM user_notices WHERE notice_type = '95_traffic' AND user_name = '$DomainUserName' ")
 
 			echo "MailSent: $MailSent"
 
@@ -65,14 +67,14 @@ Password=`/usr/webcp/get_password.sh`
 				URL="/usr/bin/wget http://localhost:8880/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 				/usr/bin/wget -q -O /dev/null -o /dev/null $URL
-				$(mysql cpadmin -u root -p${Password} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '95_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")
+				$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '95_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")
 				
 			fi
 
 		elif [ $Percentage -gt 79 ]
 		then
 
-			MailSent=$(mysql cpadmin -u root -p${Password} -se "SELECT IFNULL(MIN(id), 0) FROM user_notices WHERE notice_type = '80_traffic' AND user_name = '$DomainUserName' ")
+			MailSent=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT IFNULL(MIN(id), 0) FROM user_notices WHERE notice_type = '80_traffic' AND user_name = '$DomainUserName' ")
 
 			echo "MailSent: $MailSent"
 
@@ -81,7 +83,7 @@ Password=`/usr/webcp/get_password.sh`
 				URL="/usr/bin/wget http://localhost:8880/quota/SendTrafficMail.php?DomainUserName=$DomainUserName&Percentage=$Percentage&HostName=$HostName"
 				echo "/usr/bin/wget $URL"
 				/usr/bin/wget -q -O /dev/null -o /dev/null $URL
-				$(mysql cpadmin -u root -p${Password} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '80_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")
+				$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "INSERT INTO user_notices VALUES (0, '$DomainUserName', '80_traffic', 1, '$(date +"%Y-%m-%d %H:%M:%S")') ")
 				
 			fi
 		fi

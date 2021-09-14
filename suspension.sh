@@ -8,6 +8,9 @@ fi
 
 Reload=0
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
 
 mkdir -p /etc/nginx/sites-suspended
 mkdir -p /var/www/html/suspended
@@ -71,7 +74,7 @@ do
                 echo "y: '$y'"
 		UserName=${y##*/}
 
-		DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+		DomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
 
 		echo "Suspending $DomainName"
 
@@ -149,7 +152,7 @@ do
                 echo "y: '$y'"
 		UserName=${y##*/}
 
-		DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
+		DomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND UserName = '$UserName' AND domain_type = 'primary';")
 
 		
 	

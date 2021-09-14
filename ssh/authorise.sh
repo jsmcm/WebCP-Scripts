@@ -6,6 +6,8 @@ if [ $x -gt 2 ]; then
 fi
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.authorise_domain_pub_key; 
 do
@@ -20,7 +22,7 @@ do
 		domainId=${y##*/}
                 echo "domainId: '$domainId'"
 
-		domainUser=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains WHERE domains.deleted = 0 AND domains.id = $domainId;")
+		domainUser=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT UserName FROM domains WHERE domains.deleted = 0 AND domains.id = $domainId;")
 		path="/home/$domainUser/.ssh/";
 		
 
@@ -42,7 +44,7 @@ do
 
 		rm ${path}authorized_keys
 
-		mysql cpadmin -u root -p${Password} -N -e "SELECT file_name FROM ssh WHERE deleted = 0 AND authorised = 1 AND domain_id = $domainId" | while read file_name; do
+		mysql cpadmin -u ${User} -p${Password} -N -e "SELECT file_name FROM ssh WHERE deleted = 0 AND authorised = 1 AND domain_id = $domainId" | while read file_name; do
 			fileName=${path}${file_name}.pub
 			cat $fileName >> ${path}authorized_keys
 			echo -e "\n" >> ${path}authorized_keys

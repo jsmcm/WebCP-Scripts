@@ -1,6 +1,8 @@
 #!/bin/bash
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 DomainID=$1
 RandomPath=$2
@@ -23,7 +25,7 @@ then
         exit
 fi
 			
-UserName=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains WHERE deleted = 0 AND id = $DomainID;")
+UserName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT UserName FROM domains WHERE deleted = 0 AND id = $DomainID;")
 
 if [ ! -d "/var/www/html/backups/tmp" ]; then
 	mkdir /var/www/html/backups/tmp

@@ -8,6 +8,8 @@ fi
 
 Password=`/usr/webcp/get_password.sh`
 
+DB_HOST=`/usr/webcp/get_db_host.sh`
+User=`/usr/webcp/get_username.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.permban;
 do
@@ -25,7 +27,7 @@ do
 	if [ "$ip" != "*" ]
 	then
 		/usr/sbin/ufw insert 1 deny from $ip
-		$(mysql cpadmin -u root -p${Password} -se "INSERT INTO fail2ban VALUES (0, '$ip', '', '', '', '*', 0, 'inout', '$(date +\%Y-\%m-\%d\ \%H:\%M:\%S)', 0, 'perm', 'perm', 'perm');")
+		$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "INSERT INTO fail2ban VALUES (0, '$ip', '', '', '', '*', 0, 'inout', '$(date +\%Y-\%m-\%d\ \%H:\%M:\%S)', 0, 'perm', 'perm', 'perm');")
 		rm -fr $FullFileName
 	fi
 

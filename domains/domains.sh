@@ -7,6 +7,10 @@ fi
 
 SkipRestartCheck=$1
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
+
 defaultPHPVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 
@@ -24,8 +28,8 @@ do
 	then	
 		if [ "$SharedIP" == "" ]
 		then
-			echo "mysql cpadmin -u root -p${Password} -se SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' LIMIT 1;"
-			SharedIP=$(mysql cpadmin -u root -p${Password} -se "SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' LIMIT 1;")
+			echo "mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' LIMIT 1;"
+			SharedIP=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' LIMIT 1;")
 			echo "SharedIP: $SharedIP"
 		fi
 
@@ -37,15 +41,15 @@ do
 		DomainID=${y##*/}
                 echo "file: '$DomainID'"
 
-		DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		UserName=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		#domainType=$(mysql cpadmin -u root -p${Password} -se "SELECT domain_type FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		#path=$(mysql cpadmin -u root -p${Password} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $DomainID;")
-		UserQuota=$(mysql cpadmin -u root -p${Password} -se "SELECT (value / 1024) FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND package_options.setting = 'DiskSpace' AND domains.UserName = '$UserName' AND domains.domain_type = 'primary';")
+		DomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		UserName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT UserName FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		GroupID=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT Gid FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		UserID=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT Uid FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		#domainType=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT domain_type FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		#path=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $DomainID;")
+		UserQuota=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT (value / 1024) FROM domains, package_options WHERE domains.deleted = 0 AND package_options.deleted = 0 AND package_options.package_id = domains.package_id AND package_options.setting = 'DiskSpace' AND domains.UserName = '$UserName' AND domains.domain_type = 'primary';")
 
-		php=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'php_version' AND domain_id = $DomainID;")
+		php=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'php_version' AND domain_id = $DomainID;")
 
 		clientPHPVersion=$defaultPHPVersion
 
@@ -54,13 +58,13 @@ do
         		clientPHPVersion=$php
 		fi
 
-		#emailAddress==$(mysql cpadmin -u root -p${Password} -se "select email_address from admin where id = (select client_id from domains where id = $DomainID and deleted = 0);")
+		#emailAddress==$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select email_address from admin where id = (select client_id from domains where id = $DomainID and deleted = 0);")
 
-		IP=$(mysql cpadmin -u root -p${Password} -se "SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0 UNION  SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' AND NOT EXISTS (SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0) LIMIT 1;")
+		IP=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0 UNION  SELECT IFNULL(MIN(option_value), '*') FROM dns_options WHERE option_name = 'ip' AND deleted = 0 AND extra1 = 'shared' AND NOT EXISTS (SELECT option_value FROM dns_options WHERE option_name = 'ip' AND extra1 = '$DomainName' AND deleted = 0) LIMIT 1;")
 
-		redirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'domain_redirect' AND domain_id = $DomainID;")
-		sslRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $DomainID;")
-		pagespeedBuffer=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $DomainID;")
+		redirect=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'domain_redirect' AND domain_id = $DomainID;")
+		sslRedirect=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $DomainID;")
+		pagespeedBuffer=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $DomainID;")
 
 
 
@@ -198,7 +202,7 @@ do
                         length=${#clientPHPVersion}
                         length=$((length + 6))
 
-                        mysql cpadmin -u root -p${Password} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_${clientPHPVersion}_%';" | while read settingName settingValue; do
+                        mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_${clientPHPVersion}_%';" | while read settingName settingValue; do
 			     echo "php_admin_value[$settingName] = $settingValue" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf
                         done
 
@@ -236,7 +240,7 @@ do
                                 php_pm[$settingName]="$settingValue"
                             fi
 
-                        done<<<$(mysql cpadmin -u root -p${Password} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_pm_${clientPHPVersion}_%';")
+                        done<<<$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select substr(setting_name, $length), setting_value from domain_settings where domain_id =$DomainID AND deleted = 0 AND setting_name like 'php_pm_${clientPHPVersion}_%';")
 
 
 			echo "pm = dynamic" >> /etc/php/$clientPHPVersion/fpm/pool.d/$UserName.conf

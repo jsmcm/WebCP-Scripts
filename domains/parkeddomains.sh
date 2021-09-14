@@ -11,19 +11,21 @@ phpVersion=$6
 
 pagespeed="off"
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 echo "In parkeddomain, ParkedDomainID = $DomainID"
 
-for NextParkedDomainID in $(mysql cpadmin -u root -p${Password} -se "SELECT id FROM domains WHERE ancestor_domain_id = $DomainID AND deleted = 0 AND domain_type = 'parked';")
+for NextParkedDomainID in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT id FROM domains WHERE ancestor_domain_id = $DomainID AND deleted = 0 AND domain_type = 'parked';")
 do
 	
-	parkedDomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
-	path=$(mysql cpadmin -u root -p${Password} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
-	parentDomainId=$(mysql cpadmin -u root -p${Password} -se "SELECT parent_domain_id FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
-	parentDomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $parentDomainId;")
-	sslRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $NextParkedDomainID;")
-	parkedRedirect=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'parked_redirect' AND domain_id = $NextParkedDomainID;")
-	pagespeedBuffer=$(mysql cpadmin -u root -p${Password} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $NextParkedDomainID;")
+	parkedDomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
+	path=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
+	parentDomainId=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT parent_domain_id FROM domains WHERE deleted = 0 AND id = $NextParkedDomainID;")
+	parentDomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $parentDomainId;")
+	sslRedirect=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $NextParkedDomainID;")
+	parkedRedirect=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'parked_redirect' AND domain_id = $NextParkedDomainID;")
+	pagespeedBuffer=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $NextParkedDomainID;")
 
 
         if [ "$pagespeedBuffer" == "on" ]

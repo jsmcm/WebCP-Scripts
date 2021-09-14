@@ -6,7 +6,8 @@ if [ $x -gt 2 ]; then
 fi
 
 Password=`/usr/webcp/get_password.sh`
-
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.permunban;
 do
@@ -24,7 +25,7 @@ do
 	then
 		/usr/sbin/ufw delete deny from $ip
 
-		$(mysql cpadmin -u root -p${Password} -se "DELETE FROM fail2ban WHERE triggered = 'perm' AND ip = '$ip';")
+		$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "DELETE FROM fail2ban WHERE triggered = 'perm' AND ip = '$ip';")
 		
 		rm -fr $FullFileName
 	fi

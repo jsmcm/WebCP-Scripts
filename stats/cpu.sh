@@ -68,9 +68,12 @@ then
 		let average=$total/10
 	
 		Password=`/usr/webcp/get_password.sh`
+		User=`/usr/webcp/get_username.sh`
+		DB_HOST=`/usr/webcp/get_db_host.sh`
+
 		DATE=$(date +"%Y-%m-%d %H:%M:%S")
 		
-		$(mysql cpadmin -u root -p${Password} -se "INSERT INTO server_stats VALUES (0, 'cpu', 0, '$average', 0, '$DATE', 0);")
+		$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "INSERT INTO server_stats VALUES (0, 'cpu', 0, '$average', 0, '$DATE', 0);")
 	
 		rm -fr /tmp/webcp/cpu.stat
 	fi

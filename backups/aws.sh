@@ -22,7 +22,9 @@ do
         then
 
 		#Result=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count" |  cut -d$'\r' -f 2 | cut -c1-6`
-		Result=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count" | cut -d$'\r' -f 2 | cut -c1-9`
+		completeResult=`/usr/webcp/backups/aws_ins.sh "$FullFileName" "$RemotePath" "$Type" "$Count"`
+
+		Result=`echo "$completeResult" | cut -d$'\r' -f 2 | cut -c1-9`
 
 
 		AWSResult=0
@@ -36,6 +38,11 @@ do
 		then
 			Failed=1
 			echo "FAILED: $FullFileName" >> /tmp/webcp/failed_aws
+			echo -e "completeResult: $completeResult" >> /tmp/webcp/failed_aws
+			echo "completeResult: $completeResult" >> /tmp/webcp/failed_aws
+			echo -e "completeResult: ${completeResult/\\n/\\r\\n}" >> /tmp/webcp/failed_aws
+			echo "completeResult: ${completeResult/\\n/\\r\\n}" >> /tmp/webcp/failed_aws
+
 		fi
 	fi
 
@@ -45,8 +52,10 @@ if [ $Failed == 1 ]
 then
 
 	Password=`/usr/webcp/get_password.sh`	
+	User=`/usr/webcp/get_username.sh`
+	DB_HOST=`/usr/webcp/get_db_host.sh`
 
-	for EmailAddress in $(mysql cpadmin -u root -p${Password} -se "select email_address from admin where role ='admin';")
+	for EmailAddress in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select email_address from admin where role ='admin';")
 	do
 		cat /tmp/webcp/failed_aws | mutt -s "WebCP - AWS Failed" "$EmailAddress"
 	done

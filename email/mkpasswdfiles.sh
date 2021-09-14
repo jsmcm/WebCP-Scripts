@@ -1,6 +1,8 @@
 #!/bin/bash
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 DomainName=$1
 UserName=$2
@@ -18,7 +20,7 @@ then
 	rm -fr /var/www/html/mail/domains/$DomainName/dovecot-passwd
 fi
 
-mysql cpadmin -u root -p${Password} -N -e "SELECT local_part, fqdn, password FROM mailboxes, domains WHERE domain_id = domains.id AND domain_user_name='$UserName' AND mailboxes.active=1" | while read local_part fqdn password; do
+mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -N -e "SELECT local_part, fqdn, password FROM mailboxes, domains WHERE domain_id = domains.id AND domain_user_name='$UserName' AND mailboxes.active=1" | while read local_part fqdn password; do
 
 	if [ ! -d "/var/www/html/mail/domains/$fqdn" ]
 	then

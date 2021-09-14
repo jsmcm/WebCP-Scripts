@@ -4,6 +4,9 @@ DomainUserName=$1
 RandomPath=$2
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
 
 if [ "$DomainUserName" == "" ]
 then
@@ -35,8 +38,8 @@ if [ ! -d "/var/www/html/backups/tmp/$RandomPath/sql" ]; then
 	mkdir /var/www/html/backups/tmp/$RandomPath/sql
 fi
 
-	for NextDatabase in $(mysql cpadmin -u root -p${Password} -se "SELECT database_name FROM mysql WHERE deleted = 0 AND domain_username = '$DomainUserName';")
+	for NextDatabase in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT database_name FROM mysql WHERE deleted = 0 AND domain_username = '$DomainUserName';")
 	do
-		nice /usr/bin/mysqldump --routines -u root -p${Password} $NextDatabase >> /var/www/html/backups/tmp/$RandomPath/sql/$NextDatabase.sql	
+		nice /usr/bin/mysqldump --routines -u ${User} -p${Password} -h ${DB_HOST} $NextDatabase >> /var/www/html/backups/tmp/$RandomPath/sql/$NextDatabase.sql	
 	done
 

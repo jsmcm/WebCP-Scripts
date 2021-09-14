@@ -6,13 +6,15 @@ if [ $x -gt 2 ]; then
 fi
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 if [ -f "/var/www/html/webcp/nm/root.password" ]
 then
 
 	echo "File exists"
 
-	/usr/webcp/mysql/pureftpd_root_password.sh $Password  
+	/usr/webcp/mysql/pureftpd_root_password.sh $Password $User $DB_HOST
 	
 	rm -fr /var/www/html/webcp/nm/root.password
 

@@ -1,12 +1,15 @@
 #!/bin/bash
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
-for NextUN in $(mysql cpadmin -u root -p${Password} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
+
+for NextUN in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT DISTINCT(UserName) FROM domains WHERE deleted = 0 AND domain_type = 'primary';")
 do
 
 
 	echo "Got $NextUN";
-	Path=$(mysql cpadmin -u root -p${Password} -se "SELECT path FROM domains WHERE deleted = 0 AND domain_type = 'primary' AND UserName = '$NextUN';")
+	Path=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT path FROM domains WHERE deleted = 0 AND domain_type = 'primary' AND UserName = '$NextUN';")
 	echo "Got $Path";
 
 	if [ "${#Path}" -gt "6" ]

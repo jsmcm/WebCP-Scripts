@@ -7,6 +7,10 @@ fi
 
 phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
+
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_domain; 
 do
@@ -21,10 +25,10 @@ do
 		DomainID=${y##*/}
                 echo "file: '$DomainID'"
 
-		DomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 1 AND id = $DomainID;")
-		UserName=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains WHERE deleted = 1 AND id = $DomainID;")
-		GroupID=$(mysql cpadmin -u root -p${Password} -se "SELECT Gid FROM domains WHERE deleted = 1 AND id = $DomainID;")
-		UserID=$(mysql cpadmin -u root -p${Password} -se "SELECT Uid FROM domains WHERE deleted = 1 AND id = $DomainID;")
+		DomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 1 AND id = $DomainID;")
+		UserName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT UserName FROM domains WHERE deleted = 1 AND id = $DomainID;")
+		GroupID=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT Gid FROM domains WHERE deleted = 1 AND id = $DomainID;")
+		UserID=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT Uid FROM domains WHERE deleted = 1 AND id = $DomainID;")
 
 		rm -fr /etc/nginx/sites-enabled/$DomainName.conf
 		rm -fr /var/lib/php/sessions/$UserName/

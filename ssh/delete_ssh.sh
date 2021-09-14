@@ -6,6 +6,8 @@ if [ $x -gt 2 ]; then
 fi
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_pub_key; 
 do
@@ -20,8 +22,8 @@ do
 		keyId=${y##*/}
                 echo "keyId: '$keyId'"
 
-		fileName=$(mysql cpadmin -u root -p${Password} -se "SELECT file_name FROM ssh WHERE id = $keyId;")
-		domainUser=$(mysql cpadmin -u root -p${Password} -se "SELECT UserName FROM domains, ssh WHERE domains.deleted = 0 AND domains.id = ssh.domain_id AND ssh.id = $keyId;")
+		fileName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT file_name FROM ssh WHERE id = $keyId;")
+		domainUser=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT UserName FROM domains, ssh WHERE domains.deleted = 0 AND domains.id = ssh.domain_id AND ssh.id = $keyId;")
 
 		path="/home/$domainUser/.ssh/";
 

@@ -10,14 +10,17 @@ phpVersion=$6
 pagespeed=$7
 
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
 
 echo "In subdomain, SubDomainID = $DomainID"
 
-for NextSubDomainID in $(mysql cpadmin -u root -p${Password} -se "SELECT id FROM domains WHERE ancestor_domain_id = $DomainID AND deleted = 0 AND domain_type = 'subdomain';")
+for NextSubDomainID in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT id FROM domains WHERE ancestor_domain_id = $DomainID AND deleted = 0 AND domain_type = 'subdomain';")
 do
 	
-	NextSubDomainName=$(mysql cpadmin -u root -p${Password} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $NextSubDomainID;")
-	Path=$(mysql cpadmin -u root -p${Password} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $NextSubDomainID;")
+	NextSubDomainName=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT fqdn FROM domains WHERE deleted = 0 AND id = $NextSubDomainID;")
+	Path=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT path FROM domains WHERE deleted = 0 AND id = $NextSubDomainID;")
 		
 	if [ "${#Path}" -gt "4" ]
 	then

@@ -55,7 +55,10 @@ then
 
 	Password=`/usr/webcp/get_password.sh`	
 
-	for EmailAddress in $(mysql cpadmin -u root -p${Password} -se "select email_address from admin where role ='admin';")
+	User=`/usr/webcp/get_username.sh`
+	DB_HOST=`/usr/webcp/get_db_host.sh`
+	
+	for EmailAddress in $(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select email_address from admin where role ='admin';")
 	do
 		cat /tmp/webcp/failed_ftp | mutt -s "WebCP - FTP Failed" "$EmailAddress"
 	done

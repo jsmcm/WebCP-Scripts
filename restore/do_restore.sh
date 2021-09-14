@@ -8,6 +8,7 @@ fi
 RandomString=""
 UserName=""
 Password=`/usr/webcp/get_password.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.restore; 
 do
@@ -153,7 +154,7 @@ do
                                         MySQL=${MySQL##*MySQL=}
                                         echo "MySQL: '$MySQL'"
 					
-					/usr/bin/mysql -u root -p${Password} $MySQL < /var/www/html/webcp/restore/tmp/$RandomString/sql/$MySQL.sql
+					/usr/bin/mysql -u ${User} -p${Password} $MySQL -h ${DB_HOST} < /var/www/html/webcp/restore/tmp/$RandomString/sql/$MySQL.sql
 					
                                 fi
 

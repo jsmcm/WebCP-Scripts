@@ -1,5 +1,7 @@
 #!/bin/bash
 Password=`/usr/webcp/get_password.sh`
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
 
 for FullFileName in /var/www/html/webcp/nm/*.delete_single_forwards;
 do
@@ -14,7 +16,7 @@ do
                 ClientID=${y##*/}
                 echo "file: '$ClientID'"
 
-                mysql cpadmin -u root -p${Password} -N -e "SELECT UserName, fqdn FROM domains WHERE deleted = 0  AND client_id = $ClientID" | while read UserName fqdn; do
+                mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -N -e "SELECT UserName, fqdn FROM domains WHERE deleted = 0  AND client_id = $ClientID" | while read UserName fqdn; do
 
                     if [ "${#UserName}" -gt "4" ]
                     then
@@ -62,7 +64,7 @@ do
                 ClientID=${y##*/}
                 echo "file: '$ClientID'"
 
-                mysql cpadmin -u root -p${Password} -N -e "SELECT UserName, fqdn FROM domains WHERE deleted = 0  AND client_id = $ClientID" | while read UserName fqdn; do
+                mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -N -e "SELECT UserName, fqdn FROM domains WHERE deleted = 0  AND client_id = $ClientID" | while read UserName fqdn; do
                     	if [ "${#UserName}" -gt "1" ]
 			then
 				chown $UserName.$UserName /home/$UserName/home/$UserName/mail/$fqdn/.forward

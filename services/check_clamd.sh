@@ -15,7 +15,10 @@ then
 else
 
 	Password=`/usr/webcp/get_password.sh`
-	EmailAddress=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
+	User=`/usr/webcp/get_username.sh`
+	DB_HOST=`/usr/webcp/get_db_host.sh`
+	
+	EmailAddress=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
 
         echo "not running"
         service clamav-daemon restart

@@ -24,8 +24,12 @@ SUBJECT="WebCP - Infections detected on `hostname`"
 
 # Email To
 Password=`/usr/webcp/get_password.sh`
-EMAIL=$(mysql cpadmin -u root -p${Password} -se "SELECT email_address FROM admin WHERE role = 'admin' AND deleted = 0 LIMIT 1;")
-EMAIL2=$(mysql cpadmin -u root -p${Password} -se "SELECT value FROM server_settings WHERE setting = 'ForwardSystemEmailsTo' AND deleted = 0;")
+User=`/usr/webcp/get_username.sh`
+DB_HOST=`/usr/webcp/get_db_host.sh`
+
+
+EMAIL=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT email_address FROM admin WHERE role = 'admin' AND deleted = 0 LIMIT 1;")
+EMAIL2=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT value FROM server_settings WHERE setting = 'ForwardSystemEmailsTo' AND deleted = 0;")
 
 
 # Email From
