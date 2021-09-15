@@ -32,4 +32,4 @@ fi
 
 cd /home/${UserName}/home
 #/bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar public_html/ .passwd/
-nice /bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar ${UserName}/ --exclude=mail  
+nice /bin/tar cf /var/www/html/backups/tmp/$RandomPath/${UserName}_web.tar ${UserName}/ --exclude=${UserName}/mail  
