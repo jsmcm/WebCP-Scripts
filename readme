@@ -1,3 +1,7 @@
+* 3.1.6 *
+= Release:
+  - Adds support to auto create webp images if user opts in
+
 * 3.1.5 *
 = Release: 2021-07-26
   - Fixed aws success signal from uploads to Completed
