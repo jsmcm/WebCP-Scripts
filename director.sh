@@ -18,6 +18,12 @@ chmod 775 /tmp/webcp -R
 /usr/webcp/domains/start_up_mounts.sh
 /usr/webcp/domains/remove-duplicate-mounts.sh
 
+if [ ! -d "/run/nginx/fastcgi_cache" ]
+then
+	mkdir /run/nginx/fastcgi_cache -p
+	chown www-data /run/nginx/fastcgi_cache
+fi
+
 while : 
 do
 
@@ -506,6 +512,13 @@ do
 	then
 		if [ $TenMinutesRunOnce == 0 ]
 		then
+
+			if [ ! -d "/run/nginx/fastcgi_cache" ]
+			then
+				mkdir /run/nginx/fastcgi_cache -p
+				chown www-data /run/nginx/fastcgi_cache
+			fi
+
 			/usr/webcp/server.sh &
 			/usr/webcp/stats/ram.sh &
 			TenMinutesRunOnce=1

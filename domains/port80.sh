@@ -8,6 +8,7 @@ path=$5
 primaryDomain=$6
 pagespeed=$7
 webp=$8
+useCache=$9
 
 mailSubDomainAdded=0
 
@@ -142,9 +143,60 @@ fi
         echo "		try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+
+
+	if [ "$useCache" == "true" ]
+	then
+		echo "          #https://www.linuxbabe.com/nginx/setup-nginx-fastcgi-cache" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          set \$skip_cache 0;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # POST requests and urls with a query string should always go to PHP" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$request_method = POST) {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$query_string != \"\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # Don't cache uris containing the following segments" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$request_uri ~* \"/wp-admin/|/xmlrpc.php|wp-.*.php|^/feed/*|/tag/.*/feed/*|index.php|/.*sitemap.*\.(xml|xsl)\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # Don't use the cache for logged in users or recent commenters" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$http_cookie ~* \"comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$remote_addr ~* \"12.34.56.78|12.34.56.79\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "               set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi
+
+
+
+
+
         echo "	location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+        if [ "$useCache" == "true" ]
+        then
+		echo "		fastcgi_cache_bypass \$skip_cache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_no_cache \$skip_cache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache phpcache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_valid 200 301 302 60m;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_use_stale error timeout updating invalid_header http_500 http_503;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_min_uses 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_lock on;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          add_header X-FastCGI-Cache \$upstream_cache_status;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi
+
 	echo "		fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -294,9 +346,58 @@ fi
 	echo "		try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "	}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+
+	if [ "$useCache" == "true" ]
+	then
+		echo "          #https://www.linuxbabe.com/nginx/setup-nginx-fastcgi-cache" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          set \$skip_cache 0;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # POST requests and urls with a query string should always go to PHP" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$request_method = POST) {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$query_string != \"\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # Don't cache uris containing the following segments" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$request_uri ~* \"/wp-admin/|/xmlrpc.php|wp-.*.php|^/feed/*|/tag/.*/feed/*|index.php|/.*sitemap.*\.(xml|xsl)\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          # Don't use the cache for logged in users or recent commenters" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$http_cookie ~* \"comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "              set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          if (\$remote_addr ~* \"12.34.56.78|12.34.56.79\") {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "               set \$skip_cache 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+		echo "          }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi
+
+
+
 	echo "	location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+	if [ "$useCache" == "true" ]
+	then
+		echo "		fastcgi_cache_bypass \$skip_cache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_no_cache \$skip_cache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache phpcache;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_valid 200 301 302 60m;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_use_stale error timeout updating invalid_header http_500 http_503;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_min_uses 1;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          fastcgi_cache_lock on;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        	echo "          add_header X-FastCGI-Cache \$upstream_cache_status;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	fi
+
+
 	echo "		fastcgi_pass unix:/run/php/php$phpVersion-fpm-$UserName.sock;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		fastcgi_send_timeout 300;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		fastcgi_read_timeout 300;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

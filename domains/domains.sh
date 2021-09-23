@@ -65,6 +65,7 @@ do
 		sslRedirect=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'ssl_redirect' AND domain_id = $DomainID;")
 		pagespeedBuffer=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $DomainID;")
 		webp=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'auto_webp' AND domain_id = $DomainID;")
+		useCache=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'fastcgi_cache' AND domain_id = $DomainID;")
 
 
 
@@ -256,11 +257,11 @@ do
 
 			echo "In domains.sh clientPHPVersion: $clientPHPVersion"
 
-			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp"
+			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache"
 		
 			echo "Calling Subdomains...";
-			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp"
-			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$webp"
+			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache"
+			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$webp" "$useCache"
 	
 			Restart=1
 		fi
