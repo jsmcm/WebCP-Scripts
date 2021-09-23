@@ -9,6 +9,7 @@ phpVersion=$4
 path=$5
 primaryDomain=$6
 pagespeed=$7
+webp=$8
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]

@@ -8,6 +8,7 @@ IP=$4
 sslRedirect=$5
 phpVersion=$6
 pagespeed=$7
+webp=$8
 
 Password=`/usr/webcp/get_password.sh`
 User=`/usr/webcp/get_username.sh`
@@ -55,15 +56,15 @@ do
 
         		if [ $sslRedirect == "enforce" ]
                         then
-                        	/usr/webcp/domains/port80SSLRedirect.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed"
+                        	/usr/webcp/domains/port80SSLRedirect.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp"
                         else
-                        	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed"
+                        	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp"
                         fi
 
-                        	/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect "$pagespeed"
+                        	/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect "$pagespeed" "$webp"
 
               	else
-                	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed"
+                	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp"
                	fi
 
 	fi

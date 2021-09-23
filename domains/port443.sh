@@ -9,6 +9,7 @@ primaryDomain=$6
 #hsts=$7
 hsts="no"
 pagespeed=$8
+webp=$9
 mailSubDomainAdded=0
 
 nginxConfigDomain=$DomainName
@@ -111,9 +112,51 @@ else
         echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
         echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
+if [ "$webp" == "auto" ]
+then
+        echo "  location ~* ^(/.+)\.(jpg|jpeg|jpe|png)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Vary Accept;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  if (\$http_accept !~* \"webp\"){" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          break;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  try_files" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          \$uri.webp" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          @redirect" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  ;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  location ~* ^(/.+)\.(jpg|jpeg|jpe|png)\.webp\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  try_files" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          \$uri" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          @redirect" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  ;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  location @redirect {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          proxy_pass http://127.0.0.1:8880/webp-on-demand.php?xsource=\$request_filename&xuser=$UserName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
 
 	echo "	location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		expires 30d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -258,8 +301,52 @@ else
         echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 	
+if [ "$webp" == "auto" ]
+then
+        echo "  location ~* ^(/.+)\.(jpg|jpeg|jpe|png)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Vary Accept;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  if (\$http_accept !~* \"webp\"){" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          break;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  try_files" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          \$uri.webp" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          @redirect" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  ;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "}" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  location ~* ^(/.+)\.(jpg|jpeg|jpe|png)\.webp\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  try_files" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          \$uri" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          @redirect" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  ;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  location @redirect {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "          proxy_pass http://127.0.0.1:8880/webp-on-demand.php?xsource=\$request_filename&xuser=$UserName;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "  }" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+
 	echo "	location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|css|js)\$ {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
-	echo "		expires 30d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+	echo "		expires 365d;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		access_log off;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		add_header Pragma public;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 	echo "		add_header Cache-Control \"public\";" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

@@ -55,6 +55,7 @@ do
 	PHP_CONFIG_SH=0
 	AWS_CONFIG_SH=0
 	AWS_CREDENTIALS_SH=0
+	WEBP_SH=0
 
 	MD5=`md5sum /usr/webcp/director.sh | awk '{print $1}'`
 	echo "this md5 '$MD5'"
@@ -133,6 +134,9 @@ do
 				elif [ "$extension" == "unsuspend" ]	
 				then
 					SUSPENSION_SH=1
+				elif [ "$extension" == "webp" ]
+				then
+					WEBP_SH=1
 				elif [ "$extension" == "unban" ]	
 				then
 					UNBAN_SH=1
@@ -450,6 +454,10 @@ do
 		/usr/webcp/restore/do_restore.sh &
 	fi 
 
+	if [ "$WEBP_SH" == 1 ]
+	then
+		/usr/webcp/webp.sh &
+	fi
 
 
 	sleep 3

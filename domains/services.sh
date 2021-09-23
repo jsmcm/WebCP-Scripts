@@ -4,7 +4,7 @@ DomainName=$1
 UserName=$2
 phpVersion=$3
 pagespeed=$4
-
+webp=$5
 
 echo "server {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        listen 2052;" >> /etc/nginx/sites-enabled/$DomainName.conf
