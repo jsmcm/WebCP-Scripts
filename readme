@@ -1,6 +1,7 @@
 * 3.1.6 *
-= Release:
+= Release: 2021-09-23
   - Adds support to auto create webp images if user opts in
+  - Adds support to allow user to use fastcgi cache
 
 * 3.1.5 *
 = Release: 2021-07-26
