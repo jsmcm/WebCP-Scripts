@@ -272,12 +272,18 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
 
+echo "        location /api/v1 {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "                try_files \$uri \$uri/ /api/v1/index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 
 
 echo "        location / {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                try_files \$uri \$uri/ /index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 echo "        location ~ \.php\$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "                fastcgi_pass unix:/run/php/php$phpVersion-fpm.sock;" >> /etc/nginx/sites-enabled/$DomainName.conf
