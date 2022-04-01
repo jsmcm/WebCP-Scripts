@@ -487,10 +487,17 @@ echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 
+
         echo "  location ~ /*\.ini$ {" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "          deny all;" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "  }" >> /etc/nginx/sites-enabled/$DomainName.conf
         echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
+echo "        location /api/v1 {" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "                try_files \$uri \$uri/ /api/v1/index.php?\$args;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        }" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
+
 
 
 
