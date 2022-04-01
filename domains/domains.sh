@@ -11,7 +11,7 @@ User=`/usr/webcp/get_username.sh`
 DB_HOST=`/usr/webcp/get_db_host.sh`
 
 
-defaultPHPVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
+defaultPHPVersion=`php -v | grep PHP\ [7,8] | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
 
 Restart=0
@@ -56,6 +56,13 @@ do
 		then
         		clientPHPVersion=$php
 		fi
+
+		echo "DomainID: $DomainID"
+		echo "clientPHPVersion: $clientPHPVersion"
+		echo "defaultPHPVersion: $defaultPHPVersion"
+		echo "php: $php"
+
+
 
 		#emailAddress==$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "select email_address from admin where id = (select client_id from domains where id = $DomainID and deleted = 0);")
 
