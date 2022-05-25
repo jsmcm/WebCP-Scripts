@@ -19,4 +19,15 @@ then
 	HOST=${HOST:0:$size-2}
 fi
 
+
+size=${#HOST}
+firstCharacter=${HOST:0:1}
+lastCharacter=${HOST:$size-1:1}
+
+if [ "$firstCharacter" == "[" ] && [ "$lastCharacter" == "]" ]
+then
+	HOST=${HOST:1}
+	HOST=${HOST:0:$size-2}
+fi
+
 echo "${HOST//[$'\t\r\n ']}"

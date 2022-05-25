@@ -18,3 +18,4 @@ umount -l /home/$username/usr/lib
 umount -l /home/$username/usr/share
 umount -l /home/$username/var
 umount -l /home/$username/run
+#umount -l /home/$username/tmp

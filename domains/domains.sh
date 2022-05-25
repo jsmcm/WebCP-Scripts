@@ -110,6 +110,10 @@ do
 			cp -fr /home/$UserName/.bash_logout /home/$UserName/home/$UserName/
 			cp -fr /home/$UserName/.profile /home/$UserName/home/$UserName/
 
+			mkdir /home/$UserName/tmp -p
+			touch "/home/$UserName/tmp/tmp_file"
+	                chmod 775 /home/$UserName/tmp -R
+
 			echo "Setting $UserName to ${UserQuota%.*}" >> /home/q.txt
 			setquota -u $UserName ${UserQuota%.*} ${UserQuota%.*} 0 0 -a ext4
 	
