@@ -8,6 +8,9 @@ then
 fi
 
 git config core.fileMode false
+git config --global --add safe.directory /var/www/html/webcp
+git config --global --add safe.directory /var/www/html/editor
+
 
 phpVersion=`php -v | grep PHP\ 7 | cut -d ' ' -f 2 | cut -d '.' -f1,2`
 
