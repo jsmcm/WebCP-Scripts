@@ -111,7 +111,7 @@ do
 			cp -fr /home/$UserName/.profile /home/$UserName/home/$UserName/
 
 			mkdir /home/$UserName/tmp -p
-			touch "/home/$UserName/tmp/tmp_file"
+                        chown $UserName.$UserName /home/$UserName/tmp
 	                chmod 775 /home/$UserName/tmp -R
 
 			echo "Setting $UserName to ${UserQuota%.*}" >> /home/q.txt
