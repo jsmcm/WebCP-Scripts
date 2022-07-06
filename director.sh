@@ -482,23 +482,23 @@ do
 		RESULT="`wget -qO- --timeout=5 --tries=10 http://localhost:8880/includes/cron/index.php`"
 		echo "RESULT FROM WGET LOCALHOST: '$RESULT'" >> /tmp/http.log
 
-		if $( echo $RESULT | grep --quiet 'cron_ok' )
-		then
-			echo "httpd ok..." >> /tmp/http.log
-		else
-			echo "httpd stalled..." >> /tmp/http.log
-			echo " " >> /tmp/http.log
-			echo "ps ax | grep httpd" >> /tmp/http.log
-			RESULT="`ps ax | grep httpd`" >> /tmp/http.log
-			echo "$RESULT" >> /tmp/http.log
-			echo " " >> /tmp/http.log
-			RESULT="`ipcs -s | grep apache | wc -l`"
-			echo "ipcs -s | grep apache ($RESULT)" >> /tmp/http.log
-			RESULT="`ipcs -s | grep apache`"
-			echo "$RESULT" >> /tmp/http.log
-			/etc/init.d/httpd stop
-			pkill -9 httpd
-		fi
+		#if $( echo $RESULT | grep --quiet 'cron_ok' )
+		#then
+		#	echo "httpd ok..." >> /tmp/http.log
+		#else
+		#	echo "httpd stalled..." >> /tmp/http.log
+		#	echo " " >> /tmp/http.log
+		#	echo "ps ax | grep httpd" >> /tmp/http.log
+		#	RESULT="`ps ax | grep httpd`" >> /tmp/http.log
+		#	echo "$RESULT" >> /tmp/http.log
+		#	echo " " >> /tmp/http.log
+		#	RESULT="`ipcs -s | grep apache | wc -l`"
+		#	echo "ipcs -s | grep apache ($RESULT)" >> /tmp/http.log
+		#	RESULT="`ipcs -s | grep apache`"
+		#	echo "$RESULT" >> /tmp/http.log
+		#	/etc/init.d/httpd stop
+		#	pkill -9 httpd
+		#fi
 		
 		echo " " >> /tmp/http.log
 		echo "------------------------------------" >> /tmp/http.log
@@ -531,11 +531,12 @@ do
 	then
 		MINUTES=0
 		let "HOURS=HOURS+1"
+		/usr/webcp/dnsbl_to_ufw.sh &
 		/usr/webcp/email/dkim.sh &
 		/usr/webcp/bandwidth/bandwidth.sh &
 		/usr/webcp/skel/skel.sh &
 		/usr/webcp/check_quota.sh &
-		/usr/webcp/email/bayes_learn.sh &
+		#/usr/webcp/email/bayes_learn.sh &
 	fi
 
 	if [ $HOURS -gt 23 ]
