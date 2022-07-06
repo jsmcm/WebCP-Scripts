@@ -1,3 +1,14 @@
+# WebCP-Scripts is the scripts portion of WebCP, Web Hosting Control Panel.
+# The front end php files at https://github.com/jsmcm/WebCP
+# The setup scripts at https://github.com/jsmcm/WebCP-Setup
+
+# Website: https://webcp.io. If you simply want to install WebCP on an ubuntu server: https://webcp.io/get-it/
+
+
+* 4.0.0 *
+= Releaes: 2022-0706
+ - Added dnsbl.softsmart.co.za
+
 * 3.1.8 *
 = Release: 2022-05-25
  - Fixed ssh authorized
