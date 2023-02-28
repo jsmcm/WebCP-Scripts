@@ -4,9 +4,12 @@
 
 # Website: https://webcp.io. If you simply want to install WebCP on an ubuntu server: https://webcp.io/get-it/
 
+* 4.0.1 *
+= Release: 2023-02-28
+ - Updates ssh to user dir so that when a user logs in using ssh keys they can get their public key for services like github etc.
 
 * 4.0.0 *
-= Releaes: 2022-0706
+= Release: 2022-07-06
  - Added dnsbl.softsmart.co.za
 
 * 3.1.8 *

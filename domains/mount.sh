@@ -17,7 +17,8 @@ mkdir /home/$username/usr/lib -p
 mkdir /home/$username/usr/share -p
 mkdir /home/$username/var -p
 mkdir /home/$username/run -p
-#mkdir /home/$username/tmp -p
+mkdir /home/$username/home/$username/.ssh -p
+mkdir /home/$username/home/$username/.ssh_hashes -p
 
 
 
@@ -45,7 +46,8 @@ mount --bind /usr/lib /home/$username/usr/lib
 mount --bind /usr/share /home/$username/usr/share
 mount --bind /var /home/$username/var
 mount --bind /run /home/$username/run
-#mount --bind /run /home/$username/tmp
+mount --bind /home/$username/.ssh /home/$username/home/$username/.ssh
+mount --bind /home/$username/.ssh /home/$username/home/$username/.ssh_hashes
 
 
 mount -o remount,ro,bind /home/$username/bin
@@ -61,7 +63,8 @@ mount -o remount,ro,bind /home/$username/usr/bin
 mount -o remount,ro,bind /home/$username/usr/share
 mount -o remount,ro,bind /home/$username/var
 mount -o remount,ro,bind /home/$username/run
-#mount -o remount,ro,bind /home/$username/tmp
+mount -o remount,rw,bind /home/$username/home/$username/.ssh
+mount -o remount,ro,bind /home/$username/home/$username/.ssh_hashes
 
 
 echo "nameserver 8.8.8.8" > /home/$username/etc/resolv.conf

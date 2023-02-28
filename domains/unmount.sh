@@ -18,4 +18,6 @@ umount -l /home/$username/usr/lib
 umount -l /home/$username/usr/share
 umount -l /home/$username/var
 umount -l /home/$username/run
+umount -l /home/$username/home/$username/.ssh
+umount -l /home/$username/home/$username/.ssh_hashes
 #umount -l /home/$username/tmp
