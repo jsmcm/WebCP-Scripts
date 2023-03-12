@@ -4,6 +4,11 @@
 
 # Website: https://webcp.io. If you simply want to install WebCP on an ubuntu server: https://webcp.io/get-it/
 
+* 4.1.0 *
+= Release: 2023-03-12
+ - User can now specify their domains's public path in the domain settings tab
+ - User can specify cors header settings in the domain settings tag
+
 * 4.0.1 *
 = Release: 2023-02-28
  - Updates ssh to user dir so that when a user logs in using ssh keys they can get their public key for services like github etc.
