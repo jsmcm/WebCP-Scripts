@@ -11,6 +11,14 @@ hsts="no"
 pagespeed=$8
 webp=$9
 useCache=${10}
+publicPath=${11}
+accessControlAllowOrigin=${12}
+accessControlAllowMethods=${13}
+accessControlAllowHeaders=${14}
+accessControlExposeHeaders=${15}
+
+
+
 
 mailSubDomainAdded=0
 
@@ -22,7 +30,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$UserName/home/$UserName/public_html"
+domainPath="/home/$UserName/home/$UserName/$publicPath"
 if [ "$path" != "" ]
 then
         domainPath=$path
@@ -87,6 +95,35 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+
+if [ "$accessControlAllowOrigin" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Origin' '$accessControlAllowOrigin';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+if [ "$accessControlAllowMethods" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+if [ "$accessControlAllowHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+if [ "$accessControlExposeHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  location ~ /\.well-known/acme-challenge {" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
@@ -324,6 +361,32 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "	root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+
+if [ "$accessControlAllowOrigin" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Origin' '$accessControlAllowOrigin';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+if [ "$accessControlAllowMethods" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+if [ "$accessControlAllowHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+if [ "$accessControlExposeHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
 
 	
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf

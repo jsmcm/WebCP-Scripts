@@ -10,6 +10,12 @@ phpVersion=$6
 pagespeed=$7
 webp=$8
 useCache=$9
+publicPath=${10}
+accessControlAllowOrigin=${11}
+accessControlAllowMethods=${12}
+accessControlAllowHeaders=${13}
+accessControlExposeHeaders=${14}
+
 
 Password=`/usr/webcp/get_password.sh`
 User=`/usr/webcp/get_username.sh`
@@ -57,15 +63,15 @@ do
 
         		if [ $sslRedirect == "enforce" ]
                         then
-                        	/usr/webcp/domains/port80SSLRedirect.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache"
+                        	/usr/webcp/domains/port80SSLRedirect.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         else
-                        	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache"
+                        	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         fi
 
-			/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect "$pagespeed" "$webp" "$useCache"
+			/usr/webcp/domains/port443.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName $sslRedirect "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 
               	else
-                	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache"
+                	/usr/webcp/domains/port80.sh $NextSubDomainName $UserName "naked" $phpVersion $Path $PrimaryDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                	fi
 
 	fi

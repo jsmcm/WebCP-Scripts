@@ -10,6 +10,13 @@ sslRedirect=$5
 phpVersion=$6
 webp=$7
 useCache=$8
+publicPath=$9
+
+accessControlAllowOrigin=${10}
+accessControlAllowMethods=${11}
+accessControlAllowHeaders=${12}
+accessControlExposeHeaders=${13}
+
 
 pagespeed="off"
 Password=`/usr/webcp/get_password.sh`
@@ -64,32 +71,32 @@ do
                         then
                         	if [ "$parkedRedirect" == "redirect" ]
 				then
-                        		/usr/webcp/domains/port80SSLParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+                        		/usr/webcp/domains/port80SSLParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				else
-                        		/usr/webcp/domains/port80SSLRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+                        		/usr/webcp/domains/port80SSLRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         	fi
                         else
                         	if [ $parkedRedirect == "redirect" ]
 				then
-					/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+					/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				else
-                        		/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+                        		/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         	fi
 			fi
 
 
                     	    	if [ "$parkedRedirect" == "redirect" ]
 				then
-	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed" "$webp" "$useCache"
+	                        	/usr/webcp/domains/port443ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				else
-	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed" "$webp" "$useCache"
+	                        	/usr/webcp/domains/port443.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName $sslRedirect "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         	fi
               	else
                         if [ "$parkedRedirect" == "redirect" ]
 			then
-				/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+				/usr/webcp/domains/port80ParkedRedirect.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 			else
-                        	/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache"
+                        	/usr/webcp/domains/port80.sh $parkedDomainName $UserName "naked" $phpVersion $path $parentDomainName "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
                         fi
                	fi
 

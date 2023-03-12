@@ -73,6 +73,18 @@ do
 		pagespeedBuffer=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'pagespeed' AND domain_id = $DomainID;")
 		webp=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'auto_webp' AND domain_id = $DomainID;")
 		useCache=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'fastcgi_cache' AND domain_id = $DomainID;")
+	 	publicPath=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'public_path' AND domain_id = $DomainID;")
+
+		if [ "$publicPath" == "" ]
+		then
+			publicPath="public_html"
+		fi
+
+                
+		accessControlAllowOrigin=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'access_control_allow_origin' AND domain_id = $DomainID;")
+		accessControlAllowMethods=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'access_control_allow_methods' AND domain_id = $DomainID;")
+		accessControlAllowHeaders=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'access_control_allow_headers' AND domain_id = $DomainID;")
+		accessControlExposeHeaders=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT setting_value FROM domain_settings WHERE deleted = 0 AND setting_name = 'access_control_expose_headers' AND domain_id = $DomainID;")
 
 
 
@@ -136,7 +148,7 @@ do
 	                chown $UserName.www-data /home/$UserName/.passwd
 
 	
-			if [ ! -f "/home/$UserName/home/$UserName/public_html/index.php" ] && [ ! -f "/home/$UserName/home/$UserName/public_html/index.htm" ] && [ ! -f "/home/$UserName/home/$UserName/public_html/index.html" ]
+			if [ ! -f "/home/$UserName/home/$UserName/${publicPath}/index.php" ] && [ ! -f "/home/$UserName/home/$UserName/${publicPath}/index.htm" ] && [ ! -f "/home/$UserName/home/$UserName/${publicPath}/index.html" ]
 			then
 
 				useFailSafe=0
@@ -145,14 +157,14 @@ do
 				then
 					useFailSafe=1
 					mkdir /home/$UserName/home/$UserName/public_html -p
-					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/${publicPath}/index.php
 				fi
 
 
 				if [ ! -f "/var/www/html/webcp/skel/public_html/index.php" ] && [ ! -f "/var/www/html/webcp/skel/public_html/index.htm" ] && [ ! f "/var/www/html/webcp/skel/public_html/index.html" ]
 				then
 					useFailSafe=1
-					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/public_html/index.php
+					cp /var/www/html/webcp/skel/failsafe /home/$UserName/home/$UserName/${publicPath}/index.php
 				fi
 
 
@@ -268,11 +280,11 @@ do
 
 			echo "In domains.sh clientPHPVersion: $clientPHPVersion"
 
-			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache"
+			/usr/webcp/domains/nginx.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$redirect" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 		
 			echo "Calling Subdomains...";
-			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache"
-			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$webp" "$useCache"
+			/usr/webcp/domains/subdomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders" 
+			/usr/webcp/domains/parkeddomains.sh "$DomainID" "$DomainName" "$UserName" "$IP" "$sslRedirect" "$clientPHPVersion" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders" 
 	
 			Restart=1
 		fi

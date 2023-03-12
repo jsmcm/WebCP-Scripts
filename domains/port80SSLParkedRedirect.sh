@@ -9,6 +9,12 @@ primaryDomain=$6
 pagespeed=$7
 webp=$8
 useCache=$9
+publicPath=${10}
+accessControlAllowOrigin=${11}
+accessControlAllowMethods=${12}
+accessControlAllowHeaders=${13}
+accessControlExposeHeaders=${14}
+
 
 nginxConfigDomain=$DomainName
 if [ "$primaryDomain" != "" ]
@@ -17,7 +23,7 @@ then
 fi
 echo "nginxConfigDomain = $nginxConfigDomain"
 
-domainPath="/home/$DomainUserName/home/$DomainUserName/public_html"
+domainPath="/home/$DomainUserName/home/$DomainUserName/$publicPath"
 if [ "$path" != "" ]
 then
         domainPath=$path
@@ -42,6 +48,31 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+if [ "$accessControlAllowOrigin" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Origin' '$accessControlAllowOrigin';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+if [ "$accessControlAllowMethods" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+if [ "$accessControlAllowHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+if [ "$accessControlExposeHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
 
 
 
@@ -105,6 +136,31 @@ echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 
 echo "" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 echo "  root $domainPath;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+
+if [ "$accessControlAllowOrigin" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Origin' '$accessControlAllowOrigin';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+if [ "$accessControlAllowMethods" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
+
+if [ "$accessControlAllowHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+if [ "$accessControlExposeHeaders" != "" ]
+then
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+fi
+
+
 
 
 

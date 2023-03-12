@@ -61,7 +61,7 @@ echo "		#pagespeed $pagespeed;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "        server_name $DomainName;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
-echo "        root /home/$UserName/home/$userName/.passwd;" >> /etc/nginx/sites-enabled/$DomainName.conf
+echo "        root /home/$UserName/home/$UserName/.passwd;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "	index index.php index.html index.htm;" >> /etc/nginx/sites-enabled/$DomainName.conf
 echo "" >> /etc/nginx/sites-enabled/$DomainName.conf

@@ -11,6 +11,14 @@ phpVersion=$7
 pagespeed=$8
 webp=$9
 useCache=${10}
+publicPath=${11}
+accessControlAllowOrigin=${12}
+accessControlAllowMethods=${13}
+accessControlAllowHeaders=${14}
+accessControlExposeHeaders=${15}
+
+
+
 
 echo "in Nginx DomainID: $DomainID"
 echo "in Nginx DomainName: $DomainName"
@@ -45,17 +53,17 @@ Password=`/usr/webcp/get_password.sh`
 
 				if [ "$sslRedirect" == "enforce" ]
 				then
-					/usr/webcp/domains/port80SSLRedirect.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache"
+					/usr/webcp/domains/port80SSLRedirect.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				else
-					/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache"
+					/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				fi
 
 
-				/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect "$pagespeed" "$webp" "$useCache"
+				/usr/webcp/domains/port443.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" $sslRedirect "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				/usr/webcp/domains/ssl-services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed" "$webp" "$useCache"
 
 			else
-				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache"
+				/usr/webcp/domains/port80.sh "$DomainName" "$UserName" "$redirect" "$phpVersion" "" "" "$pagespeed" "$webp" "$useCache" "$publicPath" "$accessControlAllowOrigin" "$accessControlAllowMethods" "$accessControlAllowHeaders" "$accessControlExposeHeaders"
 				/usr/webcp/domains/services.sh "$DomainName" "$UserName" "$phpVersion" "$pagespeed" "$webp" "$useCache"
 			fi
 
