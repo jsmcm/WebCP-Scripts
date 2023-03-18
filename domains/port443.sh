@@ -106,19 +106,19 @@ fi
 
 if [ "$accessControlAllowMethods" != "" ]
 then
-        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 
 
 if [ "$accessControlAllowHeaders" != "" ]
 then
-        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 if [ "$accessControlExposeHeaders" != "" ]
 then
-        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 
@@ -371,19 +371,19 @@ fi
 
 if [ "$accessControlAllowMethods" != "" ]
 then
-        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Allow-Methods' '$accessControlAllowMethods';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 
 
 if [ "$accessControlAllowHeaders" != "" ]
 then
-        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Allow-Headers' '$accessControlAllowHeaders';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 if [ "$accessControlExposeHeaders" != "" ]
 then
-        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders;" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
+        echo "    add_header 'Access-Control-Expose-Headers' '$accessControlExposeHeaders';" >> /etc/nginx/sites-enabled/$nginxConfigDomain.conf
 fi
 
 

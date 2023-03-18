@@ -4,6 +4,10 @@
 
 # Website: https://webcp.io. If you simply want to install WebCP on an ubuntu server: https://webcp.io/get-it/
 
+* 4.1.1 *
+= Release: 2023-03-18
+  - Fixed missing close single quotes in nginx conf's when using add header for access control functionality
+
 * 4.1.0 *
 = Release: 2023-03-12
  - User can now specify their domains's public path in the domain settings tab
