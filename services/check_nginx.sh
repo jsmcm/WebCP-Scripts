@@ -20,7 +20,7 @@ else
 	
 		Password=`/usr/webcp/get_password.sh`
 		DB_HOST=`/usr/webcp/get_db_host.sh`
-		User=`usr/webcp/get_username.sh`
+		User=`/usr/webcp/get_username.sh`
 
 		EmailAddress=$(mysql cpadmin -u ${User} -p${Password} -h ${DB_HOST} -se "SELECT email_address FROM admin WHERE deleted = 0 AND role = 'admin';")
 	
